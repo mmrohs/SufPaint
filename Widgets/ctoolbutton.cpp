@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include "../EnumFunctions.h"
-#include "../ctoolmanager.h"
+#include "../Management/ctoolmanager.h"
 
 #define ICON_SIZE 32
 

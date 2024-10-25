@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QColorTransform>
 
+
 CImageProcessor::CImageProcessor()
 {}
 

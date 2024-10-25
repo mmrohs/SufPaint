@@ -2,7 +2,7 @@
 #include <QGridLayout>
 #include <QToolButton>
 #include "ctoolbutton.h"
-#include "../ctoolmanager.h"
+#include "../Management/ctoolmanager.h"
 
 // fixed widget size
 #define WIDTH 150

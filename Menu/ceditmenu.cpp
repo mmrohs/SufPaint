@@ -1,6 +1,6 @@
 #include "ceditmenu.h"
-#include "../cactionmanager.h"
-#include "../cimagemanager.h"
+#include "../Management/cactionmanager.h"
+#include "../Management/cimagemanager.h"
 
 
 CEditMenu::CEditMenu(const QString& title, QWidget* parent)

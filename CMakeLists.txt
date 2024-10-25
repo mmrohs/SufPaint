@@ -43,25 +43,29 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Statusbar/cstatusbar.h Statusbar/cstatusbar.cpp
         Statusbar/cstatusbartoollabel.h Statusbar/cstatusbartoollabel.cpp
         Statusbar/cstatusbarzoomlabel.h Statusbar/cstatusbarzoomlabel.cpp
-
-        # managers
-        cactionmanager.h cactionmanager.cpp
-        cimagemanager.h cimagemanager.cpp
-        ctoolmanager.h ctoolmanager.cpp
-        cimageprocessor.h cimageprocessor.cpp
+        Statusbar/cstatusbarimagelabel.h Statusbar/cstatusbarimagelabel.cpp
+		
+        #management
+        Management/cactionmanager.h Management/cactionmanager.cpp
+        Management/cimagemanager.h Management/cimagemanager.cpp
+        Management/ctoolmanager.h Management/ctoolmanager.cpp
 
         #widgets
         Widgets/ccolorwidget.cpp Widgets/ccolorwidget.h
         Widgets/cimageview.cpp Widgets/cimageview.h
         Widgets/clayerwidget.cpp Widgets/clayerwidget.h
         Widgets/ctoolwidget.cpp Widgets/ctoolwidget.h
-
+        Widgets/ctoolbutton.h Widgets/ctoolbutton.cpp
+		
         #dialogues
         Dialogues/cimageresizedialog.h Dialogues/cimageresizedialog.cpp Dialogues/cimageresizedialog.ui
         Dialogues/ccanvasresizedialog.h Dialogues/ccanvasresizedialog.cpp Dialogues/ccanvasresizedialog.ui
+        
+        #image processing
+        cimageprocessor.h cimageprocessor.cpp
+
+        #icons
         Icons/Brush.png Icons/Pencil.png Icons/Pipette.png
-        Widgets/ctoolbutton.h Widgets/ctoolbutton.cpp
-        Statusbar/cstatusbarimagelabel.h Statusbar/cstatusbarimagelabel.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SufPaint APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

@@ -1,6 +1,6 @@
 #include "cimagemenu.h"
-#include "../cimagemanager.h"
-#include "../cactionmanager.h"
+#include "../Management/cimagemanager.h"
+#include "../Management/cactionmanager.h"
 
 CImageMenu::CImageMenu(const QString& title, QWidget* parent)
     : CMenuBase(title, parent), m_pImageManager(NULL)

@@ -4,9 +4,9 @@
 #include <qgraphicsview.h>
 #include <QGroupBox>
 #include <QClipboard>
-#include "cactionmanager.h"
-#include "cimagemanager.h"
-#include "ctoolmanager.h"
+#include "Management/cactionmanager.h"
+#include "Management/cimagemanager.h"
+#include "Management/ctoolmanager.h"
 #include "Menu/cmenu.h"
 #include "Menu/ctoolbar.h"
 #include "Widgets/cimageview.h"

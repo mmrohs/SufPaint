@@ -1,5 +1,5 @@
 #include "ctoolbar.h"
-#include "../cactionmanager.h"
+#include "../Management/cactionmanager.h"
 
 CToolBar::CToolBar(QWidget* pParent)
     : QToolBar(tr("Toolbar"), pParent)

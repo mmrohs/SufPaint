@@ -1,8 +1,8 @@
 #include "cimageview.h"
 #include <QPainter>
 #include <QPaintEvent>
-#include "../cimagemanager.h"
-#include "../ctoolmanager.h"
+#include "../Management/cimagemanager.h"
+#include "../Management/ctoolmanager.h"
 
 
 CImageView::CImageView(QWidget* pParent)

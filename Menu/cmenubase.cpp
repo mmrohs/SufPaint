@@ -1,6 +1,6 @@
 #include "cmenubase.h"
 #include "../EnumFunctions.h"
-#include "../cactionmanager.h"
+#include "../Management/cactionmanager.h"
 
 CMenuBase::CMenuBase(const QString& title, QWidget* parent)
     : QMenu(title, parent)

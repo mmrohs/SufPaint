@@ -1,6 +1,6 @@
 #include "cadjustmentmenu.h"
-#include "../cactionmanager.h"
-#include "../cimagemanager.h"
+#include "../Management/cactionmanager.h"
+#include "../Management/cimagemanager.h"
 
 
 CAdjustmentMenu::CAdjustmentMenu(const QString& title, QWidget* parent)

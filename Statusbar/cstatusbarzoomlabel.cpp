@@ -1,5 +1,5 @@
 #include "cstatusbarzoomlabel.h"
-#include "../cimagemanager.h"
+#include "../Management/cimagemanager.h"
 
 
 CStatusBarZoomLabel::CStatusBarZoomLabel(QWidget* pParent)

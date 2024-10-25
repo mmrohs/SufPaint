@@ -1,6 +1,6 @@
 #include "cstatusbartoollabel.h"
 #include "../EnumFunctions.h"
-#include "../ctoolmanager.h"
+#include "../Management/ctoolmanager.h"
 
 
 CStatusBarToolLabel::CStatusBarToolLabel(QWidget* pParent)

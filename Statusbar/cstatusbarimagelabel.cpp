@@ -1,5 +1,5 @@
 #include "cstatusbarimagelabel.h"
-#include "../cimagemanager.h"
+#include "../Management/cimagemanager.h"
 
 
 CStatusBarImageLabel::CStatusBarImageLabel(QWidget* pParent)
