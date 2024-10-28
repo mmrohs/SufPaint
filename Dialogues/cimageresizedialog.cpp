@@ -17,8 +17,6 @@ CImageResizeDialog::CImageResizeDialog(QWidget* pParent, QSize origSize)
     m_pSpinWidth(NULL), m_pSpinHeight(NULL)
 {
     ui->setupUi(this);
-    ui->buttonBox->setWindowTitle(tr("Resize Image"));
-
     Init();
 }
 
@@ -55,8 +53,7 @@ void CImageResizeDialog::Init()
 
 void CImageResizeDialog::AddLayout()
 {
-    // Groupbox "Mode"
-    QGroupBox* pGBoxMode = new QGroupBox(tr("Mode"), this);
+    // Layout of Groupbox "Mode"
     QHBoxLayout* hlayout = new QHBoxLayout(this);
     m_pRadioPixel = new QRadioButton(tr("Pixel"), this);
     m_pRadioPixel->setChecked(Qt::CheckState::Checked);
@@ -65,43 +62,52 @@ void CImageResizeDialog::AddLayout()
     hlayout->addWidget(m_pRadioPercent);
     hlayout->setStretchFactor(m_pRadioPixel, 10);
     hlayout->setStretchFactor(m_pRadioPercent, 30);
+
+    // Groupbox "Mode"
+    QGroupBox* pGBoxMode = new QGroupBox(tr("Mode"), this);
     pGBoxMode->setLayout(hlayout);
 
-    // Groupbox "New Size"
-    QGroupBox* pGBoxValues = new QGroupBox(tr("New size"), this);
+    // Layout of Groupbox "New Size"
     QGridLayout* gridLayout = new QGridLayout(this);
     // 1st row
+    int row = 0, column = 0;
     QLabel* pLabelWidth = new QLabel(tr("Width:"), this);
     m_pSpinWidth = new QSpinBox(this);
     m_pSpinWidth->setRange(1, 10000);
-    gridLayout->addWidget(pLabelWidth, 0, 0, Qt::AlignRight);
-    gridLayout->addItem(new QSpacerItem(1, 1), 0, 1);
-    gridLayout->addWidget(m_pSpinWidth, 0, 2);
-    gridLayout->addItem(new QSpacerItem(1, 1), 0, 3);
+    gridLayout->addWidget(pLabelWidth, row, column++, Qt::AlignRight);
+    gridLayout->addItem(new QSpacerItem(1, 1), row, column++);
+    gridLayout->addWidget(m_pSpinWidth, row, column++);
+    gridLayout->addItem(new QSpacerItem(1, 1), row, column++);
     // 2nd row
+    row++; column = 0;
     QLabel* pLabelHeight = new QLabel(tr("Height:"), this);
     m_pSpinHeight = new QSpinBox(this);
     m_pSpinHeight->setRange(1, 10000);
-    gridLayout->addWidget(pLabelHeight, 1, 0, Qt::AlignRight);
-    gridLayout->addItem(new QSpacerItem(1, 1), 1, 1);
-    gridLayout->addWidget(m_pSpinHeight, 1, 2);
-    gridLayout->addItem(new QSpacerItem(1, 1), 1, 3);
+    gridLayout->addWidget(pLabelHeight, row, column++, Qt::AlignRight);
+    gridLayout->addItem(new QSpacerItem(1, 1), row, column++);
+    gridLayout->addWidget(m_pSpinHeight, row, column++);
+    gridLayout->addItem(new QSpacerItem(1, 1), row, column++);
     // stretching
     gridLayout->setColumnStretch(0, 30);
     gridLayout->setColumnStretch(1, 5);
     gridLayout->setColumnStretch(2, 30);
     gridLayout->setColumnStretch(3, 30);
+
+    // Groupbox "New Size"
+    QGroupBox* pGBoxValues = new QGroupBox(tr("New size"), this);
     pGBoxValues->setLayout(gridLayout);
 
-    // Groupbox "Options"
-    QGroupBox* pGBoxOptions = new QGroupBox(tr("Options"), this);
+    // Layout of Groupbox "Options"
     QVBoxLayout* vOptLayout = new QVBoxLayout(this);
     m_pChkAspRatio = new QCheckBox(tr("Fixed aspect ratio"), this);
     m_pChkAspRatio->setCheckState(Qt::CheckState::Checked);
     vOptLayout->addWidget(m_pChkAspRatio);
+
+    // Groupbox "Options"
+    QGroupBox* pGBoxOptions = new QGroupBox(tr("Options"), this);
     pGBoxOptions->setLayout(vOptLayout);
 
-    // Layout
+    // Dialog-Layout
     QVBoxLayout* vlayout = ui->verticalLayout;
     vlayout->addWidget(pGBoxMode);
     vlayout->addWidget(pGBoxValues);

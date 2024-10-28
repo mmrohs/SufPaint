@@ -9,6 +9,7 @@
 #include "../Widgets/cimageview.h"
 #include "../Dialogues/cimageresizedialog.h"
 #include "../Dialogues/ccanvasresizedialog.h"
+#include "../Dialogues/cnewimagedialog.h"
 #include "../cimageprocessor.h"
 
 
@@ -55,12 +56,17 @@ QSize CImageManager::GetImageSize()
 
 void CImageManager::NewImage()
 {
-    ResetImage();
+    CNewImageDialog* pDialog = new CNewImageDialog(m_pImageView);
+    pDialog->exec();
+    if (pDialog->result() == QDialog::Accepted)
+    {
+        ResetImage();
 
-    m_pImage = new QImage(640, 480, QImage::Format_ARGB32);
-    m_pImage->fill(QColor(255,255,255));
+        m_pImage = new QImage(pDialog->GetWidth(), pDialog->GetHeight(), QImage::Format_ARGB32);
+        m_pImage->fill(QColor(255,255,255));
 
-    UpdateImageView();
+        UpdateImageView();
+    }
 }
 
 void CImageManager::OpenImage()

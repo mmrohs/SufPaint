@@ -24,13 +24,11 @@ void CColorWidget::ColorPicked(QColor color)
 
 /*virtual*/ void CColorWidget::paintEvent(QPaintEvent* pEvent)
 {
-    QBrush backgroundBrush = QBrush(m_selectedColor);
-
     QGroupBox::paintEvent(pEvent);
 
     QPainter paint;
     paint.begin(this);
     paint.setClipRect(pEvent->rect());
-    paint.fillRect(QRect(20,30,30,30), backgroundBrush);
+    paint.fillRect(QRect(20,30,30,30), QBrush(m_selectedColor));
     paint.end();
 }
