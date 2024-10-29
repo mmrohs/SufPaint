@@ -21,7 +21,6 @@ protected:
 private:
     QSize   GetPatternSize() const;
     QImage* GetPatternImage();
-    void    PickColorFromImage();
 
 private:
     class CColorPatternImage* m_pImage;

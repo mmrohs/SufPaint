@@ -22,15 +22,13 @@ CColorPaletteWidget::~CColorPaletteWidget()
 
 /*virtual*/ void CColorPaletteWidget::paintEvent(QPaintEvent* pEvent)
 {
-    static const QPen WPEN = QPen(QBrush(Qt::white), 1);
-
     // draw the pattern image
-    QImage* pImage = GetPatternImage();
     QPainter paint;
     paint.begin(this);
-    paint.drawImage(QPoint(0,0), *pImage);
+    paint.drawImage(QPoint(0,0), *GetPatternImage());
     if (!m_selPoint.isNull())
     {
+        static const QPen WPEN = QPen(QBrush(Qt::white), 1);
         paint.setPen(WPEN);
         paint.drawRect(QRect(m_selPoint.x() - 1, m_selPoint.y() - 1, 3, 3));
     }
@@ -45,9 +43,22 @@ CColorPaletteWidget::~CColorPaletteWidget()
 
 /*virtual*/ void CColorPaletteWidget::mouseMoveEvent(QMouseEvent* pEvent)
 {
-    QPoint pos(pEvent->position().x(), pEvent->position().y());
+    if (m_pImage == NULL)
+        return;
+
+    QPointF posF = pEvent->position();
+    QPoint pos(posF.x(), posF.y());
+    if (!rect().contains(pos))
+    {
+        pos.setX(__max(pos.x(), 0));
+        pos.setX(__min(pos.x(), rect().width()));
+        pos.setY(__max(pos.y(), 0));
+        pos.setY(__min(pos.y(), rect().height()));
+        posF = pos;
+    }
     m_selPoint = pos;
-    PickColorFromImage();
+    QColor color = m_pImage->GetColorFromPos(posF);
+    emit ColorPicked(color);
 }
 
 QSize CColorPaletteWidget::GetPatternSize() const
@@ -64,13 +75,4 @@ QImage* CColorPaletteWidget::GetPatternImage()
         m_selPoint = QPoint(0,0);
     }
     return m_pImage;
-}
-
-void CColorPaletteWidget::PickColorFromImage()
-{
-    if (m_pImage != NULL && rect().contains(m_selPoint))
-    {
-        QColor color = m_pImage->GetColorFromPos(m_selPoint);
-        emit ColorPicked(color);
-    }
 }

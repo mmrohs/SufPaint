@@ -15,7 +15,7 @@ CColorPatternImage::CColorPatternImage(int width, int height)
     GeneratePatternImage();
 }
 
-QColor CColorPatternImage::GetColorFromPos(QPoint pos)
+QColor CColorPatternImage::GetColorFromPos(QPointF pos)
 {
     int r = CalcRed(pos.x(), pos.y());
     int g = CalcGreen(pos.x(), pos.y());
@@ -41,7 +41,7 @@ void CColorPatternImage::GeneratePatternImage()
     }
 }
 
-int CColorPatternImage::CalcRed(int x, int y) const
+int CColorPatternImage::CalcRed(double x, double y) const
 {
     double dx = (double) x / width();   // 0.0...1.0
     double step = (height() - OFFSET) / 6.0;
@@ -70,7 +70,7 @@ int CColorPatternImage::CalcRed(int x, int y) const
     }
 }
 
-int CColorPatternImage::CalcGreen(int x, int y) const
+int CColorPatternImage::CalcGreen(double x, double y) const
 {
     double dx = (double) x / width();   // 0.0...1.0
     double step = (height() - OFFSET) / 6.0;
@@ -99,7 +99,7 @@ int CColorPatternImage::CalcGreen(int x, int y) const
     }
 }
 
-int CColorPatternImage::CalcBlue(int x, int y) const
+int CColorPatternImage::CalcBlue(double x, double y) const
 {
     double dx = (double) x / width();   // 0.0...1.0
     double step = (height() - OFFSET) / 6.0;
