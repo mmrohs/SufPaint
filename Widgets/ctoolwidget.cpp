@@ -2,11 +2,10 @@
 #include <QGridLayout>
 #include <QToolButton>
 #include "ctoolbutton.h"
-#include "../Management/ctoolmanager.h"
+//#include "../Management/ctoolmanager.h"
 
-// fixed widget size
+// fixed widget width
 #define WIDTH 150
-#define HEIGHT 150
 
 
 CToolWidget::CToolWidget(QWidget* pParent)
@@ -14,7 +13,7 @@ CToolWidget::CToolWidget(QWidget* pParent)
     m_pGridLayout(NULL), m_bEnabled(false)
 {
     setMinimumWidth(WIDTH);
-    setMaximumWidth(HEIGHT);
+    setMaximumWidth(WIDTH);
 
     AddLayout();
     EnableTools();
@@ -55,7 +54,9 @@ void CToolWidget::AddLayout()
 
 void CToolWidget::AddToolButtons()
 {
-    EnumTools tools[] = { ToolColorPicker, ToolBrush, ToolPencil, ToolBucket /*, ... to do ... */ };
+    EnumTools tools[] = { ToolColorPicker, ToolBrush, ToolPencil,
+                          ToolLine, ToolBucket, ToolGradient
+                         /*, ... to do ... */ };
 
     for (int i = 0; i < sizeof(tools)/sizeof(tools[0]); ++i)
     {

@@ -73,7 +73,7 @@ void MainWindow::AddLayout()
     m_pLayerWidget = new CLayerWidget(this);
 
     QVBoxLayout* vlayout = new QVBoxLayout();
-    vlayout->addWidget(m_pToolWidget, 2);
+    vlayout->addWidget(m_pToolWidget, 1);
     vlayout->addWidget(m_pColorWidget, 1);
 
     QHBoxLayout* hlayout = new QHBoxLayout();

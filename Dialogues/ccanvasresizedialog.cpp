@@ -68,10 +68,8 @@ void CCanvasResizeDialog::AddLayout()
     m_pRadioPixel = new QRadioButton(tr("Pixel"), this);
     m_pRadioPixel->setChecked(Qt::CheckState::Checked);
     m_pRadioPercent = new QRadioButton(tr("Percent"), this);
-    hlayout->addWidget(m_pRadioPixel);
-    hlayout->addWidget(m_pRadioPercent);
-    hlayout->setStretchFactor(m_pRadioPixel, 10);
-    hlayout->setStretchFactor(m_pRadioPercent, 30);
+    hlayout->addWidget(m_pRadioPixel, 10);
+    hlayout->addWidget(m_pRadioPercent, 30);
 
     // Groupbox "Mode"
     QGroupBox* pGBoxMode = new QGroupBox(tr("Mode"), this);
