@@ -16,18 +16,15 @@ Q_SIGNALS:
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;
     virtual void mousePressEvent(QMouseEvent* pEvent) override;
+    virtual void mouseMoveEvent(QMouseEvent* pEvent) override;
 
 private:
     QSize   GetPatternSize() const;
     QImage* GetPatternImage();
-    void    GeneratePatternImage();
-
-    int CalcRed(int x, int y) const;
-    int CalcGreen(int x, int y) const;
-    int CalcBlue(int x, int y) const;
+    void    PickColorFromImage();
 
 private:
-    QImage* m_pImage;
+    class CColorPatternImage* m_pImage;
     QPoint  m_selPoint;  // selected point in the pattern image
 };
 
