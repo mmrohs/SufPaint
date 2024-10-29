@@ -28,6 +28,7 @@ private slots:
 
 private:
     class QSpinBox* m_pSpinBoxes[4]; // [0]: Red, [1]: Green, [2]: Blue, [3]: Alpha
+    class CColorPaletteWidget* pColPaletteWidget;
 
     QColor m_foregroundColor;
     QColor m_backgroundColor;

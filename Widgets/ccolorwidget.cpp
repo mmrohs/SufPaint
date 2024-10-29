@@ -6,8 +6,8 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPen>
+#include "ccolorpalettewidget.h"
 
-// fixed widget width
 #define WIDTH 150
 #define RGBAMIN 0
 #define RGBAMAX 255
@@ -16,7 +16,8 @@
 
 
 CColorWidget::CColorWidget(QWidget* pParent)
-    : QGroupBox(tr("Colors"), pParent)
+    : QGroupBox(tr("Colors"), pParent),
+    pColPaletteWidget(NULL)
 {
     setMinimumWidth(WIDTH);
     setMaximumWidth(WIDTH);
@@ -55,9 +56,14 @@ void CColorWidget::AddLayout()
         pGridLayout->addWidget(m_pSpinBoxes[i], i, 2);
     }
 
+    // create the ColorPattern-Widget
+    pColPaletteWidget = new CColorPaletteWidget(this);
+
+    // finish the layout
     QVBoxLayout* vbox = new QVBoxLayout();
-    vbox->addLayout(pGridLayout, 1);
-    vbox->addStretch(5);
+    vbox->addLayout(pGridLayout, 5);
+    vbox->addStretch(1);
+    vbox->addWidget(pColPaletteWidget, 7);
 
     setLayout(vbox);
 }
@@ -68,6 +74,7 @@ void CColorWidget::AddConnections()
     {
         connect(m_pSpinBoxes[i], &QSpinBox::valueChanged, this, &CColorWidget::RgbaChanged);
     }
+    connect(pColPaletteWidget, &CColorPaletteWidget::ColorPicked, this, &CColorWidget::ColorPicked);
 }
 
 void CColorWidget::ColorPicked(QColor color)
@@ -133,7 +140,8 @@ void CColorWidget::CheckRgbaValues()
 
 /*virtual*/ void CColorWidget::mousePressEvent(QMouseEvent* pEvent)
 {
-    QPoint mousePos(pEvent->position().x(), pEvent->position().y());
+    QPointF pos = pEvent->position();
+    QPoint mousePos(pos.x(), pos.y());
     if (m_rectFB.contains(mousePos))
     {
         QColor backgroundColor = m_backgroundColor;

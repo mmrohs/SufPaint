@@ -67,6 +67,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         #icons
         Icons/Brush.png Icons/Pencil.png Icons/Pipette.png
         Dialogues/cnewimagedialog.h Dialogues/cnewimagedialog.cpp Dialogues/cnewimagedialog.ui
+        Widgets/ccolorpalettewidget.h Widgets/ccolorpalettewidget.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SufPaint APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
