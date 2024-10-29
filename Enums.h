@@ -61,7 +61,9 @@ enum EnumTools : int
     ToolColorPicker,            // color picker / color pipette
     ToolBrush,                  // drawing with a brush
     ToolPencil,                 // drawing with a pencil
-    ToolBucket                  // fill areas with a color
+    ToolLine,                   // drawing lines
+    ToolBucket,                 // fill areas with a color
+    ToolGradient                // color gradient
 };
 
 

@@ -129,7 +129,9 @@ QString GetToolName(EnumTools e)
     case ToolColorPicker:           return "Color Picker";
     case ToolBrush:                 return "Brush";
     case ToolPencil:                return "Pencil";
+    case ToolLine:                  return "Line Tool";
     case ToolBucket:                return "Paint Bucket";
+    case ToolGradient:              return "Color Gradient";
     default:                        return "";
     }
 }
@@ -141,7 +143,9 @@ QString GetToolTooltip(EnumTools e)
     case ToolColorPicker:           return "Pick a color from image";
     case ToolBrush:                 return "Draw with a brush";
     case ToolPencil:                return "Draw with a pencil";
+    case ToolLine:                  return "Draw lines and splines";
     case ToolBucket:                return "Fill areas with a color";
+    case ToolGradient:              return "Fill areas with a color gradient";
     default:                        return "";
     }
 }
@@ -168,10 +172,22 @@ QIcon GetToolIcon(EnumTools e)
         icon.addFile("Icons/Pencil_Disabled.png", QSize(), QIcon::Mode::Disabled);
         return icon;
     }
+    case ToolLine:
+    {
+        QIcon icon("Icons/LineTool.png");
+        icon.addFile("Icons/LineTool_Disabled.png", QSize(), QIcon::Mode::Disabled);
+        return icon;
+    }
     case ToolBucket:
     {
         QIcon icon("Icons/Bucket.png");
         icon.addFile("Icons/Bucket_Disabled.png", QSize(), QIcon::Mode::Disabled);
+        return icon;
+    }
+    case ToolGradient:
+    {
+        QIcon icon("Icons/Gradient.png");
+        icon.addFile("Icons/Gradient_Disabled.png", QSize(), QIcon::Mode::Disabled);
         return icon;
     }
     default:
