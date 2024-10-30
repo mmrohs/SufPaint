@@ -2,14 +2,13 @@
 #include <QPen>
 #include <QPainter>
 #include <QMouseEvent>
-
-// show widget border (only for debug)
-#define SHOW_BORDERS 1
+#include "../Misc/debugtools.h"
 
 // constants for the preview rects
-#define DIST 10     // distance between rects
-#define SIZE 28     // size of the rects
-#define GAP 3       // border gap
+#define TL QPoint(4, 5)        // top-left corner
+#define DIST 8                  // distance between rects
+#define SIZE 28                 // size of the rects
+#define GAP 3                   // border gap
 
 
 CColorPreviewWidget::CColorPreviewWidget(QWidget *parent)
@@ -32,7 +31,6 @@ void CColorPreviewWidget::SetBackgroundColor(QColor color)
 /*virtual*/ void CColorPreviewWidget::paintEvent(QPaintEvent* pEvent)
 {
     // Draw color filled rects for the foreground and background color
-    static const QPoint TL = QPoint(4, 10); // top-left corner
     static const QRect rectB(TL.x() + DIST, TL.y(), SIZE, SIZE);
     static const QRect rectF(TL.x(), TL.y() + DIST, SIZE, SIZE);
     DrawColorRect(rectB, m_backgroundColor);
@@ -41,13 +39,8 @@ void CColorPreviewWidget::SetBackgroundColor(QColor color)
     // Save the bounding rectangle for the switch button
     m_rectFB = rectB.united(rectF);
 
-#ifdef SHOW_BORDERS
-    static const QPen BPEN = QPen(QBrush(Qt::black), 3, Qt::DotLine);
-    QPainter paint;
-    paint.begin(this);
-    paint.setPen(BPEN);
-    paint.drawRect(QRect(0,0, width(), height()));
-    paint.end();
+#ifdef QT_DEBUG
+    DebugShowWidgetBorders(this);
 #endif
 }
 

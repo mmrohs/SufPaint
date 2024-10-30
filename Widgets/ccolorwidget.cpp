@@ -1,16 +1,11 @@
 #include "ccolorwidget.h"
-/*#include <QLabel>
-#include <QSpinBox>
-#include <QGridLayout>
-#include <QPainter>
-#include <QPaintEvent>
-#include <QPen>*/
 #include <QBoxLayout>
 #include <QCheckBox>
 #include "ccolorpreviewwidget.h"
 #include "ccolorrgbawidget.h"
 #include "ccolorpalettewidget.h"
 #include "ccolorhistorywidget.h"
+#include "../Misc/debugtools.h"
 
 #define WIDTH 150
 #define RGBAMIN 0
@@ -19,8 +14,7 @@
 
 CColorWidget::CColorWidget(QWidget* pParent)
     : QGroupBox(tr("Colors"), pParent),
-    m_pColPrevWidget(NULL), m_pColHistWidget(NULL), m_pColRgbaWidget(NULL), m_pColPalWidget(NULL), m_pChkLight(NULL),
-    m_foregroundColor(Qt::black), m_backgroundColor(Qt::white)
+    m_pColPrevWidget(NULL), m_pColHistWidget(NULL), m_pColRgbaWidget(NULL), m_pColPalWidget(NULL), m_pChkLight(NULL)
 {
     setMinimumWidth(WIDTH);
     setMaximumWidth(WIDTH);
@@ -28,8 +22,9 @@ CColorWidget::CColorWidget(QWidget* pParent)
     AddLayout();
     AddConnections();
 
-    emit UpdateForegroundColor(m_foregroundColor);
-    emit UpdateBackgroundColor(m_backgroundColor);
+    ColorPickedRgba(Qt::white);
+    ColorsSwitched();
+    ColorPickedRgba(Qt::black);
 }
 
 void CColorWidget::AddLayout()
@@ -46,8 +41,9 @@ void CColorWidget::AddLayout()
 
     // vertical layout inside the horizontal layout
     QVBoxLayout* vhbox = new QVBoxLayout();
-    vhbox->addWidget(m_pColPrevWidget, 1);
-    vhbox->addWidget(m_pColHistWidget, 1);
+    vhbox->addWidget(m_pColPrevWidget, 6);
+    vhbox->addWidget(m_pColHistWidget, 7);
+    vhbox->setSpacing(2);
 
     // horizontal layout on top
     QHBoxLayout* hbox = new QHBoxLayout();
@@ -77,6 +73,9 @@ void CColorWidget::AddConnections()
     // CColorPaletteWidget -> this
     connect(m_pColPalWidget, &CColorPaletteWidget::ColorPicked, this, &CColorWidget::ColorPickedRgb);
 
+    // CColorHistoryWidget -> this
+    connect(m_pColHistWidget, &CColorHistoryWidget::ColorPicked, this, &CColorWidget::ColorPickedRgb);
+
     // QCheckBox -> this
     connect(m_pChkLight, &QCheckBox::checkStateChanged, m_pColPalWidget, &CColorPaletteWidget::SetLightMode);
 }
@@ -103,4 +102,13 @@ void CColorWidget::ColorsSwitched()
 
     emit UpdateForegroundColor(m_foregroundColor);
     emit UpdateBackgroundColor(m_backgroundColor);
+}
+
+/*virtual*/ void CColorWidget::paintEvent(QPaintEvent* pEvent)
+{
+    QGroupBox::paintEvent(pEvent);
+
+#ifdef QT_DEBUG
+    DebugShowWidgetBorders(this);
+#endif
 }

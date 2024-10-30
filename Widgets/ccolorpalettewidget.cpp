@@ -3,9 +3,7 @@
 #include <QPen>
 #include <QMouseEvent>
 #include "../Misc/ccolorpatternimage.h"
-
-// show widget borders (only for debugging)
-#define SHOW_BORDERS 1
+#include "../Misc/debugtools.h"
 
 
 CColorPaletteWidget::CColorPaletteWidget(QWidget *parent)
@@ -47,13 +45,8 @@ void CColorPaletteWidget::SetLightMode(bool bValue)
     }
     paint.end();
 
-#ifdef SHOW_BORDERS
-    static const QPen BPEN = QPen(QBrush(Qt::black), 3, Qt::DotLine);
-    QPainter painter;
-    painter.begin(this);
-    painter.setPen(BPEN);
-    painter.drawRect(QRect(0,0, width(), height()));
-    painter.end();
+#ifdef QT_DEBUG
+    DebugShowWidgetBorders(this);
 #endif
 }
 

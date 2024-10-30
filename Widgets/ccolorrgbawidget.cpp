@@ -2,12 +2,7 @@
 #include <QGridLayout>
 #include <QSpinBox>
 #include <QLabel>
-#ifdef QT_DEBUG
-#include <QPainter>
-#endif
-
-// show widget border (only for debug)
-#define SHOW_BORDERS 1
+#include "../Misc/debugtools.h"
 
 #define RGBAMIN 0
 #define RGBAMAX 255
@@ -36,6 +31,8 @@ void CColorRgbaWidget::AddLayout()
     QGridLayout* pGridLayout = new QGridLayout();
     pGridLayout->setColumnStretch(0, 1);
     pGridLayout->setColumnStretch(1, 4);
+    pGridLayout->setHorizontalSpacing(4);
+    pGridLayout->setVerticalSpacing(5);
 
     // add the spinboxes to the grid layout
     QString texts[] = {"R:", "G:", "B:", "A:"};
@@ -110,12 +107,7 @@ void CColorRgbaWidget::UpdateControls()
 {
     QWidget::paintEvent(pEvent);
 
-#ifdef SHOW_BORDERS
-    static const QPen BPEN = QPen(QBrush(Qt::black), 3, Qt::DotLine);
-    QPainter paint;
-    paint.begin(this);
-    paint.setPen(BPEN);
-    paint.drawRect(QRect(0,0, width(), height()));
-    paint.end();
+#ifdef QT_DEBUG
+    DebugShowWidgetBorders(this);
 #endif
 }

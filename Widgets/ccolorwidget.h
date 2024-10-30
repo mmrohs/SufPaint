@@ -18,6 +18,9 @@ public slots:
     void ColorPickedRgba(QColor color);
     void ColorsSwitched();
 
+protected:
+    virtual void paintEvent(QPaintEvent* pEvent) override;
+
 private:
     void AddLayout();
     void AddConnections();
