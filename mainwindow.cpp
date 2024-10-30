@@ -88,7 +88,7 @@ void MainWindow::AddConnections()
     connect(m_pImageView, &CImageView::imageChanged, m_pStatusBar, &CStatusBar::ImageUpdate);
     connect(m_pImageView, &CImageView::imageChanged, m_pToolWidget, &CToolWidget::SetEnabled);
     connect(m_pImageView, &CImageView::scaleChanged, m_pStatusBar, &CStatusBar::ZoomUpdate);
-    connect(m_pImageView, &CImageView::colorPicked, m_pColorWidget, &CColorWidget::ColorPicked);
+    connect(m_pImageView, &CImageView::colorPicked, m_pColorWidget, &CColorWidget::ColorPickedRgba);
 
     CToolManager* pToolManager = CToolManager::GetToolManager();
     if (pToolManager != NULL)

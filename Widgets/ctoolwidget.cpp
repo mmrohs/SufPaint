@@ -61,7 +61,7 @@ void CToolWidget::AddToolButtons()
     for (int i = 0; i < sizeof(tools)/sizeof(tools[0]); ++i)
     {
         CToolButton* pButton = new CToolButton(tools[i], this);
-        //b1->setStyleSheet("border: none");
+        //pButton->setStyleSheet("border: none");
         m_pGridLayout->addWidget(pButton, i / 3, i % 3);
         m_vecTools.push_back(pButton);
     }

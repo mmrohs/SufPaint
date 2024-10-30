@@ -57,13 +57,13 @@ void CToolButton::SetTooltip()
 
     if (m_bActive)
     {
-        // draw a blue rectangle around the icon
-        static const QPen PEN(QBrush(Qt::darkBlue), 3, Qt::SolidLine);
+        // draw a darkblue rectangle around the icon
+        static const QPen PEN(QBrush(Qt::darkBlue), 5, Qt::SolidLine, Qt::SquareCap, Qt::MiterJoin);
         QPainter paint;
         paint.begin(this);
-        //paint.setClipRect(pEvent->rect());
+        paint.setClipRect(pEvent->rect());
         paint.setPen(PEN);
-        paint.drawRect(QRect(2,2,34,33));
+        paint.drawRect(QRect(0,0,width(),height()));
         paint.end();
     }
 }

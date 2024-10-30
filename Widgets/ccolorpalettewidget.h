@@ -3,12 +3,16 @@
 
 #include <QWidget>
 
+
 class CColorPaletteWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit CColorPaletteWidget(QWidget *parent = nullptr);
     ~CColorPaletteWidget();
+
+public slots:
+    void SetLightMode(bool bValue);
 
 Q_SIGNALS:
     void ColorPicked(QColor);

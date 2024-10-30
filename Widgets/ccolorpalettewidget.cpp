@@ -4,6 +4,9 @@
 #include <QMouseEvent>
 #include "../Misc/ccolorpatternimage.h"
 
+// show widget borders (only for debugging)
+#define SHOW_BORDERS 1
+
 
 CColorPaletteWidget::CColorPaletteWidget(QWidget *parent)
     : QWidget{parent},
@@ -20,6 +23,16 @@ CColorPaletteWidget::~CColorPaletteWidget()
     }
 }
 
+void CColorPaletteWidget::SetLightMode(bool bValue)
+{
+    if (m_pImage != NULL)
+    {
+        CColorPatternImage::Mode mode = bValue ? CColorPatternImage::Mode::Light : CColorPatternImage::Mode::Dark;
+        m_pImage->SetMode(mode);
+        update();
+    }
+}
+
 /*virtual*/ void CColorPaletteWidget::paintEvent(QPaintEvent* pEvent)
 {
     // draw the pattern image
@@ -33,6 +46,15 @@ CColorPaletteWidget::~CColorPaletteWidget()
         paint.drawRect(QRect(m_selPoint.x() - 1, m_selPoint.y() - 1, 3, 3));
     }
     paint.end();
+
+#ifdef SHOW_BORDERS
+    static const QPen BPEN = QPen(QBrush(Qt::black), 3, Qt::DotLine);
+    QPainter painter;
+    painter.begin(this);
+    painter.setPen(BPEN);
+    painter.drawRect(QRect(0,0, width(), height()));
+    painter.end();
+#endif
 }
 
 /*virtual*/ void CColorPaletteWidget::mousePressEvent(QMouseEvent* pEvent)

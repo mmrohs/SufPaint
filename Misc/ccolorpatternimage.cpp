@@ -1,25 +1,50 @@
 #include "ccolorpatternimage.h"
 
-#define OFFSET 8    // offset for the color pattern and height of the gray scale at the top
+#define OFFSET 6    // height of the gray scale at the top (-> offset for the color pattern below)
 
 
-CColorPatternImage::CColorPatternImage(QSize size)
+CColorPatternImage::CColorPatternImage(QSize size, Mode mode /*= Dark*/)
     : QImage(size, QImage::Format_ARGB32)
 {
-    GeneratePatternImage();
+    SetStep();
+    SetMode(mode);
 }
 
-CColorPatternImage::CColorPatternImage(int width, int height)
+CColorPatternImage::CColorPatternImage(int width, int height, Mode mode /*= Dark*/)
     : QImage(width, height, QImage::Format_ARGB32)
 {
+    SetStep();
+    SetMode(mode);
+}
+
+void CColorPatternImage::SetStep()
+{
+    m_step = (height() - OFFSET) / 6.0;
+}
+
+void CColorPatternImage::SetMode(Mode mode)
+{
+    m_mode = mode;
     GeneratePatternImage();
 }
 
-QColor CColorPatternImage::GetColorFromPos(QPointF pos)
+QColor CColorPatternImage::GetColorFromPos(int x, int y) const
 {
-    int r = CalcRed(pos.x(), pos.y());
-    int g = CalcGreen(pos.x(), pos.y());
-    int b = CalcBlue(pos.x(), pos.y());
+    return GetColorFromPos(QPointF(x, y));
+}
+
+QColor CColorPatternImage::GetColorFromPos(QPointF pos) const
+{
+    int r = CalcRed(pos);
+    int g = CalcGreen(pos);
+    int b = CalcBlue(pos);
+    if (m_mode == Mode::Light && pos.y() >= OFFSET)
+    {
+        double w = width();
+        r += 255 * (1.0 - pos.x() / w);
+        g += 255 * (1.0 - pos.x() / w);
+        b += 255 * (1.0 - pos.x() / w);
+    }
     return QColor(r, g, b, 255);
 }
 
@@ -28,23 +53,18 @@ void CColorPatternImage::GeneratePatternImage()
     for (int y = 0; y < height(); ++y)
     {
         QRgb* pLine = reinterpret_cast<QRgb*>(scanLine(y));
-        if (pLine == NULL)
-            continue;
-
-        for (int x = 0; x < width(); ++x)
+        for (int x = 0; pLine != NULL && x < width(); ++x)
         {
-            int r = CalcRed(x,y);
-            int g = CalcGreen(x,y);
-            int b = CalcBlue(x,y);
-            pLine[x] = qRgba(r, g, b, 255);
+            pLine[x] = GetColorFromPos(QPointF(x,y)).rgba();
         }
     }
 }
 
-int CColorPatternImage::CalcRed(double x, double y) const
+int CColorPatternImage::CalcRed(QPointF pos) const
 {
+    double x = pos.x();
+    double y = pos.y();
     double dx = (double) x / width();   // 0.0...1.0
-    double step = (height() - OFFSET) / 6.0;
 
     if (y < OFFSET)
     {
@@ -52,17 +72,17 @@ int CColorPatternImage::CalcRed(double x, double y) const
     }
 
     y -= OFFSET;
-    if (y <= step || y >= 5 * step)
+    if (y <= m_step || y >= 5 * m_step)
     {
         return dx * 255;
     }
-    else if (y > step && y < 2 * step)
+    else if (y > m_step && y < 2 * m_step)
     {
-        return dx * 255 * (2 * step - y) / step;
+        return dx * 255 * (2 * m_step - y) / m_step;
     }
-    else if (y > 4 * step && y < 5 * step)
+    else if (y > 4 * m_step && y < 5 * m_step)
     {
-        return dx * 255 * (y - 4 * step) / step;
+        return dx * 255 * (y - 4 * m_step) / m_step;
     }
     else
     {
@@ -70,10 +90,11 @@ int CColorPatternImage::CalcRed(double x, double y) const
     }
 }
 
-int CColorPatternImage::CalcGreen(double x, double y) const
+int CColorPatternImage::CalcGreen(QPointF pos) const
 {
+    double x = pos.x();
+    double y = pos.y();
     double dx = (double) x / width();   // 0.0...1.0
-    double step = (height() - OFFSET) / 6.0;
 
     if (y < OFFSET)
     {
@@ -81,17 +102,17 @@ int CColorPatternImage::CalcGreen(double x, double y) const
     }
 
     y -= OFFSET;
-    if (y < step)
+    if (y < m_step)
     {
-        return dx * 255 * y / step;
+        return dx * 255 * y / m_step;
     }
-    else if (y >= step && y <= 3 * step)
+    else if (y >= m_step && y <= 3 * m_step)
     {
         return dx * 255;
     }
-    else if (y > 3 * step && y < 4 * step)
+    else if (y > 3 * m_step && y < 4 * m_step)
     {
-        return dx * 255 * (4 * step - y) / step;
+        return dx * 255 * (4 * m_step - y) / m_step;
     }
     else
     {
@@ -99,10 +120,11 @@ int CColorPatternImage::CalcGreen(double x, double y) const
     }
 }
 
-int CColorPatternImage::CalcBlue(double x, double y) const
+int CColorPatternImage::CalcBlue(QPointF pos) const
 {
+    double x = pos.x();
+    double y = pos.y();
     double dx = (double) x / width();   // 0.0...1.0
-    double step = (height() - OFFSET) / 6.0;
 
     if (y < OFFSET)
     {
@@ -110,17 +132,17 @@ int CColorPatternImage::CalcBlue(double x, double y) const
     }
 
     y -= OFFSET;
-    if (y > 2 * step && y < 3 * step)
+    if (y > 2 * m_step && y < 3 * m_step)
     {
-        return dx * 255 * (y - 2 * step) / step;
+        return dx * 255 * (y - 2 * m_step) / m_step;
     }
-    else if (y >= 3 * step && y <= 5 * step)
+    else if (y >= 3 * m_step && y <= 5 * m_step)
     {
         return dx * 255;
     }
-    else if (y > 5 * step)
+    else if (y > 5 * m_step)
     {
-        return dx * 255 * (6 * step - y) / step;
+        return dx * 255 * (6 * m_step - y) / m_step;
     }
     else
     {

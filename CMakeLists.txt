@@ -57,6 +57,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Widgets/ctoolwidget.cpp Widgets/ctoolwidget.h
         Widgets/ctoolbutton.h Widgets/ctoolbutton.cpp
         Widgets/ccolorpalettewidget.h Widgets/ccolorpalettewidget.cpp
+        Widgets/ccolorpreviewwidget.h Widgets/ccolorpreviewwidget.cpp
+        Widgets/ccolorrgbawidget.h Widgets/ccolorrgbawidget.cpp
+        Widgets/ccolorhistorywidget.h Widgets/ccolorhistorywidget.cpp
 
         #dialogues
         Dialogues/cimageresizedialog.h Dialogues/cimageresizedialog.cpp Dialogues/cimageresizedialog.ui
