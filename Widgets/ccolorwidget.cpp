@@ -1,6 +1,5 @@
 #include "ccolorwidget.h"
 #include <QBoxLayout>
-#include <QCheckBox>
 #include "ccolorpreviewwidget.h"
 #include "ccolorrgbawidget.h"
 #include "ccolorpalettewidget.h"
@@ -14,7 +13,7 @@
 
 CColorWidget::CColorWidget(QWidget* pParent)
     : QGroupBox(tr("Colors"), pParent),
-    m_pColPrevWidget(NULL), m_pColHistWidget(NULL), m_pColRgbaWidget(NULL), m_pColPalWidget(NULL), m_pChkLight(NULL)
+    m_pColPrevWidget(NULL), m_pColHistWidget(NULL), m_pColRgbaWidget(NULL), m_pColPalWidget(NULL)
 {
     setMinimumWidth(WIDTH);
     setMaximumWidth(WIDTH);
@@ -35,10 +34,6 @@ void CColorWidget::AddLayout()
     m_pColRgbaWidget = new CColorRgbaWidget(this);
     m_pColPalWidget = new CColorPaletteWidget(this);
 
-    // create the checkbox for switching to light mode
-    m_pChkLight = new QCheckBox(tr("Light Palette"), this);
-
-
     // vertical layout inside the horizontal layout
     QVBoxLayout* vhbox = new QVBoxLayout();
     vhbox->addWidget(m_pColPrevWidget, 6);
@@ -54,7 +49,7 @@ void CColorWidget::AddLayout()
     QVBoxLayout* vbox = new QVBoxLayout();
     vbox->addLayout(hbox, 1);
     vbox->addWidget(m_pColPalWidget, 5);
-    vbox->addWidget(m_pChkLight, 1);
+    //vbox->addWidget(m_pChkLight, 1);
 
     setLayout(vbox);
 }
@@ -75,9 +70,6 @@ void CColorWidget::AddConnections()
 
     // CColorHistoryWidget -> this
     connect(m_pColHistWidget, &CColorHistoryWidget::ColorPicked, this, &CColorWidget::ColorPickedRgb);
-
-    // QCheckBox -> this
-    connect(m_pChkLight, &QCheckBox::checkStateChanged, m_pColPalWidget, &CColorPaletteWidget::SetLightMode);
 }
 
 // Sets the foreground color to the parameter color, but ignores its alpha value

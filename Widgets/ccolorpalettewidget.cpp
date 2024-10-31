@@ -21,16 +21,6 @@ CColorPaletteWidget::~CColorPaletteWidget()
     }
 }
 
-void CColorPaletteWidget::SetLightMode(bool bValue)
-{
-    if (m_pImage != NULL)
-    {
-        CColorPatternImage::Mode mode = bValue ? CColorPatternImage::Mode::Light : CColorPatternImage::Mode::Dark;
-        m_pImage->SetMode(mode);
-        update();
-    }
-}
-
 /*virtual*/ void CColorPaletteWidget::paintEvent(QPaintEvent* pEvent)
 {
     // draw the pattern image

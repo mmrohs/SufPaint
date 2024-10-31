@@ -11,9 +11,6 @@ public:
     explicit CColorPaletteWidget(QWidget *parent = nullptr);
     ~CColorPaletteWidget();
 
-public slots:
-    void SetLightMode(bool bValue);
-
 Q_SIGNALS:
     void ColorPicked(QColor);
 

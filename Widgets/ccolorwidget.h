@@ -33,7 +33,6 @@ private:
     class CColorHistoryWidget* m_pColHistWidget;
     class CColorRgbaWidget*    m_pColRgbaWidget;
     class CColorPaletteWidget* m_pColPalWidget;
-    class QCheckBox*           m_pChkLight;
 
     QColor m_foregroundColor;
     QColor m_backgroundColor;

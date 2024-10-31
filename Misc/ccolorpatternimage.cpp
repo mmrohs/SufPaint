@@ -1,30 +1,17 @@
 #include "ccolorpatternimage.h"
 
-#define OFFSET 6    // height of the gray scale at the top (-> offset for the color pattern below)
+#define G_OFFSET 6    // width of the gray scale next to the color palette
 
 
-CColorPatternImage::CColorPatternImage(QSize size, Mode mode /*= Dark*/)
+CColorPatternImage::CColorPatternImage(QSize size)
     : QImage(size, QImage::Format_ARGB32)
 {
-    SetStep();
-    SetMode(mode);
+    GeneratePatternImage();
 }
 
-CColorPatternImage::CColorPatternImage(int width, int height, Mode mode /*= Dark*/)
+CColorPatternImage::CColorPatternImage(int width, int height)
     : QImage(width, height, QImage::Format_ARGB32)
 {
-    SetStep();
-    SetMode(mode);
-}
-
-void CColorPatternImage::SetStep()
-{
-    m_step = (height() - OFFSET) / 6.0;
-}
-
-void CColorPatternImage::SetMode(Mode mode)
-{
-    m_mode = mode;
     GeneratePatternImage();
 }
 
@@ -38,13 +25,6 @@ QColor CColorPatternImage::GetColorFromPos(QPointF pos) const
     int r = CalcRed(pos);
     int g = CalcGreen(pos);
     int b = CalcBlue(pos);
-    if (m_mode == Mode::Light && pos.y() >= OFFSET)
-    {
-        double w = width();
-        r += 255 * (1.0 - pos.x() / w);
-        g += 255 * (1.0 - pos.x() / w);
-        b += 255 * (1.0 - pos.x() / w);
-    }
     return QColor(r, g, b, 255);
 }
 
@@ -62,90 +42,66 @@ void CColorPatternImage::GeneratePatternImage()
 
 int CColorPatternImage::CalcRed(QPointF pos) const
 {
-    double x = pos.x();
-    double y = pos.y();
-    double dx = (double) x / width();   // 0.0...1.0
-
-    if (y < OFFSET)
-    {
-        return dx * 255;
-    }
-
-    y -= OFFSET;
-    if (y <= m_step || y >= 5 * m_step)
-    {
-        return dx * 255;
-    }
-    else if (y > m_step && y < 2 * m_step)
-    {
-        return dx * 255 * (2 * m_step - y) / m_step;
-    }
-    else if (y > 4 * m_step && y < 5 * m_step)
-    {
-        return dx * 255 * (y - 4 * m_step) / m_step;
-    }
-    else
-    {
-        return 0;
-    }
+    return CalcColor(pos, 0);
 }
 
 int CColorPatternImage::CalcGreen(QPointF pos) const
 {
-    double x = pos.x();
-    double y = pos.y();
-    double dx = (double) x / width();   // 0.0...1.0
-
-    if (y < OFFSET)
-    {
-        return dx * 255;
-    }
-
-    y -= OFFSET;
-    if (y < m_step)
-    {
-        return dx * 255 * y / m_step;
-    }
-    else if (y >= m_step && y <= 3 * m_step)
-    {
-        return dx * 255;
-    }
-    else if (y > 3 * m_step && y < 4 * m_step)
-    {
-        return dx * 255 * (4 * m_step - y) / m_step;
-    }
-    else
-    {
-        return 0;
-    }
+    return CalcColor(pos, 2.0/3.0);
 }
 
 int CColorPatternImage::CalcBlue(QPointF pos) const
 {
+    return CalcColor(pos, 1.0/3.0);
+}
+
+/* Calculates the color value
+ *
+ * The horizontal gradient can be modeled with a triangle function
+ * shifted by an RGB-dependant offset. The vertical gradient is complicated.
+ */
+int CColorPatternImage::CalcColor(QPointF pos, double rgbOffset) const
+{
+    double c = 255.0;
     double x = pos.x();
     double y = pos.y();
-    double dx = (double) x / width();   // 0.0...1.0
+    double h = height();
+    double w = width();
+    double wo = w - G_OFFSET;
+    double xs = x + wo * rgbOffset;
+    if (x < wo && xs > wo)
+        xs -= wo;
+    double dx = xs / (0.5 * wo);
+    double dy = y / h;    // 0.0...1.0
 
-    if (y < OFFSET)
+    // horizontal gradient
+    if (xs <= 0.5 * wo)
     {
-        return dx * 255;
+        c *= 2.0 - 3.0 * dx;
     }
-
-    y -= OFFSET;
-    if (y > 2 * m_step && y < 3 * m_step)
+    else if (xs > 0.5 * wo && xs <= wo)
     {
-        return dx * 255 * (y - 2 * m_step) / m_step;
-    }
-    else if (y >= 3 * m_step && y <= 5 * m_step)
-    {
-        return dx * 255;
-    }
-    else if (y > 5 * m_step)
-    {
-        return dx * 255 * (6 * m_step - y) / m_step;
+        c *= -4.0 + 3.0 * dx;
     }
     else
     {
-        return 0;
+        c *= 0.5;
     }
+
+    // prevent values below 0 and above 255
+    c = __max(0, __min(c, 255.0));
+
+    // vertical gradient
+    if (dy <= 0.5)
+    {
+        double ys = h - y;
+        c *= 2.0 * (1.0 - (ys / h));
+        c += 255 * (1.0 - 2.0 * y / h);
+    }
+    else if (dy > 0.5)
+    {
+        c *= 2.0 * (1.0 - dy);
+    }
+
+    return __max(0, __min(c, 255.0));
 }
