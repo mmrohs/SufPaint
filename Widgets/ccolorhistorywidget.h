@@ -4,7 +4,7 @@
 #include <QWidget>
 
 // number of historical colors
-#define NCOLORS 12
+#define NCOLORS 9
 
 
 /* Displays the previously used colors

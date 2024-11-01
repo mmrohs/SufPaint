@@ -4,7 +4,7 @@
 #include "../Misc/debugtools.h"
 
 // constants for the color rects
-#define TL QPoint(1, 0)         // top-left corner
+#define TL QPoint(1, 10)        // top-left corner
 #define SIZE 13                 // size of the rects
 #define DIST 2                  // distance between rects
 #define STEP (SIZE + DIST)      // distance between topleft corners of rects
@@ -56,7 +56,7 @@ void CColorHistoryWidget::SetRects()
 {
     QWidget::paintEvent(pEvent);
 
-    // draw the historical colors in a 3x4 grid
+    // draw the historical colors in a 3x3 grid
     QPainter paint;
     paint.begin(this);
     for (int i = 0; i < NCOLORS; ++i)

@@ -5,7 +5,7 @@
 #include "../Misc/debugtools.h"
 
 // constants for the preview rects
-#define TL QPoint(4, 5)        // top-left corner
+#define TL QPoint(4, 10)        // top-left corner
 #define DIST 8                  // distance between rects
 #define SIZE 28                 // size of the rects
 #define GAP 3                   // border gap

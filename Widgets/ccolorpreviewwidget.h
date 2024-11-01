@@ -4,7 +4,7 @@
 #include <QWidget>
 
 
-/* Widget displays the foreground and background color
+/* Widget displays the selected foreground and background color
  */
 class CColorPreviewWidget : public QWidget
 {
