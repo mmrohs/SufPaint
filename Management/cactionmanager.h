@@ -10,6 +10,9 @@
 class CActionManager : public QObject
 {
     Q_OBJECT
+protected:
+    explicit CActionManager();
+
 public:
     static CActionManager* GetActionManager();
 
@@ -19,9 +22,6 @@ public:
     QAction* FindAction(EnumActions e);
 
     void CheckAllActions();
-
-protected:
-    CActionManager();
 
 private:
     void CheckAction(EnumActions e);

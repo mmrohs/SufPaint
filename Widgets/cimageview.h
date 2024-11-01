@@ -28,7 +28,6 @@ protected:
 Q_SIGNALS:
     void imageChanged(bool);
     void scaleChanged();
-    void colorPicked(QColor);
 
 private:
     void AutoScale();
@@ -36,6 +35,8 @@ private:
     qreal FindNextPrevScale(qreal oldScale, bool bNext) const;
 
     QPointF GetImageOrigin() const;
+
+    class CTool* GetActiveTool();
 
 private:
     QImage* m_pImage;

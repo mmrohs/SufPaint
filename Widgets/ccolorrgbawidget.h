@@ -12,11 +12,8 @@ class CColorRgbaWidget : public QWidget
 public:
     explicit CColorRgbaWidget(QWidget *parent = nullptr);
 
-Q_SIGNALS:
-    void ColorChanged(QColor);
-
 public slots:
-    void SetColor(QColor);
+    void ColorChanged();
 
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;

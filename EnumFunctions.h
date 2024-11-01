@@ -12,8 +12,8 @@ QString GetActionName(EnumActions e);
 QKeySequence GetActionShortcut(EnumActions e);
 QIcon GetActionIcon(EnumActions e);
 
-QString GetToolName(EnumTools e);
-QString GetToolTooltip(EnumTools e);
-QIcon GetToolIcon(EnumTools e);
+//QString GetToolName(EnumTools e);
+//QString GetToolTooltip(EnumTools e);
+//QIcon GetToolIcon(EnumTools e);
 
 #endif // ENUMFUNCTIONS_H

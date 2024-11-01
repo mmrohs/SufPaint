@@ -3,6 +3,7 @@
 #include <QSpinBox>
 #include <QLabel>
 #include "../Misc/debugtools.h"
+#include "../Management/ccolormanager.h"
 
 #define RGBAMIN 0
 #define RGBAMAX 255
@@ -53,9 +54,9 @@ void CColorRgbaWidget::AddConnections()
     }
 }
 
-void CColorRgbaWidget::SetColor(QColor color)
+void CColorRgbaWidget::ColorChanged()
 {
-    m_color = color;
+    m_color = CColorManager::GetColorManager()->GetForegroundColor();
     UpdateControls();
 }
 
@@ -69,9 +70,9 @@ void CColorRgbaWidget::RgbaChanged()
     color.setBlue(m_pSpinBoxes[2]->value());
     color.setAlpha(m_pSpinBoxes[3]->value());
     m_color = color;
-    update();
+    CColorManager::GetColorManager()->SetForegroundColor(m_color);
 
-    emit ColorChanged(color);
+    update();
 }
 
 /* Checks the RGBA-Spinboxes for invalid values outside of [0, 255]

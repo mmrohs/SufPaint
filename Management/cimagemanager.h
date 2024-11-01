@@ -9,15 +9,20 @@
 // (based on the singleton design pattern)
 class CImageManager
 {
+protected:
+    explicit CImageManager();
+
 public:
     static CImageManager* GetImageManager();
 
-    void SetImageView(class CImageView* pImageView);
-
-    // image information
-    qreal GetScale();
-    bool HasImage();
+    // image & image informations
+    QImage* GetImage();
     QSize GetImageSize();
+    bool HasImage();
+
+    // view & view informations
+    void SetImageView(class CImageView* pImageView);
+    qreal GetScale();
 
     // image save/load/... actions
     void NewImage();
@@ -49,9 +54,6 @@ public:
     void InvertColors();
     void Grayscale();
     void Sepia();
-
-protected:
-    CImageManager();
 
 private:
     void TrySaveImage(QString strFilePath);

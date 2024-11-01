@@ -18,9 +18,6 @@ public:
 
     void AddColorToHistory(QColor);
 
-Q_SIGNALS:
-    void ColorPicked(QColor);
-
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;
     virtual void mousePressEvent(QMouseEvent* pEvent) override;

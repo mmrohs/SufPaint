@@ -47,6 +47,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 		
         #management
         Management/cactionmanager.h Management/cactionmanager.cpp
+        Management/ccolormanager.h Management/ccolormanager.cpp
         Management/cimagemanager.h Management/cimagemanager.cpp
         Management/ctoolmanager.h Management/ctoolmanager.cpp
 
@@ -66,6 +67,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Dialogues/ccanvasresizedialog.h Dialogues/ccanvasresizedialog.cpp Dialogues/ccanvasresizedialog.ui
         Dialogues/cnewimagedialog.h Dialogues/cnewimagedialog.cpp Dialogues/cnewimagedialog.ui
 
+        #tools
+        Tools/ctool.h Tools/ctool.cpp
+        Tools/ccolorpickertool.h Tools/ccolorpickertool.cpp
+
         #image processing
         cimageprocessor.h cimageprocessor.cpp
 
@@ -75,6 +80,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         #misc
         Misc/ccolorpatternimage.h Misc/ccolorpatternimage.cpp
         Misc/debugtools.h Misc/debugtools.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SufPaint APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

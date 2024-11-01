@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "../Enums.h"
+#include "../Tools/ctool.h"
 
 
 // Management class for the selected tool
@@ -10,23 +11,30 @@
 class CToolManager : public QObject
 {
     Q_OBJECT
+protected:
+    explicit CToolManager();
+
 public:
     static CToolManager* GetToolManager();
 
+    CTool* GetActiveTool();
+    QString GetActiveToolName();
+    EnumTools GetActiveToolEnum() const;
+
     void SetActiveTool(EnumTools tool);
-    EnumTools GetActiveTool() const;
     bool IsActiveTool(EnumTools tool) const;
 
 Q_SIGNALS:
     void ToolChanged();
 
-protected:
-    CToolManager();
+private:
+    void CreateTool();
 
 private:
     static CToolManager* m_pSingletonInstance;
 
     // currently active tool
+    CTool*    m_pTool;
     EnumTools m_activeTool;
 };
 

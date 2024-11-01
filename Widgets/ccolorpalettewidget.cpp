@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include "../Misc/ccolorpatternimage.h"
 #include "../Misc/debugtools.h"
+#include "../Management/ccolormanager.h"
 
 
 CColorPaletteWidget::CColorPaletteWidget(QWidget *parent)
@@ -19,6 +20,16 @@ CColorPaletteWidget::~CColorPaletteWidget()
     {
         delete m_pImage;
     }
+}
+
+void CColorPaletteWidget::ColorChanged()
+{
+    QColor color = CColorManager::GetColorManager()->GetForegroundColor();
+    if (color != m_color)
+    {
+        m_selPoint = QPoint(0,0);
+    }
+    // to do
 }
 
 /*virtual*/ void CColorPaletteWidget::paintEvent(QPaintEvent* pEvent)
@@ -62,8 +73,9 @@ CColorPaletteWidget::~CColorPaletteWidget()
         posF = pos;
     }
     m_selPoint = pos;
-    QColor color = m_pImage->GetColorFromPos(posF);
-    emit ColorPicked(color);
+    m_color = m_pImage->GetColorFromPos(posF);
+    CColorManager::GetColorManager()->SetForegroundColor(m_color, true);
+    update();
 }
 
 QSize CColorPaletteWidget::GetPatternSize() const
@@ -78,6 +90,7 @@ QImage* CColorPaletteWidget::GetPatternImage()
         delete m_pImage;
         m_pImage = new CColorPatternImage(GetPatternSize());
         m_selPoint = QPoint(0,0);
+        m_color = Qt::black;
     }
     return m_pImage;
 }

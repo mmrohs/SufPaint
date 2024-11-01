@@ -12,12 +12,8 @@ class CColorPreviewWidget : public QWidget
 public:
     explicit CColorPreviewWidget(QWidget *parent = nullptr);
 
-Q_SIGNALS:
-    void ColorsSwitched();
-
 public slots:
-    void SetForegroundColor(QColor);
-    void SetBackgroundColor(QColor);
+    void ColorChanged();
 
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;

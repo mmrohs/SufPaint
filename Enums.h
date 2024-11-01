@@ -58,6 +58,7 @@ enum EnumTools : int
     ToolInvalid = -1,
     ToolNone = 0,               // no tool selected (default)
 
+    ToolRectSelect,             // select a rectangular area
     ToolColorPicker,            // color picker / color pipette
     ToolBrush,                  // drawing with a brush
     ToolPencil,                 // drawing with a pencil

@@ -3,6 +3,7 @@
 #include <QPaintEvent>
 #include "../Management/cimagemanager.h"
 #include "../Management/ctoolmanager.h"
+#include "../Tools/ctool.h"
 
 
 CImageView::CImageView(QWidget* pParent)
@@ -132,6 +133,19 @@ QPointF CImageView::GetImageOrigin() const
     return QPointF(x, y);
 }
 
+CTool* CImageView::GetActiveTool()
+{
+    if (m_pImage == NULL)
+        return NULL;
+
+    CToolManager* pToolManager = CToolManager::GetToolManager();
+    if (pToolManager != NULL)
+    {
+        return pToolManager->GetActiveTool();
+    }
+    return NULL;
+}
+
 /*virtual*/ void CImageView::paintEvent(QPaintEvent* pEvent)
 {
     static const QBrush backgroundBrush = QBrush(QColor(120, 120, 120));
@@ -172,19 +186,12 @@ QPointF CImageView::GetImageOrigin() const
 
 /*virtual*/ void CImageView::mousePressEvent(QMouseEvent* pEvent)
 {
-    if (m_pImage == NULL)
-        return;
-
-    CToolManager* pToolManager = CToolManager::GetToolManager();
-    if (pToolManager->IsActiveTool(EnumTools::ToolColorPicker))
+    CTool* pTool = GetActiveTool();
+    if (pTool != NULL)
     {
         QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
         QPoint imagePos = TransformWidgetPosToImagePos(widgetPos);
-        if (m_pImage->rect().contains(imagePos))
-        {
-            QColor c = m_pImage->pixelColor(imagePos);
-            emit colorPicked(c);
-        }
+        pTool->ProcessMousePressEvent(imagePos, pEvent);
         pEvent->accept();
     }
     else

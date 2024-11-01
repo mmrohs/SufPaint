@@ -1,7 +1,14 @@
 #include "ctoolmanager.h"
+#include "../Tools/ccolorpickertool.h"
 
 
 /*static*/ CToolManager* CToolManager::m_pSingletonInstance = NULL;
+
+CToolManager::CToolManager()
+    : m_pTool(NULL)
+{
+    SetActiveTool(EnumTools::ToolNone);
+}
 
 /*static*/ CToolManager* CToolManager::GetToolManager()
 {
@@ -12,9 +19,31 @@
     return m_pSingletonInstance;
 }
 
-CToolManager::CToolManager()
+/* Returns an instance of the currently selected tool class
+ * Beware: returns NULL if no tool is selected
+*/
+CTool* CToolManager::GetActiveTool()
 {
-    SetActiveTool(EnumTools::ToolNone);
+    if (m_pTool == NULL)
+    {
+        CreateTool();
+    }
+    return m_pTool;
+}
+
+QString CToolManager::GetActiveToolName()
+{
+    CTool* pTool = GetActiveTool();
+    if (pTool != NULL)
+    {
+        return pTool->GetToolName();
+    }
+    return "";
+}
+
+EnumTools CToolManager::GetActiveToolEnum() const
+{
+    return m_activeTool;
 }
 
 void CToolManager::SetActiveTool(EnumTools tool)
@@ -22,15 +51,24 @@ void CToolManager::SetActiveTool(EnumTools tool)
     bool bToolChange = m_activeTool != tool;
     m_activeTool = tool;
     if (bToolChange)
+    {
+        delete m_pTool;
+        m_pTool = NULL;
         emit ToolChanged();
-}
-
-EnumTools CToolManager::GetActiveTool() const
-{
-    return m_activeTool;
+    }
 }
 
 bool CToolManager::IsActiveTool(EnumTools tool) const
 {
     return m_activeTool == tool;
+}
+
+void CToolManager::CreateTool()
+{
+    assert(m_pTool == NULL);
+
+    if (m_activeTool == EnumTools::ToolColorPicker)
+    {
+        m_pTool = new CColorPickerTool();
+    }
 }

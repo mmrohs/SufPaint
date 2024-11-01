@@ -11,8 +11,8 @@ public:
     explicit CColorPaletteWidget(QWidget *parent = nullptr);
     ~CColorPaletteWidget();
 
-Q_SIGNALS:
-    void ColorPicked(QColor);
+public slots:
+    void ColorChanged();
 
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;
@@ -25,7 +25,8 @@ private:
 
 private:
     class CColorPatternImage* m_pImage;
-    QPoint  m_selPoint;  // selected point in the pattern image
+    QColor m_color;
+    QPoint m_selPoint;  // selected point in the pattern image
 };
 
 #endif // CCOLORPALETTEWIDGET_H

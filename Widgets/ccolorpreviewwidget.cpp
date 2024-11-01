@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include "../Misc/debugtools.h"
+#include "../Management/ccolormanager.h"
 
 // constants for the preview rects
 #define TL QPoint(4, 10)        // top-left corner
@@ -14,17 +15,14 @@
 CColorPreviewWidget::CColorPreviewWidget(QWidget *parent)
     : QWidget{parent}
 {
+    ColorChanged();
 }
 
-void CColorPreviewWidget::SetForegroundColor(QColor color)
+void CColorPreviewWidget::ColorChanged()
 {
-    m_foregroundColor = color;
-    update();
-}
-
-void CColorPreviewWidget::SetBackgroundColor(QColor color)
-{
-    m_backgroundColor = color;
+    CColorManager* pColorManager = CColorManager::GetColorManager();
+    m_foregroundColor = pColorManager->GetForegroundColor();
+    m_backgroundColor = pColorManager->GetBackgroundColor();
     update();
 }
 
@@ -50,10 +48,8 @@ void CColorPreviewWidget::SetBackgroundColor(QColor color)
     QPoint mousePos(pos.x(), pos.y());
     if (m_rectFB.contains(mousePos))
     {
-        QColor backgroundColor = m_backgroundColor;
-        m_backgroundColor = m_foregroundColor;
-        m_foregroundColor = backgroundColor;
-        emit ColorsSwitched();
+        CColorManager* pColorManager = CColorManager::GetColorManager();
+        pColorManager->SwitchColors();
     }
 }
 

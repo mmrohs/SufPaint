@@ -5,10 +5,9 @@
 #include "ccolorpalettewidget.h"
 #include "ccolorhistorywidget.h"
 #include "../Misc/debugtools.h"
+#include "../Management/ccolormanager.h"
 
 #define WIDTH 150
-#define RGBAMIN 0
-#define RGBAMAX 255
 
 
 CColorWidget::CColorWidget(QWidget* pParent)
@@ -21,9 +20,13 @@ CColorWidget::CColorWidget(QWidget* pParent)
     AddLayout();
     AddConnections();
 
-    ColorPickedRgba(Qt::white);
-    ColorsSwitched();
-    ColorPickedRgba(Qt::black);
+    ColorChanged();
+}
+
+void CColorWidget::ColorChanged()
+{
+    emit ColorUpdate();
+    update();
 }
 
 void CColorWidget::AddLayout()
@@ -56,44 +59,13 @@ void CColorWidget::AddLayout()
 
 void CColorWidget::AddConnections()
 {
-    // CColorPreviewWidget <-> this
-    connect(this, &CColorWidget::UpdateForegroundColor, m_pColPrevWidget, &CColorPreviewWidget::SetForegroundColor);
-    connect(this, &CColorWidget::UpdateBackgroundColor, m_pColPrevWidget, &CColorPreviewWidget::SetBackgroundColor);
-    connect(m_pColPrevWidget, &CColorPreviewWidget::ColorsSwitched, this, &CColorWidget::ColorsSwitched);
+    // this -> child widgets
+    connect(this, &CColorWidget::ColorUpdate, m_pColPrevWidget, &CColorPreviewWidget::ColorChanged);
+    connect(this, &CColorWidget::ColorUpdate, m_pColRgbaWidget, &CColorRgbaWidget::ColorChanged);
+    connect(this, &CColorWidget::ColorUpdate, m_pColPalWidget,  &CColorPaletteWidget::ColorChanged);
 
-    // CColorRgbaWidget <-> this
-    connect(this, &CColorWidget::UpdateForegroundColor, m_pColRgbaWidget, &CColorRgbaWidget::SetColor);
-    connect(m_pColRgbaWidget, &CColorRgbaWidget::ColorChanged, this, &CColorWidget::ColorPickedRgba);
-
-    // CColorPaletteWidget -> this
-    connect(m_pColPalWidget, &CColorPaletteWidget::ColorPicked, this, &CColorWidget::ColorPickedRgb);
-
-    // CColorHistoryWidget -> this
-    connect(m_pColHistWidget, &CColorHistoryWidget::ColorPicked, this, &CColorWidget::ColorPickedRgb);
-}
-
-// Sets the foreground color to the parameter color, but ignores its alpha value
-void CColorWidget::ColorPickedRgb(QColor color)
-{
-    ColorPickedRgba(QColor(color.red(), color.green(), color.blue(), m_foregroundColor.alpha()));
-}
-
-// Sets the foreground color to the parameter color
-void CColorWidget::ColorPickedRgba(QColor color)
-{
-    m_foregroundColor = color;
-    update();
-    emit UpdateForegroundColor(m_foregroundColor);
-}
-
-void CColorWidget::ColorsSwitched()
-{
-    QColor foregroundColor = m_foregroundColor;
-    m_foregroundColor = m_backgroundColor;
-    m_backgroundColor = foregroundColor;
-
-    emit UpdateForegroundColor(m_foregroundColor);
-    emit UpdateBackgroundColor(m_backgroundColor);
+    // CColorManager -> this
+    connect(CColorManager::GetColorManager(), &CColorManager::ColorUpdate, this, &CColorWidget::ColorChanged);
 }
 
 /*virtual*/ void CColorWidget::paintEvent(QPaintEvent* pEvent)

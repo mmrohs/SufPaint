@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include "../Misc/debugtools.h"
+#include "../Management/ccolormanager.h"
 
 // constants for the color rects
 #define TL QPoint(1, 10)        // top-left corner
@@ -78,7 +79,7 @@ void CColorHistoryWidget::SetRects()
     {
         if (m_colorRects[i].contains(pos))
         {
-            emit ColorPicked(m_colors[i]);
+            CColorManager::GetColorManager()->SetForegroundColor(m_colors[i]);
             break;
         }
     }

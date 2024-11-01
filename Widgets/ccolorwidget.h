@@ -10,13 +10,10 @@ public:
     explicit CColorWidget(QWidget* pParent);
 
 Q_SIGNALS:
-    void UpdateForegroundColor(QColor);
-    void UpdateBackgroundColor(QColor);
+    void ColorUpdate();
 
 public slots:
-    void ColorPickedRgb(QColor color);
-    void ColorPickedRgba(QColor color);
-    void ColorsSwitched();
+    void ColorChanged();
 
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;
@@ -26,16 +23,13 @@ private:
     void AddConnections();
 
     void CheckRgbaValues();
-    void DrawColorRect(QRect rect, QColor color);
 
 private:
+    // child widgets
     class CColorPreviewWidget* m_pColPrevWidget;
     class CColorHistoryWidget* m_pColHistWidget;
     class CColorRgbaWidget*    m_pColRgbaWidget;
     class CColorPaletteWidget* m_pColPalWidget;
-
-    QColor m_foregroundColor;
-    QColor m_backgroundColor;
 };
 
 #endif // CCOLORWIDGET_H

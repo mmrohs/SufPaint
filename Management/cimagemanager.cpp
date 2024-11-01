@@ -34,14 +34,9 @@ void CImageManager::SetImageView(CImageView* pImageView)
     m_pImageView = pImageView;
 }
 
-qreal CImageManager::GetScale()
+QImage* CImageManager::GetImage()
 {
-    return m_pImageView->GetScale();
-}
-
-bool CImageManager::HasImage()
-{
-    return m_pImage != NULL;
+    return m_pImage;
 }
 
 QSize CImageManager::GetImageSize()
@@ -52,6 +47,16 @@ QSize CImageManager::GetImageSize()
         size = m_pImage->size();
     }
     return size;
+}
+
+bool CImageManager::HasImage()
+{
+    return m_pImage != NULL;
+}
+
+qreal CImageManager::GetScale()
+{
+    return m_pImageView->GetScale();
 }
 
 void CImageManager::NewImage()
