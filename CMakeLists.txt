@@ -71,6 +71,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Tools/ctool.h Tools/ctool.cpp
         Tools/ccolorpickertool.h Tools/ccolorpickertool.cpp
         Tools/crectangleselectiontool.cpp Tools/crectangleselectiontool.h
+        Tools/cbrushtool.cpp Tools/cbrushtool.h
+        Tools/cpenciltool.cpp Tools/cpenciltool.h
+        Tools/cbuckettool.cpp Tools/cbuckettool.h
 
         #image processing
         cimageprocessor.h cimageprocessor.cpp
@@ -81,8 +84,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         #misc
         Misc/ccolorpatternimage.h Misc/ccolorpatternimage.cpp
         Misc/debugtools.h Misc/debugtools.cpp
-        Tools/cbrushtool.cpp Tools/cbrushtool.h
-        Tools/cpenciltool.cpp Tools/cpenciltool.h
 
     )
 # Define target properties for Android with Qt 6 as:
