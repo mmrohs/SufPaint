@@ -1,3 +1,5 @@
 #include "cselection.h"
 
-CSelection::CSelection() {}
+CSelection::CSelection()
+{
+}

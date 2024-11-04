@@ -4,7 +4,7 @@
 class CSelection
 {
 public:
-    CSelection();
+    explicit CSelection();
 };
 
 #endif // CSELECTION_H
