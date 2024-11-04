@@ -28,6 +28,12 @@ void CColorRgbaWidget::AddLayout()
         m_pSpinBoxes[i]->setMaximum(SPINMAX);
     }
 
+    // Tooltips
+    m_pSpinBoxes[0]->setToolTip("Red value of the foreground color");
+    m_pSpinBoxes[1]->setToolTip("Green value of the foreground color");
+    m_pSpinBoxes[2]->setToolTip("Blue value of the foreground color");
+    m_pSpinBoxes[3]->setToolTip("Opacity of the foreground color");
+
     // create the grid layout
     QGridLayout* pGridLayout = new QGridLayout();
     pGridLayout->setColumnStretch(0, 1);
