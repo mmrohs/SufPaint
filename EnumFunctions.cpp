@@ -1,5 +1,6 @@
 #include "EnumFunctions.h"
 #include <QObject>
+#include "Tools/ccolorpickertool.h"
 
 
 QString GetActionName(EnumActions e)
@@ -120,3 +121,55 @@ QIcon GetActionIcon(EnumActions e)
     }
 }
 
+
+// helper function for the functions below
+CTool* GetTool(EnumTools tool)
+{
+    switch (tool)
+    {
+    case ToolRectSelect:  return NULL;
+    case ToolColorPicker: return new CColorPickerTool();
+    case ToolBrush:       return NULL;
+    case ToolPencil:      return NULL;
+    case ToolLine:        return NULL;
+    case ToolBucket:      return NULL;
+    case ToolGradient:    return NULL;
+    default:              return NULL;
+    }
+}
+
+QString GetToolName(EnumTools tool)
+{
+    CTool* pTool = GetTool(tool);
+    if (pTool != NULL)
+    {
+        QString toolname = pTool->GetToolName();
+        delete pTool;
+        return toolname;
+    }
+    return "";
+}
+
+QString GetTooltip(EnumTools tool)
+{
+    CTool* pTool = GetTool(tool);
+    if (pTool != NULL)
+    {
+        QString tooltip = pTool->GetTooltip();
+        delete pTool;
+        return tooltip;
+    }
+    return "";
+}
+
+QIcon GetToolIcon(EnumTools tool)
+{
+    CTool* pTool = GetTool(tool);
+    if (pTool != NULL)
+    {
+        QIcon icon = pTool->GetToolIcon();
+        delete pTool;
+        return icon;
+    }
+    return QIcon();
+}

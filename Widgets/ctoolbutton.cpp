@@ -1,6 +1,7 @@
 #include "ctoolbutton.h"
 #include <QPainter>
 #include <QPaintEvent>
+#include "../EnumFunctions.h"
 #include "../Management/ctoolmanager.h"
 
 #define ICON_SIZE 32
@@ -39,14 +40,14 @@ void CToolButton::ToolChanged()
 
 void CToolButton::SetIcon()
 {
-    QIcon icon = CTool::GetToolIcon(m_tool);
+    QIcon icon = GetToolIcon(m_tool);
     setIcon(icon);
     setIconSize(QSize(ICON_SIZE, ICON_SIZE));
 }
 
 void CToolButton::SetTooltip()
 {
-    QString tooltip = CTool::GetTooltip(m_tool);
+    QString tooltip = GetTooltip(m_tool);
     setToolTip(tooltip);
 }
 

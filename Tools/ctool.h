@@ -14,12 +14,11 @@ public:
     explicit CTool(EnumTools eTool);
     virtual ~CTool();
 
-    QString   GetToolName() const;
     EnumTools GetToolEnum() const;
 
-    static QString GetToolName(EnumTools);
-    static QString GetTooltip(EnumTools);
-    static QIcon   GetToolIcon(EnumTools);
+    virtual QString GetToolName() = 0;
+    virtual QString GetTooltip() = 0;
+    virtual QIcon   GetToolIcon() = 0;
 
     virtual void ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent) = 0;
 
