@@ -1,29 +1,29 @@
-#include "cbrushtool.h"
+#include "cpenciltool.h"
 
 
-CBrushTool::CBrushTool()
-    : CTool(EnumTools::ToolColorPicker)
+CPencilTool::CPencilTool()
+    : CTool(EnumTools::ToolPencil)
 {
 }
 
-/*virtual*/ QString CBrushTool::GetToolName()
+/*virtual*/ QString CPencilTool::GetToolName()
 {
-    return "Brush";
+    return "Pencil";
 }
 
-/*virtual*/ QString CBrushTool::GetTooltip()
+/*virtual*/ QString CPencilTool::GetTooltip()
 {
-    return "Draw with a brush";
+    return "Draw with a pencil";
 }
 
-/*virtual*/ QIcon CBrushTool::GetToolIcon()
+/*virtual*/ QIcon CPencilTool::GetToolIcon()
 {
-    QIcon icon("Icons/Brush.png");
-    icon.addFile("Icons/Brush_Disabled.png", QSize(), QIcon::Mode::Disabled);
+    QIcon icon("Icons/Pencil.png");
+    icon.addFile("Icons/Pencil_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
 }
 
-/*virtual*/ void CBrushTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CPencilTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL && pImage->rect().contains(pos))

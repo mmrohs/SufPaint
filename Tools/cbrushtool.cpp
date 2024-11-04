@@ -2,7 +2,7 @@
 
 
 CBrushTool::CBrushTool()
-    : CTool(EnumTools::ToolColorPicker)
+    : CTool(EnumTools::ToolBrush)
 {
 }
 

@@ -3,6 +3,7 @@
 #include "Tools/ccolorpickertool.h"
 #include "Tools/crectangleselectiontool.h"
 #include "Tools/cbrushtool.h"
+#include "Tools/cpenciltool.h"
 
 
 QString GetActionName(EnumActions e)
@@ -132,7 +133,7 @@ CTool* GetTool(EnumTools tool)
     case ToolRectSelect:  return new CRectangleSelectionTool();
     case ToolColorPicker: return new CColorPickerTool();
     case ToolBrush:       return new CBrushTool();
-    case ToolPencil:      return NULL;
+    case ToolPencil:      return new CPencilTool();
     case ToolLine:        return NULL;
     case ToolBucket:      return NULL;
     case ToolGradient:    return NULL;

@@ -82,6 +82,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Misc/ccolorpatternimage.h Misc/ccolorpatternimage.cpp
         Misc/debugtools.h Misc/debugtools.cpp
         Tools/cbrushtool.cpp Tools/cbrushtool.h
+        Tools/cpenciltool.cpp Tools/cpenciltool.h
 
     )
 # Define target properties for Android with Qt 6 as:
