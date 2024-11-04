@@ -25,7 +25,7 @@ CColorPaletteWidget::~CColorPaletteWidget()
 void CColorPaletteWidget::ColorChanged()
 {
     QColor color = CColorManager::GetColorManager()->GetForegroundColor();
-    if (color != m_color)
+    if (color.rgb() != m_color.rgb())
     {
         m_selPoint = QPoint(0,0);
     }

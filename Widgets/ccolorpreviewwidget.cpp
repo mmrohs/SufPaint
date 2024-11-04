@@ -7,7 +7,7 @@
 
 // constants for the preview rects
 #define TL QPoint(4, 10)        // top-left corner
-#define DIST 8                  // distance between rects
+#define DIST 10                 // distance between rects
 #define SIZE 28                 // size of the rects
 #define GAP 3                   // border gap
 
