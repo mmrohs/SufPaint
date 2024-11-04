@@ -1,13 +1,13 @@
-#ifndef CBUCKETTOOL_H
-#define CBUCKETTOOL_H
+#ifndef CGRADIENTTOOL_H
+#define CGRADIENTTOOL_H
 
 #include "ctool.h"
 
 
-class CBucketTool : public CTool
+class CGradientTool : public CTool
 {
 public:
-    CBucketTool();
+    CGradientTool();
 
     virtual QString GetToolName() override;
     virtual QString GetTooltip() override;
@@ -16,4 +16,4 @@ public:
     virtual void ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent) override;
 };
 
-#endif // CBUCKETTOOL_H
+#endif // CGRADIENTTOOL_H

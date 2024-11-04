@@ -1,29 +1,29 @@
-#include "cbuckettool.h"
+#include "cgradienttool.h"
 
 
-CBucketTool::CBucketTool()
+CGradientTool::CGradientTool()
     : CTool(EnumTools::ToolBucket)
 {
 }
 
-/*virtual*/ QString CBucketTool::GetToolName()
+/*virtual*/ QString CGradientTool::GetToolName()
 {
-    return "Paint Bucket";
+    return "Color Gradient";
 }
 
-/*virtual*/ QString CBucketTool::GetTooltip()
+/*virtual*/ QString CGradientTool::GetTooltip()
 {
-    return "Fill areas with a color";
+    return "Fill areas with a color gradient";
 }
 
-/*virtual*/ QIcon CBucketTool::GetToolIcon()
+/*virtual*/ QIcon CGradientTool::GetToolIcon()
 {
-    QIcon icon("Icons/Bucket.png");
-    icon.addFile("Icons/Bucket_Disabled.png", QSize(), QIcon::Mode::Disabled);
+    QIcon icon("Icons/Gradient.png");
+    icon.addFile("Icons/Gradient_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
 }
 
-/*virtual*/ void CBucketTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CGradientTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL && pImage->rect().contains(pos))
