@@ -6,6 +6,7 @@
 #include "Tools/cpenciltool.h"
 #include "Tools/cbuckettool.h"
 #include "Tools/cgradienttool.h"
+#include "Tools/clinestool.h"
 
 
 QString GetActionName(EnumActions e)
@@ -136,9 +137,9 @@ CTool* GetTool(EnumTools tool)
     case ToolColorPicker: return new CColorPickerTool();
     case ToolBrush:       return new CBrushTool();
     case ToolPencil:      return new CPencilTool();
-    case ToolLine:        return NULL;
     case ToolBucket:      return new CBucketTool();
     case ToolGradient:    return new CGradientTool();
+    case ToolLine:        return new CLinesTool();
     default:              return NULL;
     }
 }

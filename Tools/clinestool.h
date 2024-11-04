@@ -1,13 +1,13 @@
-#ifndef CBRUSHTOOL_H
-#define CBRUSHTOOL_H
+#ifndef CLINESTOOL_H
+#define CLINESTOOL_H
 
 #include "ctool.h"
 
 
-class CBrushTool : public CTool
+class CLinesTool : public CTool
 {
 public:
-    explicit CBrushTool();
+    explicit CLinesTool();
 
     virtual QString GetToolName() override;
     virtual QString GetTooltip() override;
@@ -16,4 +16,4 @@ public:
     virtual void ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent) override;
 };
 
-#endif // CBRUSHTOOL_H
+#endif // CLINESTOOL_H

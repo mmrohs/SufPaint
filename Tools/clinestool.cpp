@@ -1,29 +1,29 @@
-#include "cbrushtool.h"
+#include "clinestool.h"
 
 
-CBrushTool::CBrushTool()
-    : CTool(EnumTools::ToolBrush)
+CLinesTool::CLinesTool()
+    : CTool(EnumTools::ToolLine)
 {
 }
 
-/*virtual*/ QString CBrushTool::GetToolName()
+/*virtual*/ QString CLinesTool::GetToolName()
 {
-    return "Brush";
+    return "Line Tool";
 }
 
-/*virtual*/ QString CBrushTool::GetTooltip()
+/*virtual*/ QString CLinesTool::GetTooltip()
 {
-    return "Draw with a brush";
+    return "Draw lines and splines";
 }
 
-/*virtual*/ QIcon CBrushTool::GetToolIcon()
+/*virtual*/ QIcon CLinesTool::GetToolIcon()
 {
-    QIcon icon("Icons/Brush.png");
-    icon.addFile("Icons/Brush_Disabled.png", QSize(), QIcon::Mode::Disabled);
+    QIcon icon("Icons/LineTool.png");
+    icon.addFile("Icons/LineTool_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
 }
 
-/*virtual*/ void CBrushTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CLinesTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL && pImage->rect().contains(pos))
