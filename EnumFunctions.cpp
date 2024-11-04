@@ -1,6 +1,7 @@
 #include "EnumFunctions.h"
 #include <QObject>
 #include "Tools/ccolorpickertool.h"
+#include "Tools/crectangleselectiontool.h"
 
 
 QString GetActionName(EnumActions e)
@@ -127,7 +128,7 @@ CTool* GetTool(EnumTools tool)
 {
     switch (tool)
     {
-    case ToolRectSelect:  return NULL;
+    case ToolRectSelect:  return new CRectangleSelectionTool();
     case ToolColorPicker: return new CColorPickerTool();
     case ToolBrush:       return NULL;
     case ToolPencil:      return NULL;

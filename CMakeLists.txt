@@ -70,6 +70,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         #tools
         Tools/ctool.h Tools/ctool.cpp
         Tools/ccolorpickertool.h Tools/ccolorpickertool.cpp
+        Tools/crectangleselectiontool.cpp Tools/crectangleselectiontool.h
 
         #image processing
         cimageprocessor.h cimageprocessor.cpp
