@@ -1,13 +1,13 @@
-#ifndef CCOLORPICKERTOOL_H
-#define CCOLORPICKERTOOL_H
+#ifndef CBRUSHTOOL_H
+#define CBRUSHTOOL_H
 
 #include "ctool.h"
 
 
-class CColorPickerTool : public CTool
+class CBrushTool : public CTool
 {
 public:
-    explicit CColorPickerTool();
+    explicit CBrushTool();
 
     virtual QString GetToolName() override;
     virtual QString GetTooltip() override;
@@ -16,4 +16,4 @@ public:
     virtual void ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent) override;
 };
 
-#endif // CCOLORPICKERTOOL_H
+#endif // CBRUSHTOOL_H

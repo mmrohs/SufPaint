@@ -1,35 +1,33 @@
-#include "ccolorpickertool.h"
-#include "../Management/ccolormanager.h"
+#include "cbrushtool.h"
 
 
-CColorPickerTool::CColorPickerTool()
+CBrushTool::CBrushTool()
     : CTool(EnumTools::ToolColorPicker)
 {
 }
 
-/*virtual*/ QString CColorPickerTool::GetToolName()
+/*virtual*/ QString CBrushTool::GetToolName()
 {
-    return "Color Picker";
+    return "Brush";
 }
 
-/*virtual*/ QString CColorPickerTool::GetTooltip()
+/*virtual*/ QString CBrushTool::GetTooltip()
 {
-    return "Pick a color from image";
+    return "Draw with a brush";
 }
 
-/*virtual*/ QIcon CColorPickerTool::GetToolIcon()
+/*virtual*/ QIcon CBrushTool::GetToolIcon()
 {
-    QIcon icon("Icons/Pipette.png");
-    icon.addFile("Icons/Pipette_Disabled.png", QSize(), QIcon::Mode::Disabled);
+    QIcon icon("Icons/Brush.png");
+    icon.addFile("Icons/Brush_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
 }
 
-/*virtual*/ void CColorPickerTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CBrushTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL && pImage->rect().contains(pos))
     {
-        QColor color = pImage->pixelColor(pos);
-        CColorManager::GetColorManager()->SetForegroundColor(color);
+        // to do
     }
 }
