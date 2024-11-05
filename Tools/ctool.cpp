@@ -16,6 +16,16 @@ EnumTools CTool::GetToolEnum() const
     return m_eTool;
 }
 
+/*virtual*/ void CTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent, CImageView* pView)
+{
+    // add implementation in derived class if necessary
+}
+
+/*virtual*/ void CTool::ProcessMouseMoveEvent(QMouseEvent* pEvent, CImageView* pView)
+{
+    // add implementation in derived class if necessary
+}
+
 QImage* CTool::GetImage() const
 {
     CImageManager* pImageManager = CImageManager::GetImageManager();

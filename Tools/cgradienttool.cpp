@@ -23,11 +23,7 @@ CGradientTool::CGradientTool()
     return icon;
 }
 
-/*virtual*/ void CGradientTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CGradientTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-    QImage* pImage = GetImage();
-    if (pImage != NULL && pImage->rect().contains(pos))
-    {
-        // to do
-    }
+
 }

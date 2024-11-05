@@ -87,6 +87,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Misc/ccolorpatternimage.h Misc/ccolorpatternimage.cpp
         Misc/debugtools.h Misc/debugtools.cpp
         Misc/cselection.cpp Misc/cselection.h
+        Misc/cimageviewtransform.h Misc/cimageviewtransform.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

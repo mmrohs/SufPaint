@@ -6,6 +6,7 @@
 #include <QMouseEvent>
 #include "../Enums.h"
 
+class CImageView;
 
 // Abstract base class for all tools
 class CTool
@@ -20,7 +21,9 @@ public:
     virtual QString GetTooltip() = 0;
     virtual QIcon   GetToolIcon() = 0;
 
-    virtual void ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent) = 0;
+    virtual void ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView) = 0;
+    virtual void ProcessMouseReleaseEvent(QMouseEvent* pEvent, CImageView* pView);
+    virtual void ProcessMouseMoveEvent(QMouseEvent* pEvent, CImageView* pView);
 
 protected:
     QImage* GetImage() const;

@@ -2,8 +2,11 @@
 #define CIMAGEVIEW_H
 
 #include <QWidget>
+#include "../Misc/cimageviewtransform.h"
 
-// Widget for displaying a QImage item
+
+/* Widget for displaying a QImage items
+*/
 class CImageView : public QWidget
 {
     Q_OBJECT
@@ -11,36 +14,33 @@ public:
     explicit CImageView(QWidget* pParent);
 
     void SetImage(QImage* pImage);
+    bool HasImage() const;
+    QSize GetImageSize() const;
+    QRect GetImageRect() const;
 
-    qreal GetScale() const;
-    void ResetScale();
-    void SetNextScale();
-    void SetPrevScale();
+    void ZoomIn();
+    void ZoomOut();
+    void ResetZoom();
 
-    QPoint TransformWidgetPosToImagePos(QPoint widgetPos);
-    QPoint TransformImagePosToWidgetPos(QPoint imagePos);
+    const CImageViewTransform* GetTrafo() const;
 
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;
     virtual void wheelEvent(QWheelEvent* pEvent) override;
     virtual void mousePressEvent(QMouseEvent* pEvent) override;
+    virtual void mouseReleaseEvent(QMouseEvent* pEvent) override;
+    virtual void mouseMoveEvent(QMouseEvent* pEvent) override;
 
 Q_SIGNALS:
     void imageChanged(bool);
     void scaleChanged();
 
 private:
-    void AutoScale();
-    void SetScale(qreal scale);
-    qreal FindNextPrevScale(qreal oldScale, bool bNext) const;
-
-    QPointF GetImageOrigin() const;
-
     class CTool* GetActiveTool();
 
 private:
+    CImageViewTransform m_trafo;
     QImage* m_pImage;
-    qreal   m_scale = 1.0;
 };
 
 #endif // CIMAGEVIEW_H

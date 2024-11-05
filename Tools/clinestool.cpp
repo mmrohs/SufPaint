@@ -23,11 +23,7 @@ CLinesTool::CLinesTool()
     return icon;
 }
 
-/*virtual*/ void CLinesTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CLinesTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-    QImage* pImage = GetImage();
-    if (pImage != NULL && pImage->rect().contains(pos))
-    {
-        // to do
-    }
+
 }

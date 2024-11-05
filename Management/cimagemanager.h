@@ -22,7 +22,7 @@ public:
 
     // view & view informations
     void SetImageView(class CImageView* pImageView);
-    qreal GetScale();
+    //qreal GetScale();
 
     // image save/load/... actions
     void NewImage();

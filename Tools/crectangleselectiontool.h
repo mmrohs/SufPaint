@@ -13,7 +13,9 @@ public:
     virtual QString GetTooltip() override;
     virtual QIcon   GetToolIcon() override;
 
-    virtual void ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent) override;
+    virtual void ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView) override;
+    virtual void ProcessMouseReleaseEvent(QMouseEvent* pEvent, CImageView* pView) override;
+    virtual void ProcessMouseMoveEvent(QMouseEvent* pEvent, CImageView* pView) override;
 };
 
 #endif // CRECTANGLESELECTIONTOOL_H

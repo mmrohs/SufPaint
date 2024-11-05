@@ -13,7 +13,7 @@ void CStatusBarZoomLabel::Update()
     CImageManager* pImageManager = CImageManager::GetImageManager();
     if (pImageManager != NULL)
     {
-        SetZoom(100.0 * pImageManager->GetScale());
+        //SetZoom(100.0 * pImageManager->GetScale());
     }
 }
 

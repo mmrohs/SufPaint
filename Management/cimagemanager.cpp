@@ -54,10 +54,10 @@ bool CImageManager::HasImage()
     return m_pImage != NULL;
 }
 
-qreal CImageManager::GetScale()
+/*qreal CImageManager::GetScale()
 {
     return m_pImageView->GetScale();
-}
+}*/
 
 void CImageManager::NewImage()
 {
@@ -159,17 +159,17 @@ void CImageManager::CutImage()
 
 void CImageManager::ZoomIn()
 {
-    m_pImageView->SetNextScale();
+    m_pImageView->ZoomIn();
 }
 
 void CImageManager::ZoomOut()
 {
-    m_pImageView->SetPrevScale();
+    m_pImageView->ZoomOut();
 }
 
 void CImageManager::ResetZoom()
 {
-    m_pImageView->ResetScale();
+    m_pImageView->ResetZoom();
 }
 
 void CImageManager::Resize()

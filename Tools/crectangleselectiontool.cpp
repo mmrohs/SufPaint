@@ -23,11 +23,17 @@ CRectangleSelectionTool::CRectangleSelectionTool()
     return icon;
 }
 
-/*virtual*/ void CRectangleSelectionTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CRectangleSelectionTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-    QImage* pImage = GetImage();
-    if (pImage != NULL && pImage->rect().contains(pos))
-    {
 
-    }
+}
+
+/*virtual*/ void CRectangleSelectionTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent, CImageView* pView)
+{
+
+}
+
+/*virtual*/ void CRectangleSelectionTool::ProcessMouseMoveEvent(QMouseEvent* pEvent, CImageView* pView)
+{
+
 }

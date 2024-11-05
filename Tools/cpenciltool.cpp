@@ -23,11 +23,7 @@ CPencilTool::CPencilTool()
     return icon;
 }
 
-/*virtual*/ void CPencilTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CPencilTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-    QImage* pImage = GetImage();
-    if (pImage != NULL && pImage->rect().contains(pos))
-    {
-        // to do
-    }
+
 }

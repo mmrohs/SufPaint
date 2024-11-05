@@ -23,11 +23,7 @@ CBucketTool::CBucketTool()
     return icon;
 }
 
-/*virtual*/ void CBucketTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CBucketTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-    QImage* pImage = GetImage();
-    if (pImage != NULL && pImage->rect().contains(pos))
-    {
-        // to do
-    }
+
 }

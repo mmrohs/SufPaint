@@ -24,12 +24,12 @@ CColorPickerTool::CColorPickerTool()
     return icon;
 }
 
-/*virtual*/ void CColorPickerTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CColorPickerTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-    QImage* pImage = GetImage();
+    /*QImage* pImage = GetImage();
     if (pImage != NULL && pImage->rect().contains(pos))
     {
         QColor color = pImage->pixelColor(pos);
         CColorManager::GetColorManager()->SetForegroundColor(color);
-    }
+    }*/
 }

@@ -8,129 +8,50 @@
 
 CImageView::CImageView(QWidget* pParent)
     : QWidget(pParent),
-    m_pImage(NULL)
+    m_pImage(NULL), m_trafo(this)
 {
 }
 
 void CImageView::SetImage(QImage* pImage)
 {
     m_pImage = pImage;
-    AutoScale();
-    emit imageChanged(m_pImage != NULL);
+    m_trafo.AutoScale();
+    //emit imageChanged(m_pImage != NULL);
 }
 
-qreal CImageView::GetScale() const
+bool CImageView::HasImage() const
 {
-    return m_scale;
+    return m_pImage != NULL;
 }
 
-void CImageView::SetScale(qreal scale)
+QSize CImageView::GetImageSize() const
 {
-    m_scale = scale;
-    update();
-    emit scaleChanged();
+    return m_pImage->size();
 }
 
-/* reset the scaling to 100%
-*/
-void CImageView::ResetScale()
+QRect CImageView::GetImageRect() const
 {
-    SetScale(1.0);
+    return m_pImage->rect();
 }
 
-void CImageView::SetNextScale()
+void CImageView::ZoomIn()
 {
-    qreal oldScale = GetScale();
-    qreal newScale = FindNextPrevScale(oldScale, true);
-    if (newScale != oldScale)
-    {
-        SetScale(newScale);
-    }
+    m_trafo.SetNextScale();
 }
 
-void CImageView::SetPrevScale()
+void CImageView::ZoomOut()
 {
-    qreal oldScale = GetScale();
-    qreal newScale = FindNextPrevScale(oldScale, false);
-    if (newScale != oldScale)
-    {
-        SetScale(newScale);
-    }
+    m_trafo.SetPrevScale();
 }
 
-void CImageView::AutoScale()
+void CImageView::ResetZoom()
 {
-    qreal factor = 1.0;
-    if (m_pImage != NULL)
-    {
-        static const int gap = 10;
-        QRect wRect = this->rect();
-        QRect iRect = m_pImage->rect();
-        if (iRect.height() > wRect.height())
-        {
-            factor *= wRect.height() / qreal(iRect.height() + gap);
-        }
-        if (factor * iRect.width() > wRect.width())
-        {
-            factor *= wRect.width() / qreal(factor * iRect.width() + gap);
-        }
-    }
-    SetScale(factor);
+    m_trafo.ResetScale();
 }
 
-qreal CImageView::FindNextPrevScale(qreal oldScale, bool bNext) const
+const CImageViewTransform* CImageView::GetTrafo() const
 {
-    // possible scale values (resulting zoom: 10% to 1000%)
-    static const std::vector<qreal> vecScales =
-        { 0.1, 0.17, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 4.0, 5.0, 7.5, 10.0 };
-
-    for (int i = 0; i < vecScales.size(); i++)
-    {
-        qreal scale_i = vecScales[i];
-        qreal scale_p = (i > 0) ? vecScales[i - 1] : scale_i;
-        qreal scale_n = (i + 1 < vecScales.size()) ? vecScales[i + 1] : scale_i;
-
-        if (abs(scale_i - oldScale) < 1E-10) // exact match
-        {
-            return bNext ? scale_n : scale_p;
-        }
-        else if (bNext && scale_i < oldScale && oldScale < scale_n)
-        {
-            return scale_n;
-        }
-        else if (!bNext && scale_p < oldScale && oldScale < scale_i)
-        {
-            return scale_p;
-        }
-        else if (oldScale < scale_p)
-        {
-            return scale_p;
-        }
-    }
-    return oldScale;
-}
-
-QPoint CImageView::TransformWidgetPosToImagePos(QPoint widgetPos)
-{
-    QPointF pointF(widgetPos);
-    pointF = (pointF - m_scale * GetImageOrigin()) / m_scale;
-    return QPoint(pointF.x(), pointF.y());
-}
-
-QPoint CImageView::TransformImagePosToWidgetPos(QPoint imagePos)
-{
-    QPointF pointF(imagePos);
-    pointF = pointF * m_scale + m_scale * GetImageOrigin();
-    return QPoint(pointF.x(), pointF.y());
-}
-
-QPointF CImageView::GetImageOrigin() const
-{
-    QSize wSize = this->size();
-    QSize iSize = m_pImage->size();
-    qreal x = 0.5 * wSize.width() / m_scale - 0.5 * iSize.width();
-    qreal y = 0.5 * wSize.height() / m_scale - 0.5 * iSize.height();
-    return QPointF(x, y);
+    return &m_trafo;
 }
 
 CTool* CImageView::GetActiveTool()
@@ -156,8 +77,10 @@ CTool* CImageView::GetActiveTool()
     paint.fillRect(pEvent->rect(), backgroundBrush);
     if (m_pImage != NULL)
     {
-        paint.scale(m_scale, m_scale);
-        paint.drawImage(GetImageOrigin(), *m_pImage);
+        qreal scale = m_trafo.GetScale();
+        QPointF posOrigin = m_trafo.GetImageOrigin();
+        paint.scale(scale, scale);
+        paint.drawImage(posOrigin, *m_pImage);
     }
     paint.end();
 }
@@ -190,8 +113,40 @@ CTool* CImageView::GetActiveTool()
     if (pTool != NULL)
     {
         QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
-        QPoint imagePos = TransformWidgetPosToImagePos(widgetPos);
-        pTool->ProcessMousePressEvent(imagePos, pEvent);
+        //QPoint imagePos = TransformWidgetPosToImagePos(widgetPos);
+        pTool->ProcessMousePressEvent(pEvent, this);
+        pEvent->accept();
+    }
+    else
+    {
+        pEvent->ignore();
+    }
+}
+
+/*virtual*/ void CImageView::mouseReleaseEvent(QMouseEvent* pEvent)
+{
+    CTool* pTool = GetActiveTool();
+    if (pTool != NULL)
+    {
+        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
+        //QPoint imagePos = TransformWidgetPosToImagePos(widgetPos);
+        pTool->ProcessMouseReleaseEvent(pEvent, this);
+        pEvent->accept();
+    }
+    else
+    {
+        pEvent->ignore();
+    }
+}
+
+/*virtual*/ void CImageView::mouseMoveEvent(QMouseEvent* pEvent)
+{
+    CTool* pTool = GetActiveTool();
+    if (pTool != NULL)
+    {
+        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
+        //QPoint imagePos = TransformWidgetPosToImagePos(widgetPos);
+        pTool->ProcessMouseMoveEvent(pEvent, this);
         pEvent->accept();
     }
     else

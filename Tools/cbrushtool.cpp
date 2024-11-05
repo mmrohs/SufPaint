@@ -23,11 +23,7 @@ CBrushTool::CBrushTool()
     return icon;
 }
 
-/*virtual*/ void CBrushTool::ProcessMousePressEvent(QPoint pos, QMouseEvent* pEvent)
+/*virtual*/ void CBrushTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-    QImage* pImage = GetImage();
-    if (pImage != NULL && pImage->rect().contains(pos))
-    {
-        // to do
-    }
+
 }
