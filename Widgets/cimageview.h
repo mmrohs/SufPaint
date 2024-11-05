@@ -14,9 +14,6 @@ public:
     explicit CImageView(QWidget* pParent);
 
     void SetImage(QImage* pImage);
-    bool HasImage() const;
-    QSize GetImageSize() const;
-    QRect GetImageRect() const;
 
     void ZoomIn();
     void ZoomOut();
@@ -32,7 +29,7 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent* pEvent) override;
 
 Q_SIGNALS:
-    void imageChanged(bool);
+    void imageChanged();
     void scaleChanged();
 
 private:
@@ -40,6 +37,7 @@ private:
 
 private:
     CImageViewTransform m_trafo;
+    // todo: remove
     QImage* m_pImage;
 };
 

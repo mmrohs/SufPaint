@@ -17,12 +17,12 @@ public:
 
     // image & image informations
     QImage* GetImage();
-    QSize GetImageSize();
-    bool HasImage();
+    QSize GetImageSize() const;
+    QRect GetImageRect() const;
+    bool HasImage() const;
 
     // view & view informations
     void SetImageView(class CImageView* pImageView);
-    //qreal GetScale();
 
     // image save/load/... actions
     void NewImage();

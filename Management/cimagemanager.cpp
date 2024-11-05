@@ -39,7 +39,7 @@ QImage* CImageManager::GetImage()
     return m_pImage;
 }
 
-QSize CImageManager::GetImageSize()
+QSize CImageManager::GetImageSize() const
 {
     QSize size;
     if (m_pImage != NULL)
@@ -49,15 +49,20 @@ QSize CImageManager::GetImageSize()
     return size;
 }
 
-bool CImageManager::HasImage()
+QRect CImageManager::GetImageRect() const
+{
+    QRect rect;
+    if (m_pImage != NULL)
+    {
+        rect = m_pImage->rect();
+    }
+    return rect;
+}
+
+bool CImageManager::HasImage() const
 {
     return m_pImage != NULL;
 }
-
-/*qreal CImageManager::GetScale()
-{
-    return m_pImageView->GetScale();
-}*/
 
 void CImageManager::NewImage()
 {

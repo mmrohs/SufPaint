@@ -1,7 +1,7 @@
 #include "cimageview.h"
 #include <QPainter>
 #include <QPaintEvent>
-#include "../Management/cimagemanager.h"
+//#include "../Management/cimagemanager.h"
 #include "../Management/ctoolmanager.h"
 #include "../Tools/ctool.h"
 
@@ -16,37 +16,28 @@ void CImageView::SetImage(QImage* pImage)
 {
     m_pImage = pImage;
     m_trafo.AutoScale();
-    //emit imageChanged(m_pImage != NULL);
-}
-
-bool CImageView::HasImage() const
-{
-    return m_pImage != NULL;
-}
-
-QSize CImageView::GetImageSize() const
-{
-    return m_pImage->size();
-}
-
-QRect CImageView::GetImageRect() const
-{
-    return m_pImage->rect();
+    emit imageChanged();
 }
 
 void CImageView::ZoomIn()
 {
     m_trafo.SetNextScale();
+    emit scaleChanged();
+    update();
 }
 
 void CImageView::ZoomOut()
 {
     m_trafo.SetPrevScale();
+    emit scaleChanged();
+    update();
 }
 
 void CImageView::ResetZoom()
 {
     m_trafo.ResetScale();
+    emit scaleChanged();
+    update();
 }
 
 const CImageViewTransform* CImageView::GetTrafo() const
@@ -56,9 +47,6 @@ const CImageViewTransform* CImageView::GetTrafo() const
 
 CTool* CImageView::GetActiveTool()
 {
-    if (m_pImage == NULL)
-        return NULL;
-
     CToolManager* pToolManager = CToolManager::GetToolManager();
     if (pToolManager != NULL)
     {
@@ -87,24 +75,16 @@ CTool* CImageView::GetActiveTool()
 
 /*virtual*/ void CImageView::wheelEvent(QWheelEvent* pEvent)
 {
-    CImageManager* pImageManager = CImageManager::GetImageManager();
-    if (pImageManager != NULL)
+    int delta_y = pEvent->angleDelta().y();
+    if (delta_y > 0)
     {
-        int delta_y = pEvent->angleDelta().y();
-        if (delta_y > 0)
-        {
-            pImageManager->ZoomIn();
-        }
-        else
-        {
-            pImageManager->ZoomOut();
-        }
-        pEvent->accept();
+        ZoomIn();
     }
     else
     {
-        pEvent->ignore();
+        ZoomOut();
     }
+    pEvent->accept();
 }
 
 /*virtual*/ void CImageView::mousePressEvent(QMouseEvent* pEvent)

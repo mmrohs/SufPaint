@@ -1,6 +1,7 @@
 #include "cimageviewtransform.h"
 #include <QSize>
 #include "../Widgets/cimageview.h"
+#include "../Management/cimagemanager.h"
 
 // small gap between image and widget border
 #define GAP 10
@@ -14,7 +15,7 @@ CImageViewTransform::CImageViewTransform(class CImageView* pImageView)
 QPointF CImageViewTransform::GetImageOrigin() const
 {
     QSize wSize = m_pImageView->size();
-    QSize iSize = m_pImageView->GetImageSize();
+    QSize iSize = CImageManager::GetImageManager()->GetImageSize();
     qreal x = 0.5 * wSize.width() / m_scale - 0.5 * iSize.width();
     qreal y = 0.5 * wSize.height() / m_scale - 0.5 * iSize.height();
     return QPointF(x, y);
@@ -42,8 +43,6 @@ qreal CImageViewTransform::GetScale() const
 void CImageViewTransform::SetScale(qreal scale)
 {
     m_scale = scale;
-    //update();
-    //emit scaleChanged();
 }
 
 /* reset the scaling to 100%
@@ -76,10 +75,11 @@ void CImageViewTransform::SetPrevScale()
 void CImageViewTransform::AutoScale()
 {
     qreal factor = 1.0;
-    if (m_pImageView->HasImage())
+    CImageManager* pImageManager = CImageManager::GetImageManager();
+    if (pImageManager->HasImage())
     {
         QRect wRect = m_pImageView->rect();
-        QRect iRect = m_pImageView->GetImageRect();
+        QRect iRect = pImageManager->GetImageRect();
         if (iRect.height() > wRect.height())
         {
             factor *= wRect.height() / qreal(iRect.height() + GAP);

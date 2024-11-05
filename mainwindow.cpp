@@ -86,7 +86,7 @@ void MainWindow::AddLayout()
 void MainWindow::AddConnections()
 {
     connect(m_pImageView, &CImageView::imageChanged, m_pStatusBar, &CStatusBar::ImageUpdate);
-    connect(m_pImageView, &CImageView::imageChanged, m_pToolWidget, &CToolWidget::SetEnabled);
+    connect(m_pImageView, &CImageView::imageChanged, m_pToolWidget, &CToolWidget::ImageChanged);
     connect(m_pImageView, &CImageView::scaleChanged, m_pStatusBar, &CStatusBar::ZoomUpdate);
 
     CToolManager* pToolManager = CToolManager::GetToolManager();

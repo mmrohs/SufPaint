@@ -11,7 +11,7 @@ public:
     explicit CToolWidget(QWidget* pParent);
 
 public slots:
-    void SetEnabled(bool bEnabled);
+    void ImageChanged();
     void ToolChanged();
 
 private:

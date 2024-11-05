@@ -3,6 +3,7 @@
 #include <QToolButton>
 #include "ctoolbutton.h"
 //#include "../Management/ctoolmanager.h"
+#include "../Management/cimagemanager.h"
 
 // fixed widget width
 #define WIDTH 150
@@ -19,8 +20,9 @@ CToolWidget::CToolWidget(QWidget* pParent)
     EnableTools();
 }
 
-void CToolWidget::SetEnabled(bool bEnabled)
+void CToolWidget::ImageChanged()
 {
+    bool bEnabled = CImageManager::GetImageManager()->HasImage();
     bool bUpdate = m_bEnabled != bEnabled;
     m_bEnabled = bEnabled;
     if (bUpdate)
