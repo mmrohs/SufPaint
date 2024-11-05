@@ -7,7 +7,7 @@
 
 // management class for the currently opened image
 // (based on the singleton design pattern)
-class CImageManager : QObject
+class CImageManager : public QObject
 {
     Q_OBJECT
 protected:

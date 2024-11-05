@@ -1,22 +1,15 @@
 #include "cimageview.h"
 #include <QPainter>
 #include <QPaintEvent>
-//#include "../Management/cimagemanager.h"
+#include "../Management/cimagemanager.h"
 #include "../Management/ctoolmanager.h"
 #include "../Tools/ctool.h"
 
 
 CImageView::CImageView(QWidget* pParent)
     : QWidget(pParent),
-    m_pImage(NULL), m_trafo(this)
+    m_trafo(this)
 {
-}
-
-void CImageView::SetImage(QImage* pImage)
-{
-    m_pImage = pImage;
-    m_trafo.AutoScale();
-    emit imageChanged();
 }
 
 qreal CImageView::GetZoom() const
@@ -27,27 +20,32 @@ qreal CImageView::GetZoom() const
 void CImageView::ZoomIn()
 {
     m_trafo.SetNextScale();
-    emit scaleChanged();
+    emit ViewChanged();
     update();
 }
 
 void CImageView::ZoomOut()
 {
     m_trafo.SetPrevScale();
-    emit scaleChanged();
+    emit ViewChanged();
     update();
 }
 
 void CImageView::ResetZoom()
 {
     m_trafo.ResetScale();
-    emit scaleChanged();
+    emit ViewChanged();
     update();
 }
 
 const CImageViewTransform* CImageView::GetTrafo() const
 {
     return &m_trafo;
+}
+
+void CImageView::ImageChanged()
+{
+    update();
 }
 
 CTool* CImageView::GetActiveTool()
@@ -64,16 +62,20 @@ CTool* CImageView::GetActiveTool()
 {
     static const QBrush backgroundBrush = QBrush(QColor(120, 120, 120));
 
+    CImageManager* pImageManager = CImageManager::GetImageManager();
+    if (pImageManager == NULL)
+        return;
+
     QPainter paint;
     paint.begin(this);
     paint.setClipRect(pEvent->rect());
     paint.fillRect(pEvent->rect(), backgroundBrush);
-    if (m_pImage != NULL)
+    if (pImageManager->HasImage())
     {
+        QPointF pos = m_trafo.GetImageOrigin();
         qreal scale = m_trafo.GetScale();
-        QPointF posOrigin = m_trafo.GetImageOrigin();
         paint.scale(scale, scale);
-        paint.drawImage(posOrigin, *m_pImage);
+        paint.drawImage(pos, *pImageManager->GetImage());
     }
     paint.end();
 }

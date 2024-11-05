@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <qgraphicsscene.h>
+#include "cconnector.h"
 #include "Menu/cmenu.h"
 #include "Statusbar/cstatusbar.h"
 
@@ -29,21 +30,23 @@ private:
     void AddToolbar();
     void AddStatusBar();
     void AddLayout();
-    void AddConnections();
     void SetupManagers();
 
 private:
     Ui::MainWindow* m_pUI;
+    CConnector m_connector;
 
-    // Visible Widgets
+    // visible widgets
     class CImageView* m_pImageView;
     class CToolWidget* m_pToolWidget;
     class CColorWidget* m_pColorWidget;
     class CLayerWidget* m_pLayerWidget;
 
-    // Menu, Toolbar and StatusBar
+    // menu, toolbar and statusbar
     CMenu* m_pMenu;
     QToolBar* m_pToolBar;
     CStatusBar* m_pStatusBar;
+
+    friend class CConnector;
 };
 #endif // MAINWINDOW_H

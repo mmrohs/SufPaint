@@ -13,8 +13,6 @@ class CImageView : public QWidget
 public:
     explicit CImageView(QWidget* pParent);
 
-    void SetImage(QImage* pImage);
-
     qreal GetZoom() const;
     void ZoomIn();
     void ZoomOut();
@@ -23,8 +21,10 @@ public:
     const CImageViewTransform* GetTrafo() const;
 
 Q_SIGNALS:
-    void imageChanged();
-    void scaleChanged();
+    void ViewChanged();
+
+public slots:
+    void ImageChanged();
 
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;
@@ -38,8 +38,6 @@ private:
 
 private:
     CImageViewTransform m_trafo;
-    // todo: remove
-    QImage* m_pImage;
 };
 
 #endif // CIMAGEVIEW_H

@@ -1,19 +1,20 @@
-#ifndef ENUMFUNCTIONS_H
-#define ENUMFUNCTIONS_H
+#ifndef CCONNECTOR_H
+#define CCONNECTOR_H
 
-#include <QString>
-#include <QKeySequence>
-#include <QIcon>
-#include "Enums.h"
+#include <QObject>
 
-// Helpful functions for the enumerations in Enums.h
 
-QString GetActionName(EnumActions e);
-QKeySequence GetActionShortcut(EnumActions e);
-QIcon GetActionIcon(EnumActions e);
+/* friend class of MainWindow for the connections between widgets etc.
+*/
+class CConnector : QObject
+{
+public:
+    explicit CConnector(class MainWindow* pMainWindow);
 
-QString GetToolName(EnumTools e);
-QString GetTooltip(EnumTools e);
-QIcon GetToolIcon(EnumTools e);
+    void ConnectAll();
 
-#endif // ENUMFUNCTIONS_H
+private:
+    class MainWindow*   m_pMainWindow;
+};
+
+#endif // CCONNECTOR_H

@@ -7,7 +7,6 @@
 #include "Management/cactionmanager.h"
 #include "Management/cimagemanager.h"
 #include "Management/cimageviewmanager.h"
-#include "Management/ctoolmanager.h"
 #include "Menu/cmenu.h"
 #include "Menu/ctoolbar.h"
 #include "Widgets/cimageview.h"
@@ -17,7 +16,8 @@
 
 
 MainWindow::MainWindow(QWidget* pParent)
-    : QMainWindow(pParent), m_pUI(new Ui::MainWindow),
+    : QMainWindow(pParent),
+    m_pUI(new Ui::MainWindow), m_connector(this),
     m_pImageView(NULL), m_pToolWidget(NULL), m_pLayerWidget(NULL), m_pColorWidget(NULL),
     m_pMenu(NULL), m_pToolBar(NULL), m_pStatusBar(NULL)
 {
@@ -27,8 +27,8 @@ MainWindow::MainWindow(QWidget* pParent)
     AddToolbar();
     AddStatusBar();
     AddLayout();
-    AddConnections();
     SetupManagers();
+    m_connector.ConnectAll();
 }
 
 MainWindow::~MainWindow()
@@ -77,26 +77,6 @@ void MainWindow::AddLayout()
     hlayout->addWidget(m_pImageView);
     hlayout->addWidget(m_pLayerWidget);
     m_pUI->centralwidget->setLayout(hlayout);
-}
-
-void MainWindow::AddConnections()
-{
-    connect(m_pImageView, &CImageView::imageChanged, m_pStatusBar, &CStatusBar::ImageUpdate);
-    connect(m_pImageView, &CImageView::imageChanged, m_pToolWidget, &CToolWidget::ImageChanged);
-    connect(m_pImageView, &CImageView::scaleChanged, m_pStatusBar, &CStatusBar::ZoomUpdate);
-
-    CToolManager* pToolManager = CToolManager::GetToolManager();
-    if (pToolManager != NULL)
-    {
-        connect(pToolManager, &CToolManager::ToolChanged, m_pStatusBar, &CStatusBar::ToolUpdate);
-        connect(pToolManager, &CToolManager::ToolChanged, m_pToolWidget, &CToolWidget::ToolChanged);
-    }
-
-    QClipboard* pClipboard = QGuiApplication::clipboard();
-    if (pClipboard != NULL)
-    {
-        connect(pClipboard, &QClipboard::dataChanged, this, &MainWindow::UpdateActions);
-    }
 }
 
 void MainWindow::SetupManagers()
