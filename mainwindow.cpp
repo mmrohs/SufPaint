@@ -6,6 +6,7 @@
 #include <QClipboard>
 #include "Management/cactionmanager.h"
 #include "Management/cimagemanager.h"
+#include "Management/cimageviewmanager.h"
 #include "Management/ctoolmanager.h"
 #include "Menu/cmenu.h"
 #include "Menu/ctoolbar.h"
@@ -27,12 +28,7 @@ MainWindow::MainWindow(QWidget* pParent)
     AddStatusBar();
     AddLayout();
     AddConnections();
-
-    CImageManager* pImageManager = CImageManager::GetImageManager();
-    if (pImageManager != NULL)
-    {
-        pImageManager->SetImageView(m_pImageView);
-    }
+    SetupManagers();
 }
 
 MainWindow::~MainWindow()
@@ -100,5 +96,20 @@ void MainWindow::AddConnections()
     if (pClipboard != NULL)
     {
         connect(pClipboard, &QClipboard::dataChanged, this, &MainWindow::UpdateActions);
+    }
+}
+
+void MainWindow::SetupManagers()
+{
+    CImageManager* pImageManager = CImageManager::GetImageManager();
+    if (pImageManager != NULL)
+    {
+        pImageManager->SetParentWindow(this);
+    }
+
+    CImageViewManager* pImageViewManager = CImageViewManager::GetImageViewManager();
+    if (pImageViewManager != NULL)
+    {
+        pImageViewManager->SetImageView(m_pImageView);
     }
 }

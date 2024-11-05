@@ -19,6 +19,11 @@ void CImageView::SetImage(QImage* pImage)
     emit imageChanged();
 }
 
+qreal CImageView::GetZoom() const
+{
+    return 100.0 * m_trafo.GetScale();
+}
+
 void CImageView::ZoomIn()
 {
     m_trafo.SetNextScale();

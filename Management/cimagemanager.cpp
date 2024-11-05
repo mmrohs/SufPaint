@@ -5,18 +5,20 @@
 #include <QClipboard>
 #include <QMimeData>
 #include <QPainter>
-#include "cactionmanager.h"
-#include "../Widgets/cimageview.h"
+//#include "cactionmanager.h"
+//#include "cimageviewmanager.h"
 #include "../Dialogues/cimageresizedialog.h"
 #include "../Dialogues/ccanvasresizedialog.h"
 #include "../Dialogues/cnewimagedialog.h"
 #include "../cimageprocessor.h"
+//#include <qgraphicsscene.h>
+//#include <QGraphicsPixmapItem>
 
 
 /*static*/ CImageManager* CImageManager::m_pSingletonInstance = NULL;
 
 CImageManager::CImageManager()
-    : m_pImageView(NULL), m_pImage(NULL)
+    : m_pParent(NULL), m_pImage(NULL)
 {
 }
 
@@ -29,9 +31,9 @@ CImageManager::CImageManager()
     return m_pSingletonInstance;
 }
 
-void CImageManager::SetImageView(CImageView* pImageView)
+void CImageManager::SetParentWindow(QWidget* pParent)
 {
-    m_pImageView = pImageView;
+    m_pParent = pParent;
 }
 
 QImage* CImageManager::GetImage()
@@ -66,7 +68,7 @@ bool CImageManager::HasImage() const
 
 void CImageManager::NewImage()
 {
-    CNewImageDialog* pDialog = new CNewImageDialog(m_pImageView);
+    CNewImageDialog* pDialog = new CNewImageDialog(m_pParent);
     pDialog->exec();
     if (pDialog->result() == QDialog::Accepted)
     {
@@ -75,19 +77,19 @@ void CImageManager::NewImage()
         m_pImage = new QImage(pDialog->GetWidth(), pDialog->GetHeight(), QImage::Format_ARGB32);
         m_pImage->fill(QColor(255,255,255));
 
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
 void CImageManager::OpenImage()
 {
-    m_strFilePath = QFileDialog::getOpenFileName(m_pImageView,
+    m_strFilePath = QFileDialog::getOpenFileName(m_pParent,
                         QObject::tr("Open Image"), QObject::tr("/home"), QObject::tr("Image types (*.bmp *.jpg *.png)"));
     if (!m_strFilePath.isEmpty())
     {
         ResetImage();
         m_pImage = new QImage(m_strFilePath);
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
@@ -113,7 +115,7 @@ void CImageManager::SaveAsImage()
 {
     if (m_pImage != NULL)
     {
-        QString strFilePath = QFileDialog::getSaveFileName(m_pImageView,
+        QString strFilePath = QFileDialog::getSaveFileName(m_pParent,
                                 QObject::tr("Save Image"), QObject::tr("/home"), QObject::tr("Image types (*.bmp *.jpg *.png)"));
         if (!strFilePath.isEmpty())
         {
@@ -148,7 +150,7 @@ void CImageManager::PasteImage()
         {
             ResetImage();
             m_pImage = new QImage(pClipboard->image());
-            UpdateImageView();
+            emit ImageUpdate();
         }
         else
         {
@@ -162,27 +164,12 @@ void CImageManager::CutImage()
     // to do
 }
 
-void CImageManager::ZoomIn()
-{
-    m_pImageView->ZoomIn();
-}
-
-void CImageManager::ZoomOut()
-{
-    m_pImageView->ZoomOut();
-}
-
-void CImageManager::ResetZoom()
-{
-    m_pImageView->ResetZoom();
-}
-
 void CImageManager::Resize()
 {
     if (m_pImage != NULL)
     {
         QSize origSize(m_pImage->width(), m_pImage->height());
-        CImageResizeDialog* pDialog = new CImageResizeDialog(m_pImageView, origSize);
+        CImageResizeDialog* pDialog = new CImageResizeDialog(m_pParent, origSize);
         pDialog->exec();
         if (pDialog->result() == QDialog::Accepted)
         {
@@ -190,7 +177,7 @@ void CImageManager::Resize()
             if (newSize != origSize)
             {
                 CImageProcessor::ResizeImage(m_pImage, newSize);
-                UpdateImageView();
+                emit ImageUpdate();
             }
         }
         delete pDialog;
@@ -202,7 +189,7 @@ void CImageManager::ResizeCanvas()
     if (m_pImage != NULL)
     {
         QSize origSize(m_pImage->width(), m_pImage->height());
-        CCanvasResizeDialog* pDialog = new CCanvasResizeDialog(m_pImageView, origSize);
+        CCanvasResizeDialog* pDialog = new CCanvasResizeDialog(m_pParent, origSize);
         pDialog->exec();
         if (pDialog->result() == QDialog::Accepted)
         {
@@ -211,7 +198,7 @@ void CImageManager::ResizeCanvas()
             {
                 EnumAnchors anchor = pDialog->GetAnchor();
                 CImageProcessor::ResizeCanvas(m_pImage, newSize, anchor);
-                UpdateImageView();
+                emit ImageUpdate();
             }
         }
         delete pDialog;
@@ -223,7 +210,7 @@ void CImageManager::Rotate90C()
     if (m_pImage != NULL)
     {
         CImageProcessor::Rotate90C(m_pImage);
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
@@ -232,7 +219,7 @@ void CImageManager::Rotate90CC()
     if (m_pImage != NULL)
     {
         CImageProcessor::Rotate90CC(m_pImage);
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
@@ -241,7 +228,7 @@ void CImageManager::Rotate180()
     if (m_pImage != NULL)
     {
         CImageProcessor::Rotate180(m_pImage);
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
@@ -250,7 +237,7 @@ void CImageManager::MirrorHor()
     if (m_pImage != NULL)
     {
         CImageProcessor::MirrorHor(m_pImage);
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
@@ -259,7 +246,7 @@ void CImageManager::MirrorVer()
     if (m_pImage != NULL)
     {
         CImageProcessor::MirrorVer(m_pImage);
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
@@ -268,7 +255,7 @@ void CImageManager::InvertColors()
     if (m_pImage != NULL)
     {
         CImageProcessor::InvertColors(m_pImage);
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
@@ -277,7 +264,7 @@ void CImageManager::Grayscale()
     if (m_pImage != NULL)
     {
         CImageProcessor::Grayscale(m_pImage);
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
@@ -286,7 +273,7 @@ void CImageManager::Sepia()
     if (m_pImage != NULL)
     {
         CImageProcessor::Sepia(m_pImage);
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
@@ -314,16 +301,18 @@ void CImageManager::ResetImage()
     {
         delete m_pImage;
         m_pImage = NULL;
-        UpdateImageView();
+        emit ImageUpdate();
     }
 }
 
+/*
 void CImageManager::UpdateImageView()
 {
     // update the visible image
-    if (m_pImageView != NULL)
+    CImageViewManager::GetImageViewManager();
+    if (m_pParent != NULL)
     {
-        m_pImageView->SetImage(m_pImage);
+        m_pParent->SetImage(m_pImage);
     }
 
     // update the enabled/disabled actions
@@ -333,3 +322,4 @@ void CImageManager::UpdateImageView()
         pActionManager->CheckAllActions();
     }
 }
+*/

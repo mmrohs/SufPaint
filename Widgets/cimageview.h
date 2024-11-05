@@ -15,11 +15,16 @@ public:
 
     void SetImage(QImage* pImage);
 
+    qreal GetZoom() const;
     void ZoomIn();
     void ZoomOut();
     void ResetZoom();
 
     const CImageViewTransform* GetTrafo() const;
+
+Q_SIGNALS:
+    void imageChanged();
+    void scaleChanged();
 
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;
@@ -27,10 +32,6 @@ protected:
     virtual void mousePressEvent(QMouseEvent* pEvent) override;
     virtual void mouseReleaseEvent(QMouseEvent* pEvent) override;
     virtual void mouseMoveEvent(QMouseEvent* pEvent) override;
-
-Q_SIGNALS:
-    void imageChanged();
-    void scaleChanged();
 
 private:
     class CTool* GetActiveTool();

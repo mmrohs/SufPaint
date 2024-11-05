@@ -1,5 +1,5 @@
 #include "cstatusbarzoomlabel.h"
-#include "../Management/cimagemanager.h"
+#include "../Management/cimageviewmanager.h"
 
 
 CStatusBarZoomLabel::CStatusBarZoomLabel(QWidget* pParent)
@@ -10,11 +10,8 @@ CStatusBarZoomLabel::CStatusBarZoomLabel(QWidget* pParent)
 
 void CStatusBarZoomLabel::Update()
 {
-    CImageManager* pImageManager = CImageManager::GetImageManager();
-    if (pImageManager != NULL)
-    {
-        //SetZoom(100.0 * pImageManager->GetScale());
-    }
+    qreal zoom = CImageViewManager::GetImageViewManager()->GetZoom();
+    SetZoom(zoom);
 }
 
 void CStatusBarZoomLabel::SetZoom(qreal zoom)

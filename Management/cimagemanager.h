@@ -1,14 +1,15 @@
 #ifndef CIMAGEMANAGER_H
 #define CIMAGEMANAGER_H
 
-#include <qgraphicsscene.h>
-#include <QGraphicsPixmapItem>
+#include <QObject>
+#include <QImage>
 
 
 // management class for the currently opened image
 // (based on the singleton design pattern)
-class CImageManager
+class CImageManager : QObject
 {
+    Q_OBJECT
 protected:
     explicit CImageManager();
 
@@ -21,8 +22,8 @@ public:
     QRect GetImageRect() const;
     bool HasImage() const;
 
-    // view & view informations
-    void SetImageView(class CImageView* pImageView);
+    // set the parent window for dialogues
+    void SetParentWindow(QWidget* pParent);
 
     // image save/load/... actions
     void NewImage();
@@ -35,11 +36,6 @@ public:
     void CopyImage();
     void PasteImage();
     void CutImage();
-
-    // zoom actions
-    void ZoomIn();
-    void ZoomOut();
-    void ResetZoom();
 
     // image size actions
     void Resize();
@@ -55,14 +51,16 @@ public:
     void Grayscale();
     void Sepia();
 
+Q_SIGNALS:
+    void ImageUpdate();
+
 private:
     void TrySaveImage(QString strFilePath);
     void ResetImage();
-    void UpdateImageView();
 
 private:
     static CImageManager* m_pSingletonInstance;
-    class CImageView* m_pImageView;
+    QWidget* m_pParent;
     QString m_strFilePath;
     QImage* m_pImage;
 };

@@ -49,6 +49,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Management/cactionmanager.h Management/cactionmanager.cpp
         Management/ccolormanager.h Management/ccolormanager.cpp
         Management/cimagemanager.h Management/cimagemanager.cpp
+        Management/cimageviewmanager.cpp Management/cimageviewmanager.h
         Management/ctoolmanager.h Management/ctoolmanager.cpp
 
         #widgets

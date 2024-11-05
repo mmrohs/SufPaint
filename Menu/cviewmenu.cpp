@@ -1,12 +1,11 @@
 #include "cviewmenu.h"
-#include "../Management/cimagemanager.h"
 #include "../Management/cactionmanager.h"
+#include "../Management/cimageviewmanager.h"
+
 
 CViewMenu::CViewMenu(const QString& title, QWidget* parent)
-    : CMenuBase(title, parent), m_pImageManager(NULL)
+    : CMenuBase(title, parent)
 {
-    m_pImageManager = CImageManager::GetImageManager();
-
     AddActions();
     AddConnections();
 }
@@ -41,24 +40,15 @@ void CViewMenu::ConnectAction(EnumActions e, func&& slot)
 
 void CViewMenu::ZoomIn()
 {
-    if (m_pImageManager != NULL)
-    {
-        m_pImageManager->ZoomIn();
-    }
+    CImageViewManager::GetImageViewManager()->ZoomIn();
 }
 
 void CViewMenu::ZoomOut()
 {
-    if (m_pImageManager != NULL)
-    {
-        m_pImageManager->ZoomOut();
-    }
+    CImageViewManager::GetImageViewManager()->ZoomOut();
 }
 
 void CViewMenu::ResetZoom()
 {
-    if (m_pImageManager != NULL)
-    {
-        m_pImageManager->ResetZoom();
-    }
+    CImageViewManager::GetImageViewManager()->ResetZoom();
 }

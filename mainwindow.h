@@ -30,6 +30,7 @@ private:
     void AddStatusBar();
     void AddLayout();
     void AddConnections();
+    void SetupManagers();
 
 private:
     Ui::MainWindow* m_pUI;

@@ -19,9 +19,6 @@ private slots:
     void ZoomIn();
     void ZoomOut();
     void ResetZoom();
-
-private:
-    class CImageManager* m_pImageManager;
 };
 
 #endif // CVIEWMENU_H
