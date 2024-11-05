@@ -1,5 +1,6 @@
 #include "ctoolmanager.h"
 #include "../Tools/ccolorpickertool.h"
+#include "../EnumFunctions.h"
 
 
 /*static*/ CToolManager* CToolManager::m_pSingletonInstance = NULL;
@@ -66,9 +67,5 @@ bool CToolManager::IsActiveTool(EnumTools tool) const
 void CToolManager::CreateTool()
 {
     assert(m_pTool == NULL);
-
-    if (m_activeTool == EnumTools::ToolColorPicker)
-    {
-        m_pTool = new CColorPickerTool();
-    }
+    m_pTool = GetNewTool(m_activeTool);
 }

@@ -14,7 +14,7 @@ public:
     void ConnectAll();
 
 private:
-    class MainWindow*   m_pMainWindow;
+    class MainWindow* m_pMainWindow;
 };
 
 #endif // CCONNECTOR_H

@@ -9,9 +9,9 @@
 #include "Tools/clinestool.h"
 
 
-QString GetActionName(EnumActions e)
+QString GetActionName(EnumActions action)
 {
-    switch (e)
+    switch (action)
     {
     case ActionFileNew:             return QObject::tr("&New");
     case ActionFileOpen:            return QObject::tr("&Open");
@@ -49,9 +49,9 @@ QString GetActionName(EnumActions e)
     return "";
 }
 
-QKeySequence GetActionShortcut(EnumActions e)
+QKeySequence GetActionShortcut(EnumActions action)
 {
-    switch (e)
+    switch (action)
     {
     case ActionFileNew:             return QKeySequence::New;
     case ActionFileOpen:            return QKeySequence::Open;
@@ -88,9 +88,9 @@ QKeySequence GetActionShortcut(EnumActions e)
     }
 }
 
-QIcon GetActionIcon(EnumActions e)
+QIcon GetActionIcon(EnumActions action)
 {
-    switch (e)
+    switch (action)
     {
     case ActionFileNew:             return QIcon::fromTheme(QIcon::ThemeIcon::DocumentNew);
     case ActionFileOpen:            return QIcon::fromTheme(QIcon::ThemeIcon::DocumentOpen);
@@ -127,9 +127,7 @@ QIcon GetActionIcon(EnumActions e)
     }
 }
 
-
-// helper function for the functions below
-CTool* GetTool(EnumTools tool)
+CTool* GetNewTool(EnumTools tool)
 {
     switch (tool)
     {
@@ -146,7 +144,7 @@ CTool* GetTool(EnumTools tool)
 
 QString GetToolName(EnumTools tool)
 {
-    CTool* pTool = GetTool(tool);
+    CTool* pTool = GetNewTool(tool);
     if (pTool != NULL)
     {
         QString toolname = pTool->GetToolName();
@@ -158,7 +156,7 @@ QString GetToolName(EnumTools tool)
 
 QString GetTooltip(EnumTools tool)
 {
-    CTool* pTool = GetTool(tool);
+    CTool* pTool = GetNewTool(tool);
     if (pTool != NULL)
     {
         QString tooltip = pTool->GetTooltip();
@@ -170,7 +168,7 @@ QString GetTooltip(EnumTools tool)
 
 QIcon GetToolIcon(EnumTools tool)
 {
-    CTool* pTool = GetTool(tool);
+    CTool* pTool = GetNewTool(tool);
     if (pTool != NULL)
     {
         QIcon icon = pTool->GetToolIcon();

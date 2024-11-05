@@ -1,5 +1,6 @@
 #include "ccolorpickertool.h"
 #include "../Management/ccolormanager.h"
+#include "../Widgets/cimageview.h"
 
 
 CColorPickerTool::CColorPickerTool()
@@ -26,10 +27,15 @@ CColorPickerTool::CColorPickerTool()
 
 /*virtual*/ void CColorPickerTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-    /*QImage* pImage = GetImage();
-    if (pImage != NULL && pImage->rect().contains(pos))
+    QImage* pImage = GetImage();
+    if (pImage != NULL)
     {
-        QColor color = pImage->pixelColor(pos);
-        CColorManager::GetColorManager()->SetForegroundColor(color);
-    }*/
+        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
+        QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
+        if (pImage->rect().contains(imagePos))
+        {
+            QColor color = pImage->pixelColor(imagePos);
+            CColorManager::GetColorManager()->SetForegroundColor(color);
+        }
+    }
 }

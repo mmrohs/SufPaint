@@ -5,15 +5,18 @@
 #include <QKeySequence>
 #include <QIcon>
 #include "Enums.h"
+#include "Tools/ctool.h"
+
 
 // Helpful functions for the enumerations in Enums.h
 
-QString GetActionName(EnumActions e);
-QKeySequence GetActionShortcut(EnumActions e);
-QIcon GetActionIcon(EnumActions e);
+QString GetActionName(EnumActions action);
+QKeySequence GetActionShortcut(EnumActions action);
+QIcon GetActionIcon(EnumActions action);
 
-QString GetToolName(EnumTools e);
-QString GetTooltip(EnumTools e);
-QIcon GetToolIcon(EnumTools e);
+CTool* GetNewTool(EnumTools tool);
+QString GetToolName(EnumTools tool);
+QString GetTooltip(EnumTools tool);
+QIcon GetToolIcon(EnumTools tool);
 
 #endif // ENUMFUNCTIONS_H
