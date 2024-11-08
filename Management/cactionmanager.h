@@ -18,9 +18,11 @@ public:
 
     void AddAction(EnumActions e, QAction* pAction);
     void RemoveAction(EnumActions e);
-
     QAction* FindAction(EnumActions e);
 
+public slots:
+    // checks all actions and enables/disables
+    // them if their requirements are fulfilled
     void CheckAllActions();
 
 private:
