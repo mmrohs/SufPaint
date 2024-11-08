@@ -19,21 +19,35 @@ qreal CImageView::GetZoom() const
 
 void CImageView::ZoomIn()
 {
-    m_trafo.SetNextScale();
+    m_trafo.ZoomIn();
+    emit ViewChanged();
+    update();
+}
+
+void CImageView::ZoomIn(QPoint fixedPos)
+{
+    m_trafo.ZoomIn(fixedPos);
     emit ViewChanged();
     update();
 }
 
 void CImageView::ZoomOut()
 {
-    m_trafo.SetPrevScale();
+    m_trafo.ZoomOut();
+    emit ViewChanged();
+    update();
+}
+
+void CImageView::ZoomOut(QPoint fixedPos)
+{
+    m_trafo.ZoomOut(fixedPos);
     emit ViewChanged();
     update();
 }
 
 void CImageView::ResetZoom()
 {
-    m_trafo.ResetScale();
+    m_trafo.Reset();
     emit ViewChanged();
     update();
 }
@@ -45,6 +59,7 @@ const CImageViewTransform* CImageView::GetTrafo() const
 
 void CImageView::ImageChanged()
 {
+    m_trafo.Update();
     update();
 }
 
@@ -56,6 +71,13 @@ CTool* CImageView::GetActiveTool()
         return pToolManager->GetActiveTool();
     }
     return NULL;
+}
+
+/*virtual*/ void CImageView::resizeEvent(QResizeEvent* pEvent)
+{
+    QWidget::resizeEvent(pEvent);
+    m_trafo.Update();
+    update();
 }
 
 /*virtual*/ void CImageView::paintEvent(QPaintEvent* pEvent)
@@ -82,14 +104,15 @@ CTool* CImageView::GetActiveTool()
 
 /*virtual*/ void CImageView::wheelEvent(QWheelEvent* pEvent)
 {
+    QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
     int delta_y = pEvent->angleDelta().y();
     if (delta_y > 0)
     {
-        ZoomIn();
+        ZoomIn(widgetPos);
     }
     else
     {
-        ZoomOut();
+        ZoomOut(widgetPos);
     }
     pEvent->accept();
 }
@@ -99,8 +122,6 @@ CTool* CImageView::GetActiveTool()
     CTool* pTool = GetActiveTool();
     if (pTool != NULL)
     {
-        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
-        //QPoint imagePos = TransformWidgetPosToImagePos(widgetPos);
         pTool->ProcessMousePressEvent(pEvent, this);
         pEvent->accept();
     }
@@ -115,8 +136,6 @@ CTool* CImageView::GetActiveTool()
     CTool* pTool = GetActiveTool();
     if (pTool != NULL)
     {
-        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
-        //QPoint imagePos = TransformWidgetPosToImagePos(widgetPos);
         pTool->ProcessMouseReleaseEvent(pEvent, this);
         pEvent->accept();
     }
@@ -131,8 +150,6 @@ CTool* CImageView::GetActiveTool()
     CTool* pTool = GetActiveTool();
     if (pTool != NULL)
     {
-        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
-        //QPoint imagePos = TransformWidgetPosToImagePos(widgetPos);
         pTool->ProcessMouseMoveEvent(pEvent, this);
         pEvent->accept();
     }

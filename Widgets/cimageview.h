@@ -14,9 +14,13 @@ public:
     explicit CImageView(QWidget* pParent);
 
     qreal GetZoom() const;
+    void ResetZoom();
+    // zoom in/out without fixed image point
     void ZoomIn();
     void ZoomOut();
-    void ResetZoom();
+    // zoom in/out using a fixed image point
+    void ZoomIn(QPoint fixedPos);
+    void ZoomOut(QPoint fixedPos);
 
     const CImageViewTransform* GetTrafo() const;
 
@@ -27,6 +31,7 @@ public slots:
     void ImageChanged();
 
 protected:
+    virtual void resizeEvent(QResizeEvent* pEvent) override;
     virtual void paintEvent(QPaintEvent* pEvent) override;
     virtual void wheelEvent(QWheelEvent* pEvent) override;
     virtual void mousePressEvent(QMouseEvent* pEvent) override;
