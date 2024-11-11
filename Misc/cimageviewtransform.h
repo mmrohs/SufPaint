@@ -6,7 +6,7 @@
 #include "cscale.h"
 
 
-/* Handles the view information of CImageView
+/* Handles the view transformations of CImageView
 */
 class CImageViewTransform
 {
@@ -34,7 +34,7 @@ public:
     // update the coordinate system
     void Update();
 
-    // coordinate transformations between image and widget
+    // coordinate transformations between image and widget coordinate systems
     QPoint TransformWidgetToImage(QPoint widgetPos) const;
     QPoint TransformImageToWidget(QPoint imagePos) const;
 

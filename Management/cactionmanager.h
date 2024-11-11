@@ -22,7 +22,7 @@ public:
 
 public slots:
     // checks all actions and enables/disables
-    // them if their requirements are fulfilled
+    // them if their requirements are (not) fulfilled
     void CheckAllActions();
 
 private:

@@ -1,4 +1,6 @@
 #include "crectangleselectiontool.h"
+#include "../Management/cselectionmanager.h"
+#include "../Widgets/cimageview.h"
 
 
 CRectangleSelectionTool::CRectangleSelectionTool()
@@ -25,15 +27,40 @@ CRectangleSelectionTool::CRectangleSelectionTool()
 
 /*virtual*/ void CRectangleSelectionTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-
+    QImage* pImage = GetImage();
+    if (pImage != NULL)
+    {
+        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
+        QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
+        if (pImage->rect().contains(imagePos))
+        {
+            m_selectionRect = QRect(imagePos, QSize(1,1));
+            CSelection selection;
+            selection.SetRectangleSelection(m_selectionRect);
+            CSelectionManager::GetSelectionManager()->SetSelection(selection);
+        }
+    }
 }
 
 /*virtual*/ void CRectangleSelectionTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-
+    m_selectionRect = QRect();
+    CSelectionManager::GetSelectionManager()->ClearSelection();
 }
 
 /*virtual*/ void CRectangleSelectionTool::ProcessMouseMoveEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-
+    QImage* pImage = GetImage();
+    if (pImage != NULL)
+    {
+        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
+        QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
+        if (pImage->rect().contains(imagePos))
+        {
+            m_selectionRect |= QRect(imagePos, QSize(1,1));
+            CSelection selection;
+            selection.SetRectangleSelection(m_selectionRect);
+            CSelectionManager::GetSelectionManager()->SetSelection(selection);
+        }
+    }
 }

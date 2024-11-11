@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include "../Management/cimagemanager.h"
+#include "../Management/cselectionmanager.h"
 #include "../Management/ctoolmanager.h"
 #include "../Tools/ctool.h"
 
@@ -106,6 +107,17 @@ CTool* CImageView::GetActiveTool()
         paint.scale(scale, scale);
         paint.drawImage(pos, *pImageManager->GetImage());
     }
+
+    // draw selection if available
+    CSelectionManager* pSelectionManager = CSelectionManager::GetSelectionManager();
+    if (pSelectionManager->HasSelection())
+    {
+        const CSelection& selection = pSelectionManager->GetSelection();
+        QPen pen = QPen(QBrush(Qt::red), 2, Qt::DashLine);
+        paint.setPen(pen);
+        paint.drawRect(selection.GetRect());
+    }
+
     paint.end();
 }
 

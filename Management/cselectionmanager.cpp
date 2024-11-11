@@ -1,71 +1,45 @@
-#include "ctoolmanager.h"
-#include "../Tools/ccolorpickertool.h"
-#include "../EnumFunctions.h"
+#include "cselectionmanager.h"
 
 
-/*static*/ CToolManager* CToolManager::m_pSingletonInstance = NULL;
+/*static*/ CSelectionManager* CSelectionManager::m_pSingletonInstance = NULL;
 
-CToolManager::CToolManager()
-    : m_pTool(NULL)
+CSelectionManager::CSelectionManager()
 {
-    SetActiveTool(EnumTools::ToolNone);
 }
 
-/*static*/ CToolManager* CToolManager::GetToolManager()
+/*static*/ CSelectionManager* CSelectionManager::GetSelectionManager()
 {
     if (m_pSingletonInstance == NULL)
     {
-        m_pSingletonInstance = new CToolManager();
+        m_pSingletonInstance = new CSelectionManager();
     }
     return m_pSingletonInstance;
 }
 
-/* Returns an instance of the currently selected tool class
- * Beware: returns NULL if no tool is selected
-*/
-CTool* CToolManager::GetActiveTool()
+bool CSelectionManager::HasSelection() const
 {
-    if (m_pTool == NULL)
-    {
-        CreateTool();
-    }
-    return m_pTool;
+    return m_selection.IsValid();
 }
 
-QString CToolManager::GetActiveToolName()
+const CSelection& CSelectionManager::GetSelection()
 {
-    CTool* pTool = GetActiveTool();
-    if (pTool != NULL)
-    {
-        return pTool->GetToolName();
-    }
-    return "";
+    return m_selection;
 }
 
-EnumTools CToolManager::GetActiveToolEnum() const
+void CSelectionManager::SetSelection(const CSelection& selection)
 {
-    return m_activeTool;
+    m_selection = selection;
+    emit SelectionChanged();
 }
 
-void CToolManager::SetActiveTool(EnumTools tool)
+void CSelectionManager::ResizeSelection(QRect rect)
 {
-    bool bToolChange = m_activeTool != tool;
-    m_activeTool = tool;
-    if (bToolChange)
-    {
-        delete m_pTool;
-        m_pTool = NULL;
-        emit ToolChanged();
-    }
+    m_selection.Resize(rect);
+    emit SelectionChanged();
 }
 
-bool CToolManager::IsActiveTool(EnumTools tool) const
+void CSelectionManager::ClearSelection()
 {
-    return m_activeTool == tool;
-}
-
-void CToolManager::CreateTool()
-{
-    assert(m_pTool == NULL);
-    m_pTool = GetNewTool(m_activeTool);
+    m_selection.Clear();
+    emit SelectionChanged();
 }

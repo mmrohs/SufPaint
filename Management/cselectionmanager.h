@@ -1,41 +1,34 @@
-#ifndef CTOOLMANAGER_H
-#define CTOOLMANAGER_H
+#ifndef CSELECTIONMANAGER_H
+#define CSELECTIONMANAGER_H
 
 #include <QObject>
-#include "../Enums.h"
-#include "../Tools/ctool.h"
+#include "../Misc/cselection.h"
 
 
-// Management class for the selected tool
+// Management class for selections of image data
 // (based on the singleton design pattern)
-class CToolManager : public QObject
+class CSelectionManager : public QObject
 {
     Q_OBJECT
 protected:
-    explicit CToolManager();
+    explicit CSelectionManager();
 
 public:
-    static CToolManager* GetToolManager();
+    static CSelectionManager* GetSelectionManager();
 
-    CTool* GetActiveTool();
-    QString GetActiveToolName();
-    EnumTools GetActiveToolEnum() const;
+    bool HasSelection() const;
+    const CSelection& GetSelection();
 
-    void SetActiveTool(EnumTools tool);
-    bool IsActiveTool(EnumTools tool) const;
+    void SetSelection(const CSelection& selection);
+    void ResizeSelection(QRect rect);
+    void ClearSelection();
 
 Q_SIGNALS:
-    void ToolChanged();
+    void SelectionChanged();
 
 private:
-    void CreateTool();
-
-private:
-    static CToolManager* m_pSingletonInstance;
-
-    // currently active tool
-    CTool*    m_pTool;
-    EnumTools m_activeTool;
+    static CSelectionManager* m_pSingletonInstance;
+    CSelection m_selection;
 };
 
-#endif // CTOOLMANAGER_H
+#endif // CSELECTIONMANAGER_H

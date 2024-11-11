@@ -5,6 +5,7 @@
 #include "Widgets/ctoolwidget.h"
 #include "Management/cactionmanager.h"
 #include "Management/cimagemanager.h"
+#include "Management/cselectionmanager.h"
 #include "Management/ctoolmanager.h"
 
 
@@ -32,6 +33,9 @@ void CConnector::ConnectAll()
     CToolManager* pToolManager = CToolManager::GetToolManager();
     connect(pToolManager, &CToolManager::ToolChanged, pStatusBar, &CStatusBar::ToolUpdate);
     connect(pToolManager, &CToolManager::ToolChanged, pToolWidget, &CToolWidget::ToolChanged);
+
+    CSelectionManager* pSelectionManager = CSelectionManager::GetSelectionManager();
+    connect(pSelectionManager, &CSelectionManager::SelectionChanged, pImageView, &CImageView::ImageChanged);
 
     QClipboard* pClipboard = QGuiApplication::clipboard();
     if (pClipboard != NULL)

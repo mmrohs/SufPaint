@@ -174,8 +174,6 @@ QString CNewImageDialog::GetTemplateText(EnumTemplate e) const
     }
 }
 
-#include <qpen>
-
 /*virtual*/ void CNewImageDialog::paintEvent(QPaintEvent* pEvent)
 {
     QDialog::paintEvent(pEvent);

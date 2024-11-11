@@ -51,6 +51,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Management/cimagemanager.h Management/cimagemanager.cpp
         Management/cimageviewmanager.cpp Management/cimageviewmanager.h
         Management/ctoolmanager.h Management/ctoolmanager.cpp
+        Management/cselectionmanager.cpp Management/cselectionmanager.h
 
         #widgets
         Widgets/ccolorwidget.cpp Widgets/ccolorwidget.h
@@ -78,9 +79,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Tools/cgradienttool.cpp Tools/cgradienttool.h
         Tools/clinestool.cpp Tools/clinestool.h
 
-        #image processing
-        cimageprocessor.h cimageprocessor.cpp
-
         #icons
         Icons/Brush.png Icons/Pencil.png Icons/Pipette.png
 
@@ -89,8 +87,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Misc/debugtools.h Misc/debugtools.cpp
         Misc/cselection.cpp Misc/cselection.h
         Misc/cimageviewtransform.h Misc/cimageviewtransform.cpp
-        cconnector.cpp cconnector.h
         Misc/cscale.h Misc/cscale.cpp
+
+        #everything else
+        cimageprocessor.h cimageprocessor.cpp
+        cconnector.cpp cconnector.h
+
 
     )
 # Define target properties for Android with Qt 6 as:
