@@ -30,24 +30,28 @@ qreal CScale::GetScaleDivByOldScale() const
     return m_scale / m_oldScale;
 }
 
-void CScale::SwitchToNextScale()
+bool CScale::SwitchToNextScale()
 {
     qreal oldScale = GetScale();
     qreal newScale = FindNextPrevScale(oldScale, true);
     if (newScale != oldScale)
     {
         SetScale(newScale);
+        return true;
     }
+    return false;
 }
 
-void CScale::SwitchToPrevScale()
+bool CScale::SwitchToPrevScale()
 {
     qreal oldScale = GetScale();
     qreal newScale = FindNextPrevScale(oldScale, false);
     if (newScale != oldScale)
     {
         SetScale(newScale);
+        return true;
     }
+    return false;
 }
 
 /* reset the scaling to 100%

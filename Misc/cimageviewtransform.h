@@ -13,7 +13,7 @@ class CImageViewTransform
 public:
     explicit CImageViewTransform(class CImageView*);
 
-    // zoom in/out with image center as fixed point
+    // zoom in/out with widget center as fixed point
     void ZoomIn();
     void ZoomOut();
 
@@ -21,17 +21,18 @@ public:
     void ZoomIn(QPoint fixedPoint);
     void ZoomOut(QPoint fixedPoint);
 
-    // Update the coordinate system
-    void Update();
-
     // returns the top-left coordinate of the image
     QPoint GetImageOrigin() const;
+    QPoint GetImageOriginScaled() const;
 
-    // image scaling
+    // returns the image scaling factor
     qreal GetScale() const;
 
-    // reset to autoscale
+    // reset to original view
     void Reset();
+
+    // update the coordinate system
+    void Update();
 
     // coordinate transformations between image and widget
     QPoint TransformWidgetToImage(QPoint widgetPos) const;
@@ -41,37 +42,35 @@ private:
     // calculates the image origin
     void CalcImageOrigin();
 
-    // calculates the fixed point for central zooming
-    void CalcFixedPoint();
-
     // set the fixed point for zooming
     void SetFixedPoint(QPoint fixedPoint);
 
     // return the image size
     QSize GetImageSize() const;
+    QSize GetImageSizeScaled() const;
 
-    // offset related functions
-    void CalcImageOffset();
-    void CalcImageOffset(QPoint fixedPoint);
+    // return the widget center coordinate
+    QPoint GetWidgetCenter() const;
 
-    // Check if the given point is inside the image rect
-    QPoint CheckPointInImage(QPoint pos);
+    // returns the vector from 'm_fixedPoint' to 'm_imageOrigin'
+    QPoint GetImageOffset();
+
+    // Check if the given position is inside the image rect
+    // if it's not, then it gets moved into the image
+    QPoint CheckPositionInImage(QPoint pos);
 
 private:
     class CImageView* m_pImageView;
 
-    // Position of the top-left corner of the image in widget coordinate system
+    // top-left corner of the image in the widget coordinate system
     QPoint m_imageOrigin;
-
-    // scaling / zoom factor [0.1 - 10.0]
-    CScale m_scale;
 
     // fixed coordinate for zoom operations
     // (= widget center for zoom via menu, otherwise mouse position)
     QPoint m_fixedPoint;
 
-    // Vector from fixed point to image origin
-    QPoint m_offset;
+    // scaling / zoom factor [0.1 - 10.0]
+    CScale m_scale;
 };
 
 #endif // CIMAGEVIEWTRANSFORM_H

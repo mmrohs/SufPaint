@@ -19,8 +19,8 @@ public:
 
     void AutoScale(QRect imageRect, QRect widgetRect);
     void ResetScale();
-    void SwitchToNextScale();
-    void SwitchToPrevScale();
+    bool SwitchToNextScale();
+    bool SwitchToPrevScale();
 
 private:
     qreal FindNextPrevScale(qreal oldScale, bool bNext) const;

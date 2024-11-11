@@ -22,6 +22,8 @@ public:
     void ZoomIn(QPoint fixedPos);
     void ZoomOut(QPoint fixedPos);
 
+    QPoint GetCenter() const;
+
     const CImageViewTransform* GetTrafo() const;
 
 Q_SIGNALS:

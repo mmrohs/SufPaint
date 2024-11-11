@@ -52,6 +52,13 @@ void CImageView::ResetZoom()
     update();
 }
 
+QPoint CImageView::GetCenter() const
+{
+    qreal x = 0.5 * size().width();
+    qreal y = 0.5 * size().height();
+    return QPoint(x, y);
+}
+
 const CImageViewTransform* CImageView::GetTrafo() const
 {
     return &m_trafo;
@@ -94,7 +101,7 @@ CTool* CImageView::GetActiveTool()
     paint.fillRect(pEvent->rect(), backgroundBrush);
     if (pImageManager->HasImage())
     {
-        QPointF pos = m_trafo.GetImageOrigin();
+        QPointF pos = m_trafo.GetImageOriginScaled();
         qreal scale = m_trafo.GetScale();
         paint.scale(scale, scale);
         paint.drawImage(pos, *pImageManager->GetImage());
