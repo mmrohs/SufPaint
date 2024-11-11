@@ -3,6 +3,7 @@
 
 #include <QPoint>
 #include <qsize.h>
+#include "cscale.h"
 
 
 /* Handles the view information of CImageView
@@ -37,14 +38,6 @@ public:
     QPoint TransformImageToWidget(QPoint imagePos) const;
 
 private:
-    // scaling related functions
-    void AutoScale();
-    void ResetScale();
-    void SetScale(qreal scale);
-    void SwitchToNextScale();
-    void SwitchToPrevScale();
-    qreal FindNextPrevScale(qreal oldScale, bool bNext) const;
-
     // calculates the image origin
     void CalcImageOrigin();
 
@@ -54,6 +47,7 @@ private:
     // set the fixed point for zooming
     void SetFixedPoint(QPoint fixedPoint);
 
+    // return the image size
     QSize GetImageSize() const;
 
     // offset related functions
@@ -70,8 +64,7 @@ private:
     QPoint m_imageOrigin;
 
     // scaling / zoom factor [0.1 - 10.0]
-    qreal m_scale;
-    qreal m_oldScale;
+    CScale m_scale;
 
     // fixed coordinate for zoom operations
     // (= widget center for zoom via menu, otherwise mouse position)

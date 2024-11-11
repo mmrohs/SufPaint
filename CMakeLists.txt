@@ -90,6 +90,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Misc/cselection.cpp Misc/cselection.h
         Misc/cimageviewtransform.h Misc/cimageviewtransform.cpp
         cconnector.cpp cconnector.h
+        Misc/cscale.h Misc/cscale.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

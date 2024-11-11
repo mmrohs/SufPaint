@@ -3,19 +3,16 @@
 #include "../Widgets/cimageview.h"
 #include "../Management/cimagemanager.h"
 
-// small gap between image and widget border
-#define GAP 10
-
 
 CImageViewTransform::CImageViewTransform(class CImageView* pImageView)
-    : m_pImageView(pImageView), m_scale(1.0), m_oldScale(1.0)
+    : m_pImageView(pImageView)
 {
     Update();
 }
 
 void CImageViewTransform::ZoomIn()
 {
-    SwitchToNextScale();
+    m_scale.SwitchToNextScale();
     CalcImageOffset();
     CalcFixedPoint();
     CalcImageOrigin();
@@ -23,7 +20,7 @@ void CImageViewTransform::ZoomIn()
 
 void CImageViewTransform::ZoomOut()
 {
-    SwitchToPrevScale();
+    m_scale.SwitchToPrevScale();
     CalcImageOffset();
     CalcFixedPoint();
     CalcImageOrigin();
@@ -33,7 +30,7 @@ void CImageViewTransform::ZoomIn(QPoint fixedPoint)
 {
     QPoint pos = CheckPointInImage(fixedPoint);
     CalcImageOffset(pos);
-    SwitchToNextScale();
+    m_scale.SwitchToNextScale();
     SetFixedPoint(pos);
     CalcImageOrigin();
 }
@@ -42,7 +39,7 @@ void CImageViewTransform::ZoomOut(QPoint fixedPoint)
 {
     QPoint pos = CheckPointInImage(fixedPoint);
     CalcImageOffset(pos);
-    SwitchToPrevScale();
+    m_scale.SwitchToPrevScale();
     SetFixedPoint(pos);
     CalcImageOrigin();
 }
@@ -56,13 +53,14 @@ void CImageViewTransform::Update()
 
 QPoint CImageViewTransform::GetImageOrigin() const
 {
-    return m_imageOrigin / m_scale;
+    return m_imageOrigin / GetScale();
 }
 
 void CImageViewTransform::CalcImageOrigin()
 {
-    qreal x = m_fixedPoint.x() + (m_scale / m_oldScale) * m_offset.x();
-    qreal y = m_fixedPoint.y() + (m_scale / m_oldScale) * m_offset.y();
+    qreal scaleDivByOldScale = m_scale.GetScaleDivByOldScale();
+    qreal x = m_fixedPoint.x() + scaleDivByOldScale * m_offset.x();
+    qreal y = m_fixedPoint.y() + scaleDivByOldScale * m_offset.y();
     m_imageOrigin = QPoint(x, y);
 }
 
@@ -87,8 +85,12 @@ void CImageViewTransform::CalcImageOffset()
 
 void CImageViewTransform::CalcImageOffset(QPoint fixedPoint)
 {
-    m_oldScale = GetScale();
     m_offset = m_imageOrigin - fixedPoint;
+}
+
+qreal CImageViewTransform::GetScale() const
+{
+    return m_scale.GetScale();
 }
 
 QSize CImageViewTransform::GetImageSize() const
@@ -119,113 +121,22 @@ QPoint CImageViewTransform::CheckPointInImage(QPoint pos)
 QPoint CImageViewTransform::TransformWidgetToImage(QPoint widgetPos) const
 {
     QPointF pointF(widgetPos);
-    pointF = (pointF - m_scale * GetImageOrigin()) / m_scale;
+    pointF = (pointF / m_scale.GetScale()) - GetImageOrigin();
     return QPoint(pointF.x(), pointF.y());
 }
 
 QPoint CImageViewTransform::TransformImageToWidget(QPoint imagePos) const
 {
     QPointF pointF(imagePos);
-    pointF = pointF * m_scale + m_scale * GetImageOrigin();
+    pointF = m_scale.GetScale() * (pointF + GetImageOrigin());
     return QPoint(pointF.x(), pointF.y());
-}
-
-qreal CImageViewTransform::GetScale() const
-{
-    return m_scale;
-}
-
-void CImageViewTransform::SetScale(qreal scale)
-{
-    m_scale = scale;
-}
-
-/* scales the image to ideally fit the widget size + a little gap
-*/
-void CImageViewTransform::AutoScale()
-{
-    qreal factor = 1.0;
-    CImageManager* pImageManager = CImageManager::GetImageManager();
-    if (pImageManager->HasImage())
-    {
-        QRect wRect = m_pImageView->rect();
-        QRect iRect = pImageManager->GetImageRect();
-        if (iRect.height() > wRect.height())
-        {
-            factor *= wRect.height() / qreal(iRect.height() + GAP);
-        }
-        if (factor * iRect.width() > wRect.width())
-        {
-            factor *= wRect.width() / qreal(factor * iRect.width() + GAP);
-        }
-    }
-    SetScale(factor);
-}
-
-void CImageViewTransform::SwitchToNextScale()
-{
-    qreal oldScale = GetScale();
-    qreal newScale = FindNextPrevScale(oldScale, true);
-    if (newScale != oldScale)
-    {
-        SetScale(newScale);
-    }
-}
-
-void CImageViewTransform::SwitchToPrevScale()
-{
-    qreal oldScale = GetScale();
-    qreal newScale = FindNextPrevScale(oldScale, false);
-    if (newScale != oldScale)
-    {
-        SetScale(newScale);
-    }
-}
-
-/* reset the scaling to 100%
-*/
-void CImageViewTransform::ResetScale()
-{
-    SetScale(1.0);
-    m_oldScale = 1.0;
 }
 
 void CImageViewTransform::Reset()
 {
-    ResetScale();
+    m_scale.ResetScale();
     CalcImageOffset();
     CalcFixedPoint();
     CalcImageOrigin();
 }
 
-qreal CImageViewTransform::FindNextPrevScale(qreal oldScale, bool bNext) const
-{
-    // possible scale values (resulting zoom: 10% to 1000%)
-    static const std::vector<qreal> vecScales =
-        { 0.1, 0.17, 0.25, 0.5, 0.66, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0 };
-
-    for (int i = 0; i < vecScales.size(); i++)
-    {
-        qreal scale_i = vecScales[i];
-        qreal scale_p = (i > 0) ? vecScales[i - 1] : scale_i;
-        qreal scale_n = (i + 1 < vecScales.size()) ? vecScales[i + 1] : scale_i;
-
-        if (abs(scale_i - oldScale) < 1E-10) // exact match
-        {
-            return bNext ? scale_n : scale_p;
-        }
-        else if (bNext && scale_i < oldScale && oldScale < scale_n)
-        {
-            return scale_n;
-        }
-        else if (!bNext && scale_p < oldScale && oldScale < scale_i)
-        {
-            return scale_p;
-        }
-        else if (oldScale < scale_p)
-        {
-            return scale_p;
-        }
-    }
-    return oldScale;
-}
