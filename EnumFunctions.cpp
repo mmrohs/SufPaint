@@ -2,6 +2,7 @@
 #include <QObject>
 #include "Tools/ccolorpickertool.h"
 #include "Tools/crectangleselectiontool.h"
+#include "Tools/cellipseselectiontool.h"
 #include "Tools/cbrushtool.h"
 #include "Tools/cpenciltool.h"
 #include "Tools/cbuckettool.h"
@@ -131,14 +132,15 @@ CTool* GetNewTool(EnumTools tool)
 {
     switch (tool)
     {
-    case ToolRectSelect:  return new CRectangleSelectionTool();
-    case ToolColorPicker: return new CColorPickerTool();
-    case ToolBrush:       return new CBrushTool();
-    case ToolPencil:      return new CPencilTool();
-    case ToolBucket:      return new CBucketTool();
-    case ToolGradient:    return new CGradientTool();
-    case ToolLine:        return new CLinesTool();
-    default:              return NULL;
+    case ToolRectSelect:    return new CRectangleSelectionTool();
+    case ToolEllipseSelect: return new CEllipseSelectionTool();
+    case ToolColorPicker:   return new CColorPickerTool();
+    case ToolBrush:         return new CBrushTool();
+    case ToolPencil:        return new CPencilTool();
+    case ToolBucket:        return new CBucketTool();
+    case ToolGradient:      return new CGradientTool();
+    case ToolLine:          return new CLinesTool();
+    default:                return NULL;
     }
 }
 

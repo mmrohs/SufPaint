@@ -2,6 +2,7 @@
 #define CIMAGEVIEWMANAGER_H
 
 #include <qtypes.h>
+#include <QPoint>
 
 
 // management class for the image view
@@ -18,12 +19,17 @@ public:
     void SetImageView(class CImageView* pImageView);
 
     // view information
-    qreal GetZoom();
+    qreal GetScale() const;
+    qreal GetZoom() const;
 
     // view actions
     void ZoomIn();
     void ZoomOut();
     void ResetZoom();
+
+    // coordinate transformations
+    QPoint GetImagePos(QPoint widgetPos, bool bCheckPosition) const;
+    QPoint GetWidgetPos(QPoint imagePos) const;
 
 private:
     static CImageViewManager* m_pSingletonInstance;

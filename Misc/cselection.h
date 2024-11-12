@@ -25,6 +25,10 @@ public:
 protected:
     QPen GetDefaultPen() const;
 
+    // coordinate transformations
+    QPoint GetImagePos(QPoint widgetPos) const;
+    QPoint GetWidgetPos(QPoint imagePos) const;
+
 protected:
     SelectionType m_type;
 };

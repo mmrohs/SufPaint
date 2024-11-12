@@ -23,7 +23,7 @@ CLinesTool::CLinesTool()
     return icon;
 }
 
-/*virtual*/ void CLinesTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CLinesTool::ProcessMousePressEvent(QMouseEvent* pEvent)
 {
 
 }

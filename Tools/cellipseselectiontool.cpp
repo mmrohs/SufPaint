@@ -1,58 +1,55 @@
-#include "crectangleselectiontool.h"
+#include "cellipseselectiontool.h"
 #include "../Management/cselectionmanager.h"
-#include "../Widgets/cimageview.h"
 
 
-CRectangleSelectionTool::CRectangleSelectionTool()
-    : CTool(EnumTools::ToolRectSelect)
+CEllipseSelectionTool::CEllipseSelectionTool()
+    : CTool(EnumTools::ToolEllipseSelect)
 {
 }
 
-/*virtual*/ QString CRectangleSelectionTool::GetToolName()
+/*virtual*/ QString CEllipseSelectionTool::GetToolName()
 {
-    return "Rectangle Select";
+    return "Ellipse Select";
 }
 
-/*virtual*/ QString CRectangleSelectionTool::GetTooltip()
+/*virtual*/ QString CEllipseSelectionTool::GetTooltip()
 {
-    return "Select a rectangular area";
+    return "Select an elliptic area";
 }
 
-/*virtual*/ QIcon CRectangleSelectionTool::GetToolIcon()
+/*virtual*/ QIcon CEllipseSelectionTool::GetToolIcon()
 {
-    QIcon icon("Icons/RectSelection.png");
-    icon.addFile("Icons/RectSelection_Disabled.png", QSize(), QIcon::Mode::Disabled);
+    QIcon icon("Icons/EllipseSelection.png");
+    icon.addFile("Icons/EllipseSelection_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
 }
 
-/*virtual*/ void CRectangleSelectionTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CEllipseSelectionTool::ProcessMousePressEvent(QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL)
     {
-        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
-        QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
+        QPoint imagePos = GetImagePos(pEvent, true);
         if (pImage->rect().contains(imagePos))
         {
-            CRectangleSelection* pSelection = new CRectangleSelection();
+            CEllipticSelection* pSelection = new CEllipticSelection();
             pSelection->AddCoordinate(imagePos);
             CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
         }
     }
 }
 
-/*virtual*/ void CRectangleSelectionTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CEllipseSelectionTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent)
 {
     CSelectionManager::GetSelectionManager()->ClearSelection();
 }
 
-/*virtual*/ void CRectangleSelectionTool::ProcessMouseMoveEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CEllipseSelectionTool::ProcessMouseMoveEvent(QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL)
     {
-        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
-        QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
+        QPoint imagePos = GetImagePos(pEvent, true);
         if (pImage->rect().contains(imagePos))
         {
             CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();

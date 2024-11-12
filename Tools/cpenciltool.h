@@ -13,7 +13,7 @@ public:
     virtual QString GetTooltip() override;
     virtual QIcon   GetToolIcon() override;
 
-    virtual void ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView) override;
+    virtual void ProcessMousePressEvent(QMouseEvent* pEvent) override;
 };
 
 #endif // CPENCILTOOL_H

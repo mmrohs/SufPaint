@@ -59,6 +59,7 @@ enum EnumTools : int
     ToolNone = 0,               // no tool selected (default)
 
     ToolRectSelect,             // select a rectangular area
+    ToolEllipseSelect,          // select an elliptic area
     ToolColorPicker,            // color picker / color pipette
     ToolBrush,                  // drawing with a brush
     ToolPencil,                 // drawing with a pencil

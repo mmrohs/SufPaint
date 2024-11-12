@@ -25,16 +25,15 @@ CColorPickerTool::CColorPickerTool()
     return icon;
 }
 
-/*virtual*/ void CColorPickerTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CColorPickerTool::ProcessMousePressEvent(QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL)
     {
-        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
-        QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
-        if (pImage->rect().contains(imagePos))
+        QPoint imgPos = GetImagePos(pEvent, false);
+        if (pImage->rect().contains(imgPos))
         {
-            QColor color = pImage->pixelColor(imagePos);
+            QColor color = pImage->pixelColor(imgPos);
             CColorManager::GetColorManager()->SetForegroundColor(color);
         }
     }

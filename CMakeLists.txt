@@ -92,6 +92,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         #everything else
         cimageprocessor.h cimageprocessor.cpp
         cconnector.cpp cconnector.h
+        Tools/cellipseselectiontool.cpp Tools/cellipseselectiontool.h
 
 
     )

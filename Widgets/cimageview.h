@@ -13,6 +13,7 @@ class CImageView : public QWidget
 public:
     explicit CImageView(QWidget* pParent);
 
+    qreal GetScale() const;
     qreal GetZoom() const;
     void ResetZoom();
     // zoom in/out without fixed image point
@@ -24,7 +25,7 @@ public:
 
     QPoint GetCenter() const;
 
-    const CImageViewTransform* GetTrafo() const;
+    const CImageViewTransform* GetTransformation() const;
 
 Q_SIGNALS:
     void ViewChanged();
@@ -42,6 +43,8 @@ protected:
 
 private:
     class CTool* GetActiveTool();
+
+    QBrush GetBackgroundBrush() const;
 
 private:
     CImageViewTransform m_trafo;

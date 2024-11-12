@@ -1,5 +1,6 @@
 #include "cselection.h"
 #include <QPainter>
+#include "../Management/CImageViewManager.h"
 
 
 // ########## CSelection ##########
@@ -22,6 +23,16 @@ QPen CSelection::GetDefaultPen() const
 {
     static const QPen PEN = QPen(QBrush(Qt::red), 2, Qt::DashLine);
     return PEN;
+}
+
+QPoint CSelection::GetImagePos(QPoint widgetPos) const
+{
+    return CImageViewManager::GetImageViewManager()->GetImagePos(widgetPos, true);
+}
+
+QPoint CSelection::GetWidgetPos(QPoint imagePos) const
+{
+    return CImageViewManager::GetImageViewManager()->GetWidgetPos(imagePos);
 }
 
 
@@ -49,8 +60,9 @@ CRectangleSelection::CRectangleSelection()
 
 /*virtual*/ void CRectangleSelection::Paint(class QPainter& paint) const
 {
+    QRect rect(GetWidgetPos(m_rect.topLeft()), GetWidgetPos(m_rect.bottomRight()));
     paint.setPen(GetDefaultPen());
-    paint.drawRect(m_rect);
+    paint.drawRect(rect);
 }
 
 
@@ -78,6 +90,7 @@ CEllipticSelection::CEllipticSelection()
 
 /*virtual*/ void CEllipticSelection::Paint(class QPainter& paint) const
 {
+    QRect rect(GetWidgetPos(m_rect.topLeft()), GetWidgetPos(m_rect.bottomRight()));
     paint.setPen(GetDefaultPen());
-    paint.drawEllipse(m_rect);
+    paint.drawEllipse(rect);
 }

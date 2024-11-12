@@ -25,13 +25,12 @@ CRectangleSelectionTool::CRectangleSelectionTool()
     return icon;
 }
 
-/*virtual*/ void CRectangleSelectionTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CRectangleSelectionTool::ProcessMousePressEvent(QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL)
     {
-        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
-        QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
+        QPoint imagePos = GetImagePos(pEvent, true);
         if (pImage->rect().contains(imagePos))
         {
             CRectangleSelection* pSelection = new CRectangleSelection();
@@ -41,18 +40,17 @@ CRectangleSelectionTool::CRectangleSelectionTool()
     }
 }
 
-/*virtual*/ void CRectangleSelectionTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CRectangleSelectionTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent)
 {
     CSelectionManager::GetSelectionManager()->ClearSelection();
 }
 
-/*virtual*/ void CRectangleSelectionTool::ProcessMouseMoveEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CRectangleSelectionTool::ProcessMouseMoveEvent(QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL)
     {
-        QPoint widgetPos (pEvent->position().x(), pEvent->position().y());
-        QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
+        QPoint imagePos = GetImagePos(pEvent, true);
         if (pImage->rect().contains(imagePos))
         {
             CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();

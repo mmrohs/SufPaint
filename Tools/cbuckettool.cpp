@@ -23,7 +23,7 @@ CBucketTool::CBucketTool()
     return icon;
 }
 
-/*virtual*/ void CBucketTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CBucketTool::ProcessMousePressEvent(QMouseEvent* pEvent)
 {
 
 }

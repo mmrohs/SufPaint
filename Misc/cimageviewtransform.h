@@ -38,6 +38,10 @@ public:
     QPoint TransformWidgetToImage(QPoint widgetPos) const;
     QPoint TransformImageToWidget(QPoint imagePos) const;
 
+    // Check if the given position is inside the image rect
+    // if not then it gets moved into the image
+    QPoint CheckPositionInImage(QPoint pos) const;
+
 private:
     // calculates the image origin
     void CalcImageOrigin();
@@ -54,10 +58,6 @@ private:
 
     // returns the vector from 'm_fixedPoint' to 'm_imageOrigin'
     QPoint GetImageOffset();
-
-    // Check if the given position is inside the image rect
-    // if it's not, then it gets moved into the image
-    QPoint CheckPositionInImage(QPoint pos);
 
 private:
     class CImageView* m_pImageView;

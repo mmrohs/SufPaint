@@ -13,6 +13,11 @@ CImageView::CImageView(QWidget* pParent)
 {
 }
 
+qreal CImageView::GetScale() const
+{
+    return m_trafo.GetScale();
+}
+
 qreal CImageView::GetZoom() const
 {
     return 100.0 * m_trafo.GetScale();
@@ -60,7 +65,7 @@ QPoint CImageView::GetCenter() const
     return QPoint(x, y);
 }
 
-const CImageViewTransform* CImageView::GetTrafo() const
+const CImageViewTransform* CImageView::GetTransformation() const
 {
     return &m_trafo;
 }
@@ -81,6 +86,12 @@ CTool* CImageView::GetActiveTool()
     return NULL;
 }
 
+QBrush CImageView::GetBackgroundBrush() const
+{
+    static const QBrush backgroundBrush = QBrush(QColor(120, 120, 120));
+    return backgroundBrush;
+}
+
 /*virtual*/ void CImageView::resizeEvent(QResizeEvent* pEvent)
 {
     QWidget::resizeEvent(pEvent);
@@ -90,12 +101,10 @@ CTool* CImageView::GetActiveTool()
 
 /*virtual*/ void CImageView::paintEvent(QPaintEvent* pEvent)
 {
-    static const QBrush backgroundBrush = QBrush(QColor(120, 120, 120));
-
     QPainter paint;
     paint.begin(this);
     paint.setClipRect(pEvent->rect());
-    paint.fillRect(pEvent->rect(), backgroundBrush);
+    paint.fillRect(pEvent->rect(), GetBackgroundBrush());
 
     // draw image if available
     CImageManager* pImageManager = CImageManager::GetImageManager();
@@ -136,9 +145,9 @@ CTool* CImageView::GetActiveTool()
 /*virtual*/ void CImageView::mousePressEvent(QMouseEvent* pEvent)
 {
     CTool* pTool = GetActiveTool();
-    if (pTool != NULL)
+    if (pTool != NULL && pEvent->button() == Qt::LeftButton)
     {
-        pTool->ProcessMousePressEvent(pEvent, this);
+        pTool->ProcessMousePressEvent(pEvent);
         pEvent->accept();
     }
     else
@@ -150,9 +159,9 @@ CTool* CImageView::GetActiveTool()
 /*virtual*/ void CImageView::mouseReleaseEvent(QMouseEvent* pEvent)
 {
     CTool* pTool = GetActiveTool();
-    if (pTool != NULL)
+    if (pTool != NULL && pEvent->button() == Qt::LeftButton)
     {
-        pTool->ProcessMouseReleaseEvent(pEvent, this);
+        pTool->ProcessMouseReleaseEvent(pEvent);
         pEvent->accept();
     }
     else
@@ -166,7 +175,7 @@ CTool* CImageView::GetActiveTool()
     CTool* pTool = GetActiveTool();
     if (pTool != NULL)
     {
-        pTool->ProcessMouseMoveEvent(pEvent, this);
+        pTool->ProcessMouseMoveEvent(pEvent);
         pEvent->accept();
     }
     else

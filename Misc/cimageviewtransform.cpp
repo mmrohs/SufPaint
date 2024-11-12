@@ -88,7 +88,7 @@ QPoint CImageViewTransform::GetWidgetCenter() const
     return m_pImageView->GetCenter();
 }
 
-QPoint CImageViewTransform::CheckPositionInImage(QPoint pos)
+QPoint CImageViewTransform::CheckPositionInImage(QPoint pos) const
 {
     int x = pos.x();
     int y = pos.y();

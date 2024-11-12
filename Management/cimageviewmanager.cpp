@@ -1,5 +1,6 @@
 #include "CImageViewManager.h"
 #include "../Widgets/cimageview.h"
+#include "../Misc/cimageviewtransform.h"
 
 
 /*static*/ CImageViewManager* CImageViewManager::m_pSingletonInstance = NULL;
@@ -23,13 +24,22 @@ void CImageViewManager::SetImageView(CImageView* pImageView)
     m_pImageView = pImageView;
 }
 
-qreal CImageViewManager::GetZoom()
+qreal CImageViewManager::GetScale() const
+{
+    if (m_pImageView != NULL)
+    {
+        return m_pImageView->GetScale();
+    }
+    return 1.0;
+}
+
+qreal CImageViewManager::GetZoom() const
 {
     if (m_pImageView != NULL)
     {
         return m_pImageView->GetZoom();
     }
-    return 0.0;
+    return 100.0;
 }
 
 void CImageViewManager::ZoomIn()
@@ -54,4 +64,30 @@ void CImageViewManager::ResetZoom()
     {
         m_pImageView->ResetZoom();
     }
+}
+
+QPoint CImageViewManager::GetImagePos(QPoint widgetPos, bool bCheckPosition) const
+{
+    QPoint imgPos;
+    const CImageViewTransform* pViewTransform = m_pImageView->GetTransformation();
+    if (pViewTransform != NULL)
+    {
+        imgPos = pViewTransform->TransformWidgetToImage(widgetPos);
+        if (bCheckPosition)
+        {
+            imgPos = pViewTransform->CheckPositionInImage(imgPos);
+        }
+    }
+    return imgPos;
+}
+
+QPoint CImageViewManager::GetWidgetPos(QPoint imagePos) const
+{
+    QPoint wdgPos;
+    const CImageViewTransform* pViewTransform = m_pImageView->GetTransformation();
+    if (pViewTransform != NULL)
+    {
+        wdgPos = pViewTransform->TransformImageToWidget(imagePos);
+    }
+    return wdgPos;
 }

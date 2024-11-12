@@ -23,7 +23,7 @@ CBrushTool::CBrushTool()
     return icon;
 }
 
-/*virtual*/ void CBrushTool::ProcessMousePressEvent(QMouseEvent* pEvent, CImageView* pView)
+/*virtual*/ void CBrushTool::ProcessMousePressEvent(QMouseEvent* pEvent)
 {
 
 }
