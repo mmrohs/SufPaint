@@ -1,14 +1,16 @@
 #include "cselection.h"
+#include <QPainter>
 
-CSelection::CSelection()
-    : m_type(SelectionType::NONE)
+
+// ########## CSelection ##########
+
+CSelection::CSelection(SelectionType type)
+    : m_type(type)
 {
 }
 
-void CSelection::Clear()
+/*virtual*/ CSelection::~CSelection()
 {
-    m_type = SelectionType::NONE;
-    m_rect = QRect();
 }
 
 bool CSelection::IsValid() const
@@ -16,31 +18,66 @@ bool CSelection::IsValid() const
     return m_type != SelectionType::NONE;
 }
 
-QRect CSelection::GetRect() const
+QPen CSelection::GetDefaultPen() const
+{
+    static const QPen PEN = QPen(QBrush(Qt::red), 2, Qt::DashLine);
+    return PEN;
+}
+
+
+
+// ########## CRectangleSelection ##########
+
+CRectangleSelection::CRectangleSelection()
+    : CSelection(SelectionType::RECTANGLE)
+{
+}
+
+/*virtual*/ void CRectangleSelection::AddCoordinate(QPoint pos)
+{
+    if (m_startingPoint.isNull())
+    {
+        m_startingPoint = pos;
+    }
+    m_rect = QRect(m_startingPoint, pos);
+}
+
+/*virtual*/ QRect CRectangleSelection::GetBoundingRect() const
 {
     return m_rect;
 }
 
-void CSelection::SetRectangleSelection(QRect rect)
+/*virtual*/ void CRectangleSelection::Paint(class QPainter& paint) const
 {
-    m_type = SelectionType::RECTANGLE;
-    m_rect = rect;
+    paint.setPen(GetDefaultPen());
+    paint.drawRect(m_rect);
 }
 
-void CSelection::SetEllipticSelection(QRect rect)
+
+
+// ########## CEllipticSelection ##########
+
+CEllipticSelection::CEllipticSelection()
+    : CSelection(SelectionType::ELLIPSE)
 {
-    m_type = SelectionType::ELLIPSE;
-    m_rect = rect;
 }
 
-void CSelection::SetCustomSelection()
+/*virtual*/ void CEllipticSelection::AddCoordinate(QPoint pos)
 {
-    m_type = SelectionType::CUSTOM;
-    // to do
+    if (m_startingPoint.isNull())
+    {
+        m_startingPoint = pos;
+    }
+    m_rect = QRect(m_startingPoint, pos);
 }
 
-void CSelection::Resize(QRect rect)
+/*virtual*/ QRect CEllipticSelection::GetBoundingRect() const
 {
-    m_rect = rect;
+    return m_rect;
 }
 
+/*virtual*/ void CEllipticSelection::Paint(class QPainter& paint) const
+{
+    paint.setPen(GetDefaultPen());
+    paint.drawEllipse(m_rect);
+}

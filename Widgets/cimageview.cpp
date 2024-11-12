@@ -92,14 +92,13 @@ CTool* CImageView::GetActiveTool()
 {
     static const QBrush backgroundBrush = QBrush(QColor(120, 120, 120));
 
-    CImageManager* pImageManager = CImageManager::GetImageManager();
-    if (pImageManager == NULL)
-        return;
-
     QPainter paint;
     paint.begin(this);
     paint.setClipRect(pEvent->rect());
     paint.fillRect(pEvent->rect(), backgroundBrush);
+
+    // draw image if available
+    CImageManager* pImageManager = CImageManager::GetImageManager();
     if (pImageManager->HasImage())
     {
         QPointF pos = m_trafo.GetImageOriginScaled();
@@ -112,10 +111,8 @@ CTool* CImageView::GetActiveTool()
     CSelectionManager* pSelectionManager = CSelectionManager::GetSelectionManager();
     if (pSelectionManager->HasSelection())
     {
-        const CSelection& selection = pSelectionManager->GetSelection();
-        QPen pen = QPen(QBrush(Qt::red), 2, Qt::DashLine);
-        paint.setPen(pen);
-        paint.drawRect(selection.GetRect());
+        CSelection* pSelection = pSelectionManager->GetSelection();
+        pSelection->Paint(paint);
     }
 
     paint.end();

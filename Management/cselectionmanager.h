@@ -17,10 +17,9 @@ public:
     static CSelectionManager* GetSelectionManager();
 
     bool HasSelection() const;
-    const CSelection& GetSelection();
+    CSelection* GetSelection();
 
-    void SetSelection(const CSelection& selection);
-    void ResizeSelection(QRect rect);
+    void SetSelection(CSelection* pSelection);
     void ClearSelection();
 
 Q_SIGNALS:
@@ -28,7 +27,7 @@ Q_SIGNALS:
 
 private:
     static CSelectionManager* m_pSingletonInstance;
-    CSelection m_selection;
+    CSelection* m_pSelection;
 };
 
 #endif // CSELECTIONMANAGER_H

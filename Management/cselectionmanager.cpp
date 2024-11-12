@@ -4,6 +4,7 @@
 /*static*/ CSelectionManager* CSelectionManager::m_pSingletonInstance = NULL;
 
 CSelectionManager::CSelectionManager()
+    : m_pSelection(NULL)
 {
 }
 
@@ -18,28 +19,34 @@ CSelectionManager::CSelectionManager()
 
 bool CSelectionManager::HasSelection() const
 {
-    return m_selection.IsValid();
+    return m_pSelection != NULL && m_pSelection->IsValid();
 }
 
-const CSelection& CSelectionManager::GetSelection()
+CSelection* CSelectionManager::GetSelection()
 {
-    return m_selection;
+    if (HasSelection())
+    {
+        return m_pSelection;
+    }
+    return NULL;
 }
 
-void CSelectionManager::SetSelection(const CSelection& selection)
+void CSelectionManager::SetSelection(CSelection* pSelection)
 {
-    m_selection = selection;
-    emit SelectionChanged();
-}
-
-void CSelectionManager::ResizeSelection(QRect rect)
-{
-    m_selection.Resize(rect);
+    if (m_pSelection != pSelection)
+    {
+        delete m_pSelection;
+    }
+    m_pSelection = pSelection;
     emit SelectionChanged();
 }
 
 void CSelectionManager::ClearSelection()
 {
-    m_selection.Clear();
+    if (m_pSelection != NULL)
+    {
+        delete m_pSelection;
+        m_pSelection = NULL;
+    }
     emit SelectionChanged();
 }

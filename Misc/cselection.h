@@ -2,29 +2,65 @@
 #define CSELECTION_H
 
 #include <QRect>
+#include <QPen>
 
 
-/* class describes a user defined selection of the image
+/* abstract base class for user defined selections inside the image
 */
 class CSelection
 {
+protected:
     enum SelectionType { NONE, RECTANGLE, ELLIPSE, CUSTOM };
+
 public:
-    explicit CSelection();
+    CSelection(SelectionType);
+    virtual ~CSelection();
 
     bool IsValid() const;
-    QRect GetRect() const;
 
-    void SetRectangleSelection(QRect rect);
-    void SetEllipticSelection(QRect rect);
-    void SetCustomSelection();
+    virtual void AddCoordinate(QPoint) = 0;
+    virtual QRect GetBoundingRect() const = 0;
+    virtual void Paint(class QPainter&) const = 0;
 
-    void Resize(QRect rect);
+protected:
+    QPen GetDefaultPen() const;
 
-    void Clear();
-private:
+protected:
     SelectionType m_type;
+};
+
+
+/* Derived class: Rectangle Selection
+*/
+class CRectangleSelection : public CSelection
+{
+public:
+    explicit CRectangleSelection();
+
+    virtual void AddCoordinate(QPoint) override;
+    virtual QRect GetBoundingRect() const override;
+    virtual void Paint(class QPainter&) const override;
+
+private:
+    QRect  m_rect;
+    QPoint m_startingPoint;
+};
+
+
+/* Derived class: Elliptic Selection
+*/
+class CEllipticSelection : public CSelection
+{
+public:
+    explicit CEllipticSelection();
+
+    virtual void AddCoordinate(QPoint) override;
+    virtual QRect GetBoundingRect() const override;
+    virtual void Paint(class QPainter&) const override;
+
+private:
     QRect m_rect;
+    QPoint m_startingPoint;
 };
 
 #endif // CSELECTION_H

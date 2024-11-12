@@ -34,17 +34,15 @@ CRectangleSelectionTool::CRectangleSelectionTool()
         QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
         if (pImage->rect().contains(imagePos))
         {
-            m_selectionRect = QRect(imagePos, QSize(1,1));
-            CSelection selection;
-            selection.SetRectangleSelection(m_selectionRect);
-            CSelectionManager::GetSelectionManager()->SetSelection(selection);
+            CRectangleSelection* pSelection = new CRectangleSelection();
+            pSelection->AddCoordinate(imagePos);
+            CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
         }
     }
 }
 
 /*virtual*/ void CRectangleSelectionTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent, CImageView* pView)
 {
-    m_selectionRect = QRect();
     CSelectionManager::GetSelectionManager()->ClearSelection();
 }
 
@@ -57,10 +55,10 @@ CRectangleSelectionTool::CRectangleSelectionTool()
         QPoint imagePos = pView->GetTrafo()->TransformWidgetToImage(widgetPos);
         if (pImage->rect().contains(imagePos))
         {
-            m_selectionRect |= QRect(imagePos, QSize(1,1));
-            CSelection selection;
-            selection.SetRectangleSelection(m_selectionRect);
-            CSelectionManager::GetSelectionManager()->SetSelection(selection);
+            CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
+            if (pSelection != NULL)
+                pSelection->AddCoordinate(imagePos);
+            CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
         }
     }
 }
