@@ -40,7 +40,7 @@ public:
 
     // Check if the given position is inside the image rect
     // if not then it gets moved into the image
-    QPoint CheckPositionInImage(QPoint pos) const;
+    QPoint CheckPositionInImage(QPoint widgetPos) const;
 
 private:
     // calculates the image origin

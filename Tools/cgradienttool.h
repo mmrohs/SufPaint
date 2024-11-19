@@ -13,7 +13,7 @@ public:
     virtual QString GetTooltip() override;
     virtual QIcon   GetToolIcon() override;
 
-    virtual void ProcessMousePressEvent(QMouseEvent* pEvent) override;
+    virtual void ProcessMouseLPressEvent(QMouseEvent* pEvent) override;
 };
 
 #endif // CGRADIENTTOOL_H

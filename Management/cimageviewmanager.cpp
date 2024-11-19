@@ -66,28 +66,34 @@ void CImageViewManager::ResetZoom()
     }
 }
 
-QPoint CImageViewManager::GetImagePos(QPoint widgetPos, bool bCheckPosition) const
+QPoint CImageViewManager::GetImagePos(QPoint widgetPos) const
 {
-    QPoint imgPos;
+    QPoint imagePos;
     const CImageViewTransform* pViewTransform = m_pImageView->GetTransformation();
     if (pViewTransform != NULL)
     {
-        imgPos = pViewTransform->TransformWidgetToImage(widgetPos);
-        if (bCheckPosition)
-        {
-            imgPos = pViewTransform->CheckPositionInImage(imgPos);
-        }
+        imagePos = pViewTransform->TransformWidgetToImage(widgetPos);
     }
-    return imgPos;
+    return imagePos;
 }
 
 QPoint CImageViewManager::GetWidgetPos(QPoint imagePos) const
 {
-    QPoint wdgPos;
+    QPoint widgetPos;
     const CImageViewTransform* pViewTransform = m_pImageView->GetTransformation();
     if (pViewTransform != NULL)
     {
-        wdgPos = pViewTransform->TransformImageToWidget(imagePos);
+        widgetPos = pViewTransform->TransformImageToWidget(imagePos);
     }
-    return wdgPos;
+    return widgetPos;
+}
+
+QPoint CImageViewManager::CheckPositionInImage(QPoint widgetPos) const
+{
+    const CImageViewTransform* pViewTransform = m_pImageView->GetTransformation();
+    if (pViewTransform != NULL)
+    {
+        widgetPos = pViewTransform->CheckPositionInImage(widgetPos);
+    }
+    return widgetPos;
 }

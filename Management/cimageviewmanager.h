@@ -27,9 +27,13 @@ public:
     void ZoomOut();
     void ResetZoom();
 
-    // coordinate transformations
-    QPoint GetImagePos(QPoint widgetPos, bool bCheckPosition) const;
+    // coordinate transformations between image and widget systems
+    QPoint GetImagePos(QPoint widgetPos) const;
     QPoint GetWidgetPos(QPoint imagePos) const;
+
+    // Check if the given position is inside the image rect
+    // if not then it gets moved into the image
+    QPoint CheckPositionInImage(QPoint widgetPos) const;
 
 private:
     static CImageViewManager* m_pSingletonInstance;

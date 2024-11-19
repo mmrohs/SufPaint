@@ -23,7 +23,7 @@ CPencilTool::CPencilTool()
     return icon;
 }
 
-/*virtual*/ void CPencilTool::ProcessMousePressEvent(QMouseEvent* pEvent)
+/*virtual*/ void CPencilTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)
 {
 
 }

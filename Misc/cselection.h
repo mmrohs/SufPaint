@@ -24,6 +24,7 @@ public:
 
 protected:
     QPen GetDefaultPen() const;
+    QBrush GetDefaultBrush() const;
 
     // coordinate transformations
     QPoint GetImagePos(QPoint widgetPos) const;
@@ -48,6 +49,7 @@ public:
 private:
     QRect  m_rect;
     QPoint m_startingPoint;
+    bool   m_bSetStartingPoint;
 };
 
 
@@ -65,6 +67,7 @@ public:
 private:
     QRect m_rect;
     QPoint m_startingPoint;
+    bool   m_bSetStartingPoint;
 };
 
 #endif // CSELECTION_H

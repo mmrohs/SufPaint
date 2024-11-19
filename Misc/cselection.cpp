@@ -1,5 +1,6 @@
 #include "cselection.h"
 #include <QPainter>
+#include <QPainterPath>
 #include "../Management/CImageViewManager.h"
 
 
@@ -21,13 +22,22 @@ bool CSelection::IsValid() const
 
 QPen CSelection::GetDefaultPen() const
 {
-    static const QPen PEN = QPen(QBrush(Qt::red), 2, Qt::DashLine);
+    static const QPen PEN = QPen(QBrush(QColor(50,50,255,255)), 1, Qt::DashLine);
     return PEN;
+}
+
+QBrush CSelection::GetDefaultBrush() const
+{
+    static const QBrush BRUSH = QBrush(QColor(200,200,255,80));
+    return BRUSH;
 }
 
 QPoint CSelection::GetImagePos(QPoint widgetPos) const
 {
-    return CImageViewManager::GetImageViewManager()->GetImagePos(widgetPos, true);
+    CImageViewManager* pViewManager = CImageViewManager::GetImageViewManager();
+    QPoint imagePos = pViewManager->GetImagePos(widgetPos);
+    imagePos = pViewManager->CheckPositionInImage(imagePos);
+    return imagePos;
 }
 
 QPoint CSelection::GetWidgetPos(QPoint imagePos) const
@@ -40,15 +50,16 @@ QPoint CSelection::GetWidgetPos(QPoint imagePos) const
 // ########## CRectangleSelection ##########
 
 CRectangleSelection::CRectangleSelection()
-    : CSelection(SelectionType::RECTANGLE)
+    : CSelection(SelectionType::RECTANGLE), m_bSetStartingPoint(true)
 {
 }
 
 /*virtual*/ void CRectangleSelection::AddCoordinate(QPoint pos)
 {
-    if (m_startingPoint.isNull())
+    if (m_bSetStartingPoint)
     {
         m_startingPoint = pos;
+        m_bSetStartingPoint = false;
     }
     m_rect = QRect(m_startingPoint, pos);
 }
@@ -60,7 +71,10 @@ CRectangleSelection::CRectangleSelection()
 
 /*virtual*/ void CRectangleSelection::Paint(class QPainter& paint) const
 {
-    QRect rect(GetWidgetPos(m_rect.topLeft()), GetWidgetPos(m_rect.bottomRight()));
+    QPoint posTopLeft = GetWidgetPos(m_rect.topLeft());
+    QPoint posBottomRight = GetWidgetPos(m_rect.bottomRight());
+    QRect rect(posTopLeft, posBottomRight);
+    paint.fillRect(rect, GetDefaultBrush());
     paint.setPen(GetDefaultPen());
     paint.drawRect(rect);
 }
@@ -70,15 +84,16 @@ CRectangleSelection::CRectangleSelection()
 // ########## CEllipticSelection ##########
 
 CEllipticSelection::CEllipticSelection()
-    : CSelection(SelectionType::ELLIPSE)
+    : CSelection(SelectionType::ELLIPSE), m_bSetStartingPoint(true)
 {
 }
 
 /*virtual*/ void CEllipticSelection::AddCoordinate(QPoint pos)
 {
-    if (m_startingPoint.isNull())
+    if (m_bSetStartingPoint)
     {
         m_startingPoint = pos;
+        m_bSetStartingPoint = false;
     }
     m_rect = QRect(m_startingPoint, pos);
 }
@@ -90,7 +105,12 @@ CEllipticSelection::CEllipticSelection()
 
 /*virtual*/ void CEllipticSelection::Paint(class QPainter& paint) const
 {
-    QRect rect(GetWidgetPos(m_rect.topLeft()), GetWidgetPos(m_rect.bottomRight()));
+    QPoint posTopLeft = GetWidgetPos(m_rect.topLeft());
+    QPoint posBottomRight = GetWidgetPos(m_rect.bottomRight());
+    QRect rect(posTopLeft, posBottomRight);
+    QPainterPath path;
+    path.addEllipse(rect);
+    paint.fillPath(path, GetDefaultBrush());
     paint.setPen(GetDefaultPen());
     paint.drawEllipse(rect);
 }

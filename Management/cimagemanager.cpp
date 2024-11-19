@@ -5,14 +5,11 @@
 #include <QClipboard>
 #include <QMimeData>
 #include <QPainter>
-//#include "cactionmanager.h"
-//#include "cimageviewmanager.h"
+#include "cselectionmanager.h"
 #include "../Dialogues/cimageresizedialog.h"
 #include "../Dialogues/ccanvasresizedialog.h"
 #include "../Dialogues/cnewimagedialog.h"
 #include "../cimageprocessor.h"
-//#include <qgraphicsscene.h>
-//#include <QGraphicsPixmapItem>
 
 
 /*static*/ CImageManager* CImageManager::m_pSingletonInstance = NULL;
@@ -73,10 +70,8 @@ void CImageManager::NewImage()
     if (pDialog->result() == QDialog::Accepted)
     {
         ResetImage();
-
         m_pImage = new QImage(pDialog->GetWidth(), pDialog->GetHeight(), QImage::Format_ARGB32);
         m_pImage->fill(QColor(255,255,255));
-
         emit ImageUpdate();
     }
 }
@@ -97,6 +92,7 @@ void CImageManager::CloseImage()
 {
     ResetImage();
     m_strFilePath = QString();
+    emit ImageUpdate();
 }
 
 void CImageManager::SaveImage()
@@ -301,25 +297,7 @@ void CImageManager::ResetImage()
     {
         delete m_pImage;
         m_pImage = NULL;
+        CSelectionManager::GetSelectionManager()->ClearSelection();
         emit ImageUpdate();
     }
 }
-
-/*
-void CImageManager::UpdateImageView()
-{
-    // update the visible image
-    CImageViewManager::GetImageViewManager();
-    if (m_pParent != NULL)
-    {
-        m_pParent->SetImage(m_pImage);
-    }
-
-    // update the enabled/disabled actions
-    CActionManager* pActionManager = CActionManager::GetActionManager();
-    if (pActionManager != NULL)
-    {
-        pActionManager->CheckAllActions();
-    }
-}
-*/

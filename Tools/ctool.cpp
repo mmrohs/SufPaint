@@ -17,29 +17,68 @@ EnumTools CTool::GetToolEnum() const
     return m_eTool;
 }
 
-/*virtual*/ void CTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent)
+void CTool::ProcessMousePressEvent(QMouseEvent* pEvent)
 {
-    // add implementation in derived class if necessary
+    if (pEvent->button() == Qt::LeftButton)
+    {
+        ProcessMouseLPressEvent(pEvent);
+    }
+    else if (pEvent->button() == Qt::RightButton)
+    {
+        ProcessMouseRPressEvent(pEvent);
+    }
 }
 
-/*virtual*/ void CTool::ProcessMouseMoveEvent(QMouseEvent* pEvent)
+void CTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent)
 {
-    // add implementation in derived class if necessary
+    if (pEvent->button() == Qt::LeftButton)
+    {
+        ProcessMouseLReleaseEvent(pEvent);
+    }
+    else if (pEvent->button() == Qt::RightButton)
+    {
+        ProcessMouseRReleaseEvent(pEvent);
+    }
+}
+
+void CTool::ProcessMouseMoveEvent(QMouseEvent* pEvent)
+{
+    // Beware: button() always returns Qt::NoButton for MouseMove-Events
+    ProcessMouseLMoveEvent(pEvent);
 }
 
 QImage* CTool::GetImage() const
 {
-    CImageManager* pImageManager = CImageManager::GetImageManager();
-    if (pImageManager != NULL)
-    {
-        return pImageManager->GetImage();
-    }
-    return NULL;
+    return CImageManager::GetImageManager()->GetImage();
 }
 
-QPoint CTool::GetImagePos(QMouseEvent* pEvent, bool bCheckPosition)
+QPoint CTool::GetImagePos(QPoint widgetPos) const
 {
-    QPointF posF = pEvent->position();
-    QPoint widgetPos (posF.x(), posF.y());
-    return CImageViewManager::GetImageViewManager()->GetImagePos(widgetPos, bCheckPosition);
+    return CImageViewManager::GetImageViewManager()->GetImagePos(widgetPos);
+}
+
+QPoint CTool::GetImagePos(QMouseEvent* pEvent, bool bCheck) const
+{
+    QPoint wdgPos = pEvent->pos();
+    wdgPos = CheckPositionInImageRect(wdgPos);
+    return GetImagePos(wdgPos);
+}
+
+QPoint CTool::CheckPositionInImageRect(QPoint widgetPos) const
+{
+    return CImageViewManager::GetImageViewManager()->CheckPositionInImage(widgetPos);
+}
+
+QPoint CTool::GetMouseCoordinateFromEvent(QMouseEvent* pEvent) const
+{
+    QImage* pImage = GetImage();
+    if (pImage != NULL)
+    {
+        QPoint imgPos = GetImagePos(pEvent, true);
+        if (pImage->rect().contains(imgPos))
+        {
+            return imgPos;
+        }
+    }
+    return QPoint(-1,-1);
 }

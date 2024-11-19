@@ -24,38 +24,35 @@ CEllipseSelectionTool::CEllipseSelectionTool()
     return icon;
 }
 
-/*virtual*/ void CEllipseSelectionTool::ProcessMousePressEvent(QMouseEvent* pEvent)
+/*virtual*/ void CEllipseSelectionTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)
 {
-    QImage* pImage = GetImage();
-    if (pImage != NULL)
-    {
-        QPoint imagePos = GetImagePos(pEvent, true);
-        if (pImage->rect().contains(imagePos))
-        {
-            CEllipticSelection* pSelection = new CEllipticSelection();
-            pSelection->AddCoordinate(imagePos);
-            CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
-        }
-    }
+    QPoint imgPos = GetMouseCoordinateFromEvent(pEvent);
+    if (imgPos == QPoint(-1,-1))
+        return;
+
+    CEllipticSelection* pSelection = new CEllipticSelection();
+    pSelection->AddCoordinate(imgPos);
+    CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
 }
 
-/*virtual*/ void CEllipseSelectionTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent)
+/*virtual*/ void CEllipseSelectionTool::ProcessMouseLReleaseEvent(QMouseEvent* pEvent)
+{
+    ProcessMouseLMoveEvent(pEvent);
+}
+
+/*virtual*/ void CEllipseSelectionTool::ProcessMouseLMoveEvent(QMouseEvent* pEvent)
+{
+    QPoint imgPos = GetMouseCoordinateFromEvent(pEvent);
+    if (imgPos == QPoint(-1,-1))
+        return;
+
+    CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
+    if (pSelection != NULL)
+        pSelection->AddCoordinate(imgPos);
+    CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
+}
+
+void CEllipseSelectionTool::ProcessMouseRPressEvent(QMouseEvent* pEvent)
 {
     CSelectionManager::GetSelectionManager()->ClearSelection();
-}
-
-/*virtual*/ void CEllipseSelectionTool::ProcessMouseMoveEvent(QMouseEvent* pEvent)
-{
-    QImage* pImage = GetImage();
-    if (pImage != NULL)
-    {
-        QPoint imagePos = GetImagePos(pEvent, true);
-        if (pImage->rect().contains(imagePos))
-        {
-            CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
-            if (pSelection != NULL)
-                pSelection->AddCoordinate(imagePos);
-            CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
-        }
-    }
 }

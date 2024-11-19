@@ -4,6 +4,8 @@
 #include "ctool.h"
 
 
+/* Tool for selecting rectangular areas inside the image
+*/
 class CRectangleSelectionTool : public CTool
 {
 public:
@@ -13,9 +15,14 @@ public:
     virtual QString GetTooltip() override;
     virtual QIcon   GetToolIcon() override;
 
-    virtual void ProcessMousePressEvent(QMouseEvent* pEvent) override;
-    virtual void ProcessMouseReleaseEvent(QMouseEvent* pEvent) override;
-    virtual void ProcessMouseMoveEvent(QMouseEvent* pEvent) override;
+protected:
+    // events for the left mouse button
+    virtual void ProcessMouseLPressEvent(QMouseEvent* pEvent) override;
+    virtual void ProcessMouseLReleaseEvent(QMouseEvent* pEvent) override;
+    virtual void ProcessMouseLMoveEvent(QMouseEvent* pEvent) override;
+
+    // events for the right mouse button
+    virtual void ProcessMouseRPressEvent(QMouseEvent* pEvent) override;
 };
 
 #endif // CRECTANGLESELECTIONTOOL_H

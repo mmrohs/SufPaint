@@ -23,7 +23,7 @@ CGradientTool::CGradientTool()
     return icon;
 }
 
-/*virtual*/ void CGradientTool::ProcessMousePressEvent(QMouseEvent* pEvent)
+/*virtual*/ void CGradientTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)
 {
 
 }

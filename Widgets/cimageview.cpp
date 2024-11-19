@@ -145,7 +145,7 @@ QBrush CImageView::GetBackgroundBrush() const
 /*virtual*/ void CImageView::mousePressEvent(QMouseEvent* pEvent)
 {
     CTool* pTool = GetActiveTool();
-    if (pTool != NULL && pEvent->button() == Qt::LeftButton)
+    if (pTool != NULL)
     {
         pTool->ProcessMousePressEvent(pEvent);
         pEvent->accept();
@@ -159,7 +159,7 @@ QBrush CImageView::GetBackgroundBrush() const
 /*virtual*/ void CImageView::mouseReleaseEvent(QMouseEvent* pEvent)
 {
     CTool* pTool = GetActiveTool();
-    if (pTool != NULL && pEvent->button() == Qt::LeftButton)
+    if (pTool != NULL)
     {
         pTool->ProcessMouseReleaseEvent(pEvent);
         pEvent->accept();

@@ -24,14 +24,18 @@ void CImageViewTransform::ZoomIn(QPoint fixedPoint)
 {
     SetFixedPoint(fixedPoint);
     if (m_scale.SwitchToNextScale())
+    {
         CalcImageOrigin();
+    }
 }
 
 void CImageViewTransform::ZoomOut(QPoint fixedPoint)
 {
     SetFixedPoint(fixedPoint);
     if (m_scale.SwitchToPrevScale())
+    {
         CalcImageOrigin();
+    }
 }
 
 void CImageViewTransform::CalcImageOrigin()
@@ -53,7 +57,10 @@ QPoint CImageViewTransform::GetImageOffset()
     if (m_imageOrigin.isNull())
     {
         QSize imgSize = GetImageSize();
-        m_imageOrigin = m_fixedPoint - 0.5 * QPoint(imgSize.width(), imgSize.height());
+        if (imgSize.isValid())
+        {
+            m_imageOrigin = m_fixedPoint - 0.5 * QPoint(imgSize.width(), imgSize.height());
+        }
     }
     return m_imageOrigin - m_fixedPoint;
 }
@@ -88,22 +95,25 @@ QPoint CImageViewTransform::GetWidgetCenter() const
     return m_pImageView->GetCenter();
 }
 
-QPoint CImageViewTransform::CheckPositionInImage(QPoint pos) const
+QPoint CImageViewTransform::CheckPositionInImage(QPoint widgetPos) const
 {
-    int x = pos.x();
-    int y = pos.y();
+    // valid image size necessary
+    QSize imgSize = GetImageSizeScaled();
+    if (!imgSize.isValid())
+        return widgetPos;
 
     // position has to be inside the image, so move it if necessary
     QPointF posImgOrig = GetImageOrigin();
-    QSize imgSize = GetImageSizeScaled();
+    int x = widgetPos.x();
+    int y = widgetPos.y();
     if (x < posImgOrig.x())
         x = posImgOrig.x();
-    if (x > posImgOrig.x() + imgSize.width())
-        x = posImgOrig.x() + imgSize.width();
+    if (x > posImgOrig.x() + imgSize.width() - 1)
+        x = posImgOrig.x() + imgSize.width() - 1;
     if (y < posImgOrig.y())
         y = posImgOrig.y();
-    if (y > posImgOrig.y() + imgSize.height())
-        y = posImgOrig.y() + imgSize.height();
+    if (y > posImgOrig.y() + imgSize.height() - 1)
+        y = posImgOrig.y() + imgSize.height() - 1;
 
     return QPoint(x, y);
 }

@@ -6,9 +6,10 @@
 #include <QMouseEvent>
 #include "../Enums.h"
 
-class CImageView;
+//class CImageView;
 
-// Abstract base class for all tools
+/* Abstract base class for all tools
+*/
 class CTool
 {
 public:
@@ -17,20 +18,43 @@ public:
 
     EnumTools GetToolEnum() const;
 
+    // events for any mouse button
+    void ProcessMousePressEvent(QMouseEvent* pEvent);
+    void ProcessMouseReleaseEvent(QMouseEvent* pEvent);
+    void ProcessMouseMoveEvent(QMouseEvent* pEvent);
+
+    // tool properties
+    // (reimplement these in derived classes!)
     virtual QString GetToolName() = 0;
     virtual QString GetTooltip() = 0;
     virtual QIcon   GetToolIcon() = 0;
 
-    virtual void ProcessMousePressEvent(QMouseEvent* pEvent) = 0;
-    virtual void ProcessMouseReleaseEvent(QMouseEvent* pEvent);
-    virtual void ProcessMouseMoveEvent(QMouseEvent* pEvent);
-
 protected:
+    // events for left mouse button
+    // (reimplement these in derived classes if necessary)
+    virtual void ProcessMouseLPressEvent(QMouseEvent* pEvent) {};
+    virtual void ProcessMouseLReleaseEvent(QMouseEvent* pEvent) {};
+    virtual void ProcessMouseLMoveEvent(QMouseEvent* pEvent) {};
+
+    // events for right mouse button
+    // (reimplement these in derived classes if necessary)
+    virtual void ProcessMouseRPressEvent(QMouseEvent* pEvent) {};
+    virtual void ProcessMouseRReleaseEvent(QMouseEvent* pEvent) {};
+
+    // returns the image pointer or NULL if no image loaded
     QImage* GetImage() const;
 
-    // determines the mouse position in the image coordinate system
-    // the second parameter controls whether positions outside the image get corrected into the image
-    QPoint GetImagePos(QMouseEvent* pEvent, bool bCheckPosition);
+    // returns the mouse position in the image coordinate system
+    QPoint GetImagePos(QPoint widgetPos) const;
+    QPoint GetImagePos(QMouseEvent* pEvent, bool bCheck) const;
+
+    // check if the given position is inside the image rect in the widget system
+    // if not then it gets moved to the nearest image rect coordinate
+    QPoint CheckPositionInImageRect(QPoint widgetPos) const;
+
+    // returns the mouse coordinate in the image coordinate system
+    // returns QPoint(-1,-1) if any error occurs or if the mouse is not inside the image rect
+    QPoint GetMouseCoordinateFromEvent(QMouseEvent* pEvent) const;
 
 private:
     EnumTools m_eTool;

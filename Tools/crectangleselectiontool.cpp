@@ -1,6 +1,5 @@
 #include "crectangleselectiontool.h"
 #include "../Management/cselectionmanager.h"
-#include "../Widgets/cimageview.h"
 
 
 CRectangleSelectionTool::CRectangleSelectionTool()
@@ -25,38 +24,35 @@ CRectangleSelectionTool::CRectangleSelectionTool()
     return icon;
 }
 
-/*virtual*/ void CRectangleSelectionTool::ProcessMousePressEvent(QMouseEvent* pEvent)
+void CRectangleSelectionTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)
 {
-    QImage* pImage = GetImage();
-    if (pImage != NULL)
-    {
-        QPoint imagePos = GetImagePos(pEvent, true);
-        if (pImage->rect().contains(imagePos))
-        {
-            CRectangleSelection* pSelection = new CRectangleSelection();
-            pSelection->AddCoordinate(imagePos);
-            CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
-        }
-    }
+    QPoint imgPos = GetMouseCoordinateFromEvent(pEvent);
+    if (imgPos == QPoint(-1,-1))
+        return;
+
+    CRectangleSelection* pSelection = new CRectangleSelection();
+    pSelection->AddCoordinate(imgPos);
+    CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
 }
 
-/*virtual*/ void CRectangleSelectionTool::ProcessMouseReleaseEvent(QMouseEvent* pEvent)
+void CRectangleSelectionTool::ProcessMouseLReleaseEvent(QMouseEvent* pEvent)
+{
+    ProcessMouseLMoveEvent(pEvent);
+}
+
+void CRectangleSelectionTool::ProcessMouseLMoveEvent(QMouseEvent* pEvent)
+{
+    QPoint imgPos = GetMouseCoordinateFromEvent(pEvent);
+    if (imgPos == QPoint(-1,-1))
+        return;
+
+    CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
+    if (pSelection != NULL)
+        pSelection->AddCoordinate(imgPos);
+    CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
+}
+
+void CRectangleSelectionTool::ProcessMouseRPressEvent(QMouseEvent* pEvent)
 {
     CSelectionManager::GetSelectionManager()->ClearSelection();
-}
-
-/*virtual*/ void CRectangleSelectionTool::ProcessMouseMoveEvent(QMouseEvent* pEvent)
-{
-    QImage* pImage = GetImage();
-    if (pImage != NULL)
-    {
-        QPoint imagePos = GetImagePos(pEvent, true);
-        if (pImage->rect().contains(imagePos))
-        {
-            CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
-            if (pSelection != NULL)
-                pSelection->AddCoordinate(imagePos);
-            CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
-        }
-    }
 }

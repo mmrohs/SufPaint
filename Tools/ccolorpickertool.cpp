@@ -1,6 +1,5 @@
 #include "ccolorpickertool.h"
 #include "../Management/ccolormanager.h"
-#include "../Widgets/cimageview.h"
 
 
 CColorPickerTool::CColorPickerTool()
@@ -25,7 +24,7 @@ CColorPickerTool::CColorPickerTool()
     return icon;
 }
 
-/*virtual*/ void CColorPickerTool::ProcessMousePressEvent(QMouseEvent* pEvent)
+/*virtual*/ void CColorPickerTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)
 {
     QImage* pImage = GetImage();
     if (pImage != NULL)
