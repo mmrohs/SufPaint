@@ -50,3 +50,8 @@ void CSelectionManager::ClearSelection()
     }
     emit SelectionChanged();
 }
+
+void CSelectionManager::ImagePropertiesChanged()
+{
+    ClearSelection();
+}

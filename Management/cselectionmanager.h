@@ -25,6 +25,9 @@ public:
 Q_SIGNALS:
     void SelectionChanged();
 
+public slots:
+    void ImagePropertiesChanged();
+
 private:
     static CSelectionManager* m_pSingletonInstance;
     CSelection* m_pSelection;

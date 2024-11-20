@@ -70,9 +70,15 @@ const CImageViewTransform* CImageView::GetTransformation() const
     return &m_trafo;
 }
 
-void CImageView::ImageChanged()
+void CImageView::ImagePixelsChanged()
 {
     m_trafo.Update();
+    update();
+}
+
+void CImageView::ImagePropertiesChanged()
+{
+    m_trafo.Reset();
     update();
 }
 

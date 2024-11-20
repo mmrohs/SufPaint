@@ -20,47 +20,62 @@ CImageProcessor::CImageProcessor()
     newImage.fill(Qt::white);
 
     // determine the top-left corner in the new image
-    QPoint tlc(0, 0);
+    QPoint posTopLeft(0, 0);
     if (anchor == EnumAnchors::Center)
     {
-        tlc.setX(0.5 * (newSize.width() - oldSize.width()));
-        tlc.setY(0.5 * (newSize.height() - oldSize.height()));
+        posTopLeft.setX(0.5 * (newSize.width() - oldSize.width()));
+        posTopLeft.setY(0.5 * (newSize.height() - oldSize.height()));
     }
     else if (anchor == EnumAnchors::Top)
     {
-        tlc.setX(0.5 * (newSize.width() - oldSize.width()));
+        posTopLeft.setX(0.5 * (newSize.width() - oldSize.width()));
     }
     else if (anchor == EnumAnchors::TopRight)
     {
-        tlc.setX(newSize.width() - oldSize.width());
+        posTopLeft.setX(newSize.width() - oldSize.width());
     }
     else if (anchor == EnumAnchors::Right)
     {
-        tlc.setX(newSize.width() - oldSize.width());
-        tlc.setY(0.5 * (newSize.height() - oldSize.height()));
+        posTopLeft.setX(newSize.width() - oldSize.width());
+        posTopLeft.setY(0.5 * (newSize.height() - oldSize.height()));
     }
     else if (anchor == EnumAnchors::BottomRight)
     {
-        tlc.setX(newSize.width() - oldSize.width());
-        tlc.setY(newSize.height() - oldSize.height());
+        posTopLeft.setX(newSize.width() - oldSize.width());
+        posTopLeft.setY(newSize.height() - oldSize.height());
     }
     else if (anchor == EnumAnchors::Bottom)
     {
-        tlc.setX(0.5 * (newSize.width() - oldSize.width()));
-        tlc.setY(newSize.height() - oldSize.height());
+        posTopLeft.setX(0.5 * (newSize.width() - oldSize.width()));
+        posTopLeft.setY(newSize.height() - oldSize.height());
     }
     else if (anchor == EnumAnchors::BottomLeft)
     {
-        tlc.setY(newSize.height() - oldSize.height());
+        posTopLeft.setY(newSize.height() - oldSize.height());
     }
     else if (anchor == EnumAnchors::Left)
     {
-        tlc.setY(0.5 * (newSize.height() - oldSize.height()));
+        posTopLeft.setY(0.5 * (newSize.height() - oldSize.height()));
     }
 
     // paint old image into new image
     QPainter painter(&newImage);
-    painter.drawImage(tlc, *pImage);
+    painter.drawImage(posTopLeft, *pImage);
+
+    // old image becomes new image
+    *pImage = newImage;
+}
+
+/*static*/ void CImageProcessor::CropImage(QImage* pImage, QRect rect)
+{
+    // create new image
+    QSize newSize(rect.width(), rect.height());
+    QImage newImage(newSize, pImage->format());
+    newImage.fill(Qt::white);
+
+    // paint old image into new image
+    QPainter painter(&newImage);
+    painter.drawImage(QPoint(0,0), *pImage, rect);
 
     // old image becomes new image
     *pImage = newImage;

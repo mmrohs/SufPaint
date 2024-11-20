@@ -12,34 +12,56 @@
 CConnector::CConnector(MainWindow* pMainWindow)
     : m_pMainWindow(pMainWindow)
 {
+    m_pImageView = NULL;
+    m_pToolWidget = NULL;
+    m_pStatusBar = NULL;
+    m_pImageManager = NULL;
+    m_pActionManager = NULL;
+    m_pToolManager = NULL;
+    m_pSelectionManager = NULL;
+}
+
+void CConnector::Init()
+{
+    // initialize widget pointers
+    m_pImageView = m_pMainWindow->m_pImageView;
+    m_pToolWidget = m_pMainWindow->m_pToolWidget;
+    m_pStatusBar = m_pMainWindow->m_pStatusBar;
+
+    // initialize managers
+    m_pImageManager = CImageManager::GetImageManager();
+    m_pActionManager = CActionManager::GetActionManager();
+    m_pToolManager = CToolManager::GetToolManager();
+    m_pSelectionManager = CSelectionManager::GetSelectionManager();
 }
 
 void CConnector::ConnectAll()
 {
-    CImageView* pImageView = m_pMainWindow->m_pImageView;
-    CToolWidget* pToolWidget = m_pMainWindow->m_pToolWidget;
-    CStatusBar* pStatusBar = m_pMainWindow->m_pStatusBar;
+    Init();
 
-    connect(pImageView, &CImageView::ViewChanged, pStatusBar, &CStatusBar::ZoomUpdate);
+    // CImageView signals
+    connect(m_pImageView, &CImageView::ViewChanged, m_pStatusBar, &CStatusBar::ZoomUpdate);
 
-    CImageManager* pImageManager = CImageManager::GetImageManager();
-    connect(pImageManager, &CImageManager::ImageUpdate, pStatusBar, &CStatusBar::ImageUpdate);
-    connect(pImageManager, &CImageManager::ImageUpdate, pToolWidget, &CToolWidget::ImageChanged);
-    connect(pImageManager, &CImageManager::ImageUpdate, pImageView, &CImageView::ImageChanged);
+    // CImageManager signals
+    connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pStatusBar, &CStatusBar::ImagePropertiesUpdate);
+    connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pToolWidget, &CToolWidget::ImagePropertiesChanged);
+    connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pImageView, &CImageView::ImagePropertiesChanged);
+    connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pActionManager, &CActionManager::CheckAllActions);
+    connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pSelectionManager, &CSelectionManager::ImagePropertiesChanged);
+    connect(m_pImageManager, &CImageManager::ImagePixelsUpdate, m_pImageView, &CImageView::ImagePixelsChanged);
 
-    CActionManager* pActionManager = CActionManager::GetActionManager();
-    connect(pImageManager, &CImageManager::ImageUpdate, pActionManager, &CActionManager::CheckAllActions);
+    // CToolManager signals
+    connect(m_pToolManager, &CToolManager::ToolChanged, m_pStatusBar, &CStatusBar::ToolUpdate);
+    connect(m_pToolManager, &CToolManager::ToolChanged, m_pToolWidget, &CToolWidget::ToolChanged);
 
-    CToolManager* pToolManager = CToolManager::GetToolManager();
-    connect(pToolManager, &CToolManager::ToolChanged, pStatusBar, &CStatusBar::ToolUpdate);
-    connect(pToolManager, &CToolManager::ToolChanged, pToolWidget, &CToolWidget::ToolChanged);
+    // CSelectionManager signals
+    connect(m_pSelectionManager, &CSelectionManager::SelectionChanged, m_pImageView, &CImageView::ImagePixelsChanged);
+    connect(m_pSelectionManager, &CSelectionManager::SelectionChanged, m_pActionManager, &CActionManager::CheckAllActions);
 
-    CSelectionManager* pSelectionManager = CSelectionManager::GetSelectionManager();
-    connect(pSelectionManager, &CSelectionManager::SelectionChanged, pImageView, &CImageView::ImageChanged);
-
+    // clipboard signals
     QClipboard* pClipboard = QGuiApplication::clipboard();
     if (pClipboard != NULL)
     {
-        connect(pClipboard, &QClipboard::dataChanged, m_pMainWindow, &MainWindow::UpdateActions);
+        connect(pClipboard, &QClipboard::dataChanged, m_pActionManager, &CActionManager::CheckAllActions);
     }
 }

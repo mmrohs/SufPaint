@@ -25,7 +25,7 @@ void CStatusBar::AddStatusBarItems()
     m_pParent->statusBar()->addPermanentWidget(m_pSBZoomLabel, 2);
 }
 
-void CStatusBar::ImageUpdate()
+void CStatusBar::ImagePropertiesUpdate()
 {
     CStatusBarImageLabel* pImageLabel = (CStatusBarImageLabel*)m_pSBImageLabel;
     pImageLabel->Update();

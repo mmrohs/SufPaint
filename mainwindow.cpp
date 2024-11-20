@@ -7,6 +7,8 @@
 #include "Management/cactionmanager.h"
 #include "Management/cimagemanager.h"
 #include "Management/cimageviewmanager.h"
+#include "Management/cselectionmanager.h"
+#include "Management/ctoolmanager.h"
 #include "Menu/cmenu.h"
 #include "Menu/ctoolbar.h"
 #include "Widgets/cimageview.h"
@@ -36,14 +38,14 @@ MainWindow::~MainWindow()
     delete m_pUI;
 }
 
-void MainWindow::UpdateActions()
+/*void MainWindow::UpdateActions()
 {
     CActionManager* pActionManager = CActionManager::GetActionManager();
     if (pActionManager != NULL)
     {
         pActionManager->CheckAllActions();
     }
-}
+}*/
 
 void MainWindow::AddMenu()
 {
@@ -81,6 +83,7 @@ void MainWindow::AddLayout()
 
 void MainWindow::SetupManagers()
 {
+
     CImageManager* pImageManager = CImageManager::GetImageManager();
     if (pImageManager != NULL)
     {
@@ -92,4 +95,9 @@ void MainWindow::SetupManagers()
     {
         pImageViewManager->SetImageView(m_pImageView);
     }
+
+    // initialize rest of managers
+    CActionManager::GetActionManager();
+    CSelectionManager::GetSelectionManager();
+    CToolManager::GetToolManager();
 }

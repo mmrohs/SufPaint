@@ -15,8 +15,8 @@ public:
     explicit CNewImageDialog(QWidget* pParent);
     ~CNewImageDialog();
 
-    int GetWidth() const;
-    int GetHeight() const;
+    // returns the image size
+    QSize GetSize() const;
 
 protected:
     virtual void paintEvent(QPaintEvent* pEvent) override;

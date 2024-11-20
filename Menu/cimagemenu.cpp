@@ -15,6 +15,7 @@ void CImageMenu::AddActions()
 {
     AddActionToMenu(ActionImageResize);
     AddActionToMenu(ActionImageResizeCanvas);
+    AddActionToMenu(ActionImageCropSelection);
     addSeparator();
     AddActionToMenu(ActionImageRotate90C);
     AddActionToMenu(ActionImageRotate90CC);
@@ -28,6 +29,7 @@ void CImageMenu::AddConnections()
 {
     ConnectAction(ActionImageResize, &CImageMenu::Resize);
     ConnectAction(ActionImageResizeCanvas, &CImageMenu::ResizeCanvas);
+    ConnectAction(ActionImageCropSelection, &CImageMenu::CropImage);
     ConnectAction(ActionImageRotate90C, &CImageMenu::Rotate90C);
     ConnectAction(ActionImageRotate90CC, &CImageMenu::Rotate90CC);
     ConnectAction(ActionImageRotate180, &CImageMenu::Rotate180);
@@ -62,6 +64,14 @@ void CImageMenu::ResizeCanvas()
     if (m_pImageManager != NULL)
     {
         m_pImageManager->ResizeCanvas();
+    }
+}
+
+void CImageMenu::CropImage()
+{
+    if (m_pImageManager != NULL)
+    {
+        m_pImageManager->CropImage();
     }
 }
 

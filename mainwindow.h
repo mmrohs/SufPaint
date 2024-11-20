@@ -23,7 +23,7 @@ public:
     ~MainWindow();
 
 public slots:
-    void UpdateActions();
+    //void UpdateActions();
 
 private:
     void AddMenu();

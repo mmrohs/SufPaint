@@ -40,6 +40,7 @@ public:
     // image size actions
     void Resize();
     void ResizeCanvas();
+    void CropImage();
     void Rotate90C();
     void Rotate90CC();
     void Rotate180();
@@ -52,7 +53,10 @@ public:
     void Sepia();
 
 Q_SIGNALS:
-    void ImageUpdate();
+    // signal for pixel changes (e.g. color invert)
+    void ImagePixelsUpdate();
+    // signal for property changes (e.g. resize)
+    void ImagePropertiesUpdate();
 
 private:
     void TrySaveImage(QString strFilePath);

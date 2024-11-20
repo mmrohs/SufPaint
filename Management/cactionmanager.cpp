@@ -1,6 +1,7 @@
 #include "cactionmanager.h"
 #include <QGuiApplication>
 #include "cimagemanager.h"
+#include "cselectionmanager.h"
 #include <QClipboard>
 #include <QMimeData>
 
@@ -96,7 +97,6 @@ void CActionManager::CheckAction(QAction* pAction, EnumActions e)
     // always disabled actions
     case ActionEditUndo:
     case ActionEditRedo:
-    case ActionEditCut:
         bEnabled = false;
         break;
     // actions that require an opened image:
@@ -115,11 +115,7 @@ void CActionManager::CheckAction(QAction* pAction, EnumActions e)
     case ActionAdjustGrayscale:
     case ActionAdjustSepia:
     {
-        CImageManager* pImageManager = CImageManager::GetImageManager();
-        if (pImageManager != NULL)
-        {
-            bEnabled = pImageManager->HasImage();
-        }
+        bEnabled = CImageManager::GetImageManager()->HasImage();
         break;
     }
     // actions that require an image in the clipboard:
@@ -131,6 +127,14 @@ void CActionManager::CheckAction(QAction* pAction, EnumActions e)
             const QMimeData* pMimeData = pClipboard->mimeData();
             bEnabled = pMimeData != NULL && pMimeData->hasImage();
         }
+        break;
+    }
+    // actions that require an image and a selection:
+    case ActionEditCut:
+    case ActionImageCropSelection:
+    {
+        bEnabled = CImageManager::GetImageManager()->HasImage();
+        bEnabled = bEnabled && CSelectionManager::GetSelectionManager()->HasSelection();
         break;
     }
     default:

@@ -70,9 +70,9 @@ void CImageManager::NewImage()
     if (pDialog->result() == QDialog::Accepted)
     {
         ResetImage();
-        m_pImage = new QImage(pDialog->GetWidth(), pDialog->GetHeight(), QImage::Format_ARGB32);
+        m_pImage = new QImage(pDialog->GetSize(), QImage::Format_ARGB32);
         m_pImage->fill(QColor(255,255,255));
-        emit ImageUpdate();
+        emit ImagePropertiesUpdate();
     }
 }
 
@@ -84,7 +84,7 @@ void CImageManager::OpenImage()
     {
         ResetImage();
         m_pImage = new QImage(m_strFilePath);
-        emit ImageUpdate();
+        emit ImagePropertiesUpdate();
     }
 }
 
@@ -92,7 +92,7 @@ void CImageManager::CloseImage()
 {
     ResetImage();
     m_strFilePath = QString();
-    emit ImageUpdate();
+    emit ImagePropertiesUpdate();
 }
 
 void CImageManager::SaveImage()
@@ -146,7 +146,7 @@ void CImageManager::PasteImage()
         {
             ResetImage();
             m_pImage = new QImage(pClipboard->image());
-            emit ImageUpdate();
+            emit ImagePropertiesUpdate();
         }
         else
         {
@@ -173,7 +173,7 @@ void CImageManager::Resize()
             if (newSize != origSize)
             {
                 CImageProcessor::ResizeImage(m_pImage, newSize);
-                emit ImageUpdate();
+                emit ImagePropertiesUpdate();
             }
         }
         delete pDialog;
@@ -194,10 +194,24 @@ void CImageManager::ResizeCanvas()
             {
                 EnumAnchors anchor = pDialog->GetAnchor();
                 CImageProcessor::ResizeCanvas(m_pImage, newSize, anchor);
-                emit ImageUpdate();
+                emit ImagePropertiesUpdate();
             }
         }
         delete pDialog;
+    }
+}
+
+void CImageManager::CropImage()
+{
+    if (m_pImage != NULL)
+    {
+        CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
+        if (pSelection)
+        {
+            QRect rect = pSelection->GetBoundingRect();
+            CImageProcessor::CropImage(m_pImage, rect);
+            emit ImagePropertiesUpdate();
+        }
     }
 }
 
@@ -206,7 +220,7 @@ void CImageManager::Rotate90C()
     if (m_pImage != NULL)
     {
         CImageProcessor::Rotate90C(m_pImage);
-        emit ImageUpdate();
+        emit ImagePropertiesUpdate();
     }
 }
 
@@ -215,7 +229,7 @@ void CImageManager::Rotate90CC()
     if (m_pImage != NULL)
     {
         CImageProcessor::Rotate90CC(m_pImage);
-        emit ImageUpdate();
+        emit ImagePropertiesUpdate();
     }
 }
 
@@ -224,7 +238,7 @@ void CImageManager::Rotate180()
     if (m_pImage != NULL)
     {
         CImageProcessor::Rotate180(m_pImage);
-        emit ImageUpdate();
+        emit ImagePixelsUpdate();
     }
 }
 
@@ -233,7 +247,7 @@ void CImageManager::MirrorHor()
     if (m_pImage != NULL)
     {
         CImageProcessor::MirrorHor(m_pImage);
-        emit ImageUpdate();
+        emit ImagePixelsUpdate();
     }
 }
 
@@ -242,7 +256,7 @@ void CImageManager::MirrorVer()
     if (m_pImage != NULL)
     {
         CImageProcessor::MirrorVer(m_pImage);
-        emit ImageUpdate();
+        emit ImagePixelsUpdate();
     }
 }
 
@@ -251,7 +265,7 @@ void CImageManager::InvertColors()
     if (m_pImage != NULL)
     {
         CImageProcessor::InvertColors(m_pImage);
-        emit ImageUpdate();
+        emit ImagePixelsUpdate();
     }
 }
 
@@ -260,7 +274,7 @@ void CImageManager::Grayscale()
     if (m_pImage != NULL)
     {
         CImageProcessor::Grayscale(m_pImage);
-        emit ImageUpdate();
+        emit ImagePixelsUpdate();
     }
 }
 
@@ -269,7 +283,7 @@ void CImageManager::Sepia()
     if (m_pImage != NULL)
     {
         CImageProcessor::Sepia(m_pImage);
-        emit ImageUpdate();
+        emit ImagePixelsUpdate();
     }
 }
 
@@ -298,6 +312,6 @@ void CImageManager::ResetImage()
         delete m_pImage;
         m_pImage = NULL;
         CSelectionManager::GetSelectionManager()->ClearSelection();
-        emit ImageUpdate();
+        emit ImagePropertiesUpdate();
     }
 }

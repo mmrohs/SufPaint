@@ -20,7 +20,7 @@ CToolWidget::CToolWidget(QWidget* pParent)
     EnableTools();
 }
 
-void CToolWidget::ImageChanged()
+void CToolWidget::ImagePropertiesChanged()
 {
     bool bEnabled = CImageManager::GetImageManager()->HasImage();
     bool bUpdate = m_bEnabled != bEnabled;

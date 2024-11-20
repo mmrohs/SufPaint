@@ -14,6 +14,7 @@ public:
     // size and orientation
     static void ResizeImage(QImage* pImage, QSize newSize);
     static void ResizeCanvas(QImage* pImage, QSize newSize, EnumAnchors anchor);
+    static void CropImage(QImage* pImage, QRect rect);
     static void Rotate90C(QImage* pImage);
     static void Rotate90CC(QImage* pImage);
     static void Rotate180(QImage* pImage);

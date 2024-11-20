@@ -33,6 +33,7 @@ QString GetActionName(EnumActions action)
     //---------------------
     case ActionImageResize:         return QObject::tr("Res&ize");
     case ActionImageResizeCanvas:   return QObject::tr("Resize &canvas");
+    case ActionImageCropSelection:  return QObject::tr("Crop to Selection");
     case ActionImageRotate90C:      return QObject::tr("&Rotate by 90° clockwise");
     case ActionImageRotate90CC:     return QObject::tr("R&otate by 90° counter-clockwise");
     case ActionImageRotate180:      return QObject::tr("Ro&tate by 180°");
@@ -71,8 +72,9 @@ QKeySequence GetActionShortcut(EnumActions action)
     case ActionViewZoomOut:         return QKeySequence::ZoomOut;
     case ActionViewOrigSize:        return QKeySequence::FullScreen;
     //---------------------
-    case ActionImageResize:         return QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_I);
-    case ActionImageResizeCanvas:   return QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_C);
+    case ActionImageResize:         return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_I);
+    case ActionImageResizeCanvas:   return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C);
+    case ActionImageCropSelection:  return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_X);
     case ActionImageRotate90C:      return QKeySequence(Qt::CTRL | Qt::Key_H);
     case ActionImageRotate90CC:     return QKeySequence(Qt::CTRL | Qt::Key_G);
     case ActionImageRotate180:      return QKeySequence(Qt::CTRL | Qt::Key_J);
@@ -112,6 +114,7 @@ QIcon GetActionIcon(EnumActions action)
     //---------------------
     case ActionImageResize:         return QIcon::fromTheme(QIcon::ThemeIcon::WindowNew);
     case ActionImageResizeCanvas:   return QIcon::fromTheme(QIcon::ThemeIcon::WindowNew);
+    case ActionImageCropSelection:  return QIcon();
     case ActionImageRotate90C:      return QIcon::fromTheme(QIcon::ThemeIcon::ObjectRotateRight);
     case ActionImageRotate90CC:     return QIcon::fromTheme(QIcon::ThemeIcon::ObjectRotateLeft);
     case ActionImageRotate180:      return QIcon();

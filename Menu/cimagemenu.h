@@ -18,6 +18,7 @@ protected:
 private slots:
     void Resize();
     void ResizeCanvas();
+    void CropImage();
     void Rotate90C();
     void Rotate90CC();
     void Rotate180();

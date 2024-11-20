@@ -31,7 +31,8 @@ Q_SIGNALS:
     void ViewChanged();
 
 public slots:
-    void ImageChanged();
+    void ImagePixelsChanged();
+    void ImagePropertiesChanged();
 
 protected:
     virtual void resizeEvent(QResizeEvent* pEvent) override;

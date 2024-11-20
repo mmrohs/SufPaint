@@ -21,14 +21,9 @@ CNewImageDialog::~CNewImageDialog()
     delete ui;
 }
 
-int CNewImageDialog::GetWidth() const
+QSize CNewImageDialog::GetSize() const
 {
-    return m_pSpinWidth->value();
-}
-
-int CNewImageDialog::GetHeight() const
-{
-    return m_pSpinHeight->value();
+    return QSize(m_pSpinWidth->value(), m_pSpinHeight->value());
 }
 
 void CNewImageDialog::Init()

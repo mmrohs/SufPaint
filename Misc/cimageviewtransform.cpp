@@ -49,7 +49,8 @@ void CImageViewTransform::CalcImageOrigin()
 
 void CImageViewTransform::SetFixedPoint(QPoint fixedPoint)
 {
-    m_fixedPoint = CheckPositionInImage(fixedPoint);
+    m_fixedPoint = fixedPoint;
+    //m_fixedPoint = CheckPositionInImage(fixedPoint);
 }
 
 QPoint CImageViewTransform::GetImageOffset()

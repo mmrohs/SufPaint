@@ -10,7 +10,7 @@ public:
     CStatusBar(class MainWindow* pParent);
 
 public slots:
-    void ImageUpdate();
+    void ImagePropertiesUpdate();
     void ToolUpdate();
     void ZoomUpdate();
 

@@ -32,6 +32,7 @@ enum EnumActions : int
     // CImageMenu
     ActionImageResize,         // Resize the image
     ActionImageResizeCanvas,   // Resize the canvas
+    ActionImageCropSelection,  // Crop the image to the selection
     ActionImageRotate90C,      // Rotate 90° clockwise
     ActionImageRotate90CC,     // Rotate 90° counter-clockwise
     ActionImageRotate180,      // Rotate 180°

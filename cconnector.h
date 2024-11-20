@@ -14,7 +14,20 @@ public:
     void ConnectAll();
 
 private:
-    class MainWindow* m_pMainWindow;
+    void Init();
+
+private:
+    // widgets
+    class MainWindow*  m_pMainWindow;
+    class CImageView*  m_pImageView;
+    class CToolWidget* m_pToolWidget;
+    class CStatusBar*  m_pStatusBar;
+
+    // managers
+    class CImageManager*  m_pImageManager;
+    class CActionManager* m_pActionManager;
+    class CToolManager*   m_pToolManager;
+    class CSelectionManager* m_pSelectionManager;
 };
 
 #endif // CCONNECTOR_H
