@@ -129,7 +129,7 @@ QPoint CImageViewTransform::TransformWidgetToImage(QPoint widgetPos) const
 QPoint CImageViewTransform::TransformImageToWidget(QPoint imagePos) const
 {
     QPointF pointF(imagePos);
-    pointF = GetScale() * (pointF + GetImageOriginScaled());
+    pointF = GetImageOriginScaled() + pointF;
     return QPoint(pointF.x(), pointF.y());
 }
 
