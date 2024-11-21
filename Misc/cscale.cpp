@@ -82,7 +82,8 @@ qreal CScale::FindNextPrevScale(qreal oldScale, bool bNext) const
 {
     // possible scale values (resulting zoom: 10% to 1000%)
     static const std::vector<qreal> vecScales =
-        { 0.1, 0.17, 0.25, 0.5, 0.66, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0 };
+        { 0.1, 0.17, 0.25, 0.5, 0.66, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0,
+          12.5, 15.0, 17.5, 20.0, 25.0, 30.0, 40.0, 50.0 };
 
     for (int i = 0; i < vecScales.size(); i++)
     {
