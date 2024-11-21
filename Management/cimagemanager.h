@@ -59,14 +59,17 @@ Q_SIGNALS:
     void ImagePropertiesUpdate();
 
 private:
+    class CSelection* GetSelection() const;
     void TrySaveImage(QString strFilePath);
     void ResetImage();
 
 private:
     static CImageManager* m_pSingletonInstance;
+    class CImageProcessor* m_pImageProcessor;
+
     QWidget* m_pParent;
-    QString m_strFilePath;
     QImage* m_pImage;
+    QString m_strFilePath;
 };
 
 #endif // CIMAGEMANAGER_H

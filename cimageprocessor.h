@@ -7,24 +7,32 @@
 
 class CImageProcessor
 {
-protected:
+public:
     CImageProcessor();
 
-public:
+    // clipboard
+    void CopyImage(QImage* pImage);
+    void CopyImage(QImage* pImage, QRect rect);
+    void PasteImage(QImage* pImage);
+    void CutImage(QImage* pImage, QRect rect);
+
     // size and orientation
-    static void ResizeImage(QImage* pImage, QSize newSize);
-    static void ResizeCanvas(QImage* pImage, QSize newSize, EnumAnchors anchor);
-    static void CropImage(QImage* pImage, QRect rect);
-    static void Rotate90C(QImage* pImage);
-    static void Rotate90CC(QImage* pImage);
-    static void Rotate180(QImage* pImage);
-    static void MirrorHor(QImage* pImage);
-    static void MirrorVer(QImage* pImage);
+    void ResizeImage(QImage* pImage, QSize newSize);
+    void ResizeCanvas(QImage* pImage, QSize newSize, EnumAnchors anchor);
+    void CropImage(QImage* pImage, QRect rect);
+    void Rotate90C(QImage* pImage);
+    void Rotate90CC(QImage* pImage);
+    void Rotate180(QImage* pImage);
+    void MirrorHor(QImage* pImage);
+    void MirrorVer(QImage* pImage);
 
     // colors
-    static void InvertColors(QImage* pImage);
-    static void Grayscale(QImage* pImage);
-    static void Sepia(QImage* pImage);
+    void InvertColors(QImage* pImage);
+    void Grayscale(QImage* pImage);
+    void Sepia(QImage* pImage);
+
+    // misc
+    void RemoveArea(QImage* pImage, QRect rect);
 };
 
 #endif // CIMAGEPROCESSOR_H

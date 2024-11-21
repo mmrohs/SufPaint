@@ -1,9 +1,6 @@
 #include "cimagemanager.h"
-#include <QGuiApplication>
 #include <QException>
 #include <QFileDialog>
-#include <QClipboard>
-#include <QMimeData>
 #include <QPainter>
 #include "cselectionmanager.h"
 #include "../Dialogues/cimageresizedialog.h"
@@ -17,6 +14,7 @@
 CImageManager::CImageManager()
     : m_pParent(NULL), m_pImage(NULL)
 {
+    m_pImageProcessor = new CImageProcessor();
 }
 
 /*static*/ CImageManager* CImageManager::GetImageManager()
@@ -128,36 +126,38 @@ void CImageManager::CopyImage()
 {
     if (m_pImage != NULL)
     {
-        QClipboard* pClipboard = QGuiApplication::clipboard();
-        if (pClipboard != NULL)
+        CSelection* pSelection = GetSelection();
+        if (pSelection != NULL)
         {
-            pClipboard->setImage(*m_pImage);
+            QRect rect = pSelection->GetBoundingRect();
+            m_pImageProcessor->CopyImage(m_pImage, rect);
+        }
+        else
+        {
+            m_pImageProcessor->CopyImage(m_pImage);
         }
     }
 }
 
 void CImageManager::PasteImage()
 {
-    QClipboard* pClipboard = QGuiApplication::clipboard();
-    if (pClipboard != NULL)
-    {
-        const QMimeData* pMimeData = pClipboard->mimeData();
-        if (pMimeData != NULL && pMimeData->hasImage())
-        {
-            ResetImage();
-            m_pImage = new QImage(pClipboard->image());
-            emit ImagePropertiesUpdate();
-        }
-        else
-        {
-            qWarning() << "CImageManager::PasteImage(): No image in clipboard";
-        }
-    }
+    ResetImage();
+    m_pImageProcessor->PasteImage(m_pImage);
+    emit ImagePropertiesUpdate();
 }
 
 void CImageManager::CutImage()
 {
-    // to do
+    if (m_pImage != NULL)
+    {
+        CSelection* pSelection = GetSelection();
+        if (pSelection != NULL)
+        {
+            QRect rect = pSelection->GetBoundingRect();
+            m_pImageProcessor->CutImage(m_pImage, rect);
+            emit ImagePropertiesUpdate();
+        }
+    }
 }
 
 void CImageManager::Resize()
@@ -172,7 +172,7 @@ void CImageManager::Resize()
             QSize newSize = pDialog->GetNewSize();
             if (newSize != origSize)
             {
-                CImageProcessor::ResizeImage(m_pImage, newSize);
+                m_pImageProcessor->ResizeImage(m_pImage, newSize);
                 emit ImagePropertiesUpdate();
             }
         }
@@ -193,7 +193,7 @@ void CImageManager::ResizeCanvas()
             if (newSize != origSize)
             {
                 EnumAnchors anchor = pDialog->GetAnchor();
-                CImageProcessor::ResizeCanvas(m_pImage, newSize, anchor);
+                m_pImageProcessor->ResizeCanvas(m_pImage, newSize, anchor);
                 emit ImagePropertiesUpdate();
             }
         }
@@ -205,11 +205,11 @@ void CImageManager::CropImage()
 {
     if (m_pImage != NULL)
     {
-        CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
-        if (pSelection)
+        CSelection* pSelection = GetSelection();
+        if (pSelection != NULL)
         {
             QRect rect = pSelection->GetBoundingRect();
-            CImageProcessor::CropImage(m_pImage, rect);
+            m_pImageProcessor->CropImage(m_pImage, rect);
             emit ImagePropertiesUpdate();
         }
     }
@@ -219,7 +219,7 @@ void CImageManager::Rotate90C()
 {
     if (m_pImage != NULL)
     {
-        CImageProcessor::Rotate90C(m_pImage);
+        m_pImageProcessor->Rotate90C(m_pImage);
         emit ImagePropertiesUpdate();
     }
 }
@@ -228,7 +228,7 @@ void CImageManager::Rotate90CC()
 {
     if (m_pImage != NULL)
     {
-        CImageProcessor::Rotate90CC(m_pImage);
+        m_pImageProcessor->Rotate90CC(m_pImage);
         emit ImagePropertiesUpdate();
     }
 }
@@ -237,7 +237,7 @@ void CImageManager::Rotate180()
 {
     if (m_pImage != NULL)
     {
-        CImageProcessor::Rotate180(m_pImage);
+        m_pImageProcessor->Rotate180(m_pImage);
         emit ImagePixelsUpdate();
     }
 }
@@ -246,7 +246,7 @@ void CImageManager::MirrorHor()
 {
     if (m_pImage != NULL)
     {
-        CImageProcessor::MirrorHor(m_pImage);
+        m_pImageProcessor->MirrorHor(m_pImage);
         emit ImagePixelsUpdate();
     }
 }
@@ -255,7 +255,7 @@ void CImageManager::MirrorVer()
 {
     if (m_pImage != NULL)
     {
-        CImageProcessor::MirrorVer(m_pImage);
+        m_pImageProcessor->MirrorVer(m_pImage);
         emit ImagePixelsUpdate();
     }
 }
@@ -264,7 +264,7 @@ void CImageManager::InvertColors()
 {
     if (m_pImage != NULL)
     {
-        CImageProcessor::InvertColors(m_pImage);
+        m_pImageProcessor->InvertColors(m_pImage);
         emit ImagePixelsUpdate();
     }
 }
@@ -273,7 +273,7 @@ void CImageManager::Grayscale()
 {
     if (m_pImage != NULL)
     {
-        CImageProcessor::Grayscale(m_pImage);
+        m_pImageProcessor->Grayscale(m_pImage);
         emit ImagePixelsUpdate();
     }
 }
@@ -282,9 +282,14 @@ void CImageManager::Sepia()
 {
     if (m_pImage != NULL)
     {
-        CImageProcessor::Sepia(m_pImage);
+        m_pImageProcessor->Sepia(m_pImage);
         emit ImagePixelsUpdate();
     }
+}
+
+CSelection* CImageManager::GetSelection() const
+{
+    return CSelectionManager::GetSelectionManager()->GetSelection();
 }
 
 void CImageManager::TrySaveImage(QString strFilePath)
