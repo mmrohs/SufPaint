@@ -3,6 +3,12 @@
 // small gap between image and widget border
 #define GAP 10
 
+namespace {
+    // possible scale values (resulting zoom: 10% to 5000%)
+    static const std::vector<qreal> VSCALES =
+        { 0.1, 0.17, 0.25, 0.5, 0.66, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0,
+         12.5, 15.0, 17.5, 20.0, 25.0, 30.0, 40.0, 50.0 };
+}
 
 CScale::CScale()
     : m_scale(1.0), m_oldScale(1.0)
@@ -54,6 +60,16 @@ bool CScale::SwitchToPrevScale()
     return false;
 }
 
+/*static*/ qreal CScale::GetMinScale()
+{
+    return VSCALES.front();
+}
+
+/*static*/ qreal CScale::GetMaxScale()
+{
+    return VSCALES.back();
+}
+
 /* reset the scaling to 100%
 */
 void CScale::ResetScale()
@@ -80,16 +96,11 @@ void CScale::AutoScale(QRect imageRect, QRect widgetRect)
 
 qreal CScale::FindNextPrevScale(qreal oldScale, bool bNext) const
 {
-    // possible scale values (resulting zoom: 10% to 1000%)
-    static const std::vector<qreal> vecScales =
-        { 0.1, 0.17, 0.25, 0.5, 0.66, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0,
-          12.5, 15.0, 17.5, 20.0, 25.0, 30.0, 40.0, 50.0 };
-
-    for (int i = 0; i < vecScales.size(); i++)
+    for (int i = 0; i < VSCALES.size(); i++)
     {
-        qreal scale_i = vecScales[i];
-        qreal scale_p = (i > 0) ? vecScales[i - 1] : scale_i;
-        qreal scale_n = (i + 1 < vecScales.size()) ? vecScales[i + 1] : scale_i;
+        qreal scale_i = VSCALES[i];
+        qreal scale_p = (i > 0) ? VSCALES[i - 1] : scale_i;
+        qreal scale_n = (i + 1 < VSCALES.size()) ? VSCALES[i + 1] : scale_i;
 
         if (abs(scale_i - oldScale) < 1E-10) // exact match
         {

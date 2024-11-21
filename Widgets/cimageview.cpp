@@ -121,6 +121,9 @@ QBrush CImageView::GetBackgroundBrush() const
         paint.drawImage(pos, *pImageManager->GetImage());
     }
 
+    // draw pixelgrid if necessary
+    m_pixelgrid.DrawPixelGrid(paint);
+
     // draw selection if available
     CSelectionManager* pSelectionManager = CSelectionManager::GetSelectionManager();
     if (pSelectionManager->HasSelection())

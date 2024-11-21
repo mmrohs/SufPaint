@@ -1,34 +1,29 @@
-#ifndef CSCALE_H
-#define CSCALE_H
+#ifndef CPIXELGRID_H
+#define CPIXELGRID_H
 
 #include <QObject>
-#include <QRect>
+#include <QPixmap>
 
 
-/* Scaling / zooming class
+/* class for drawing the pixel grid
 */
-class CScale
+class CPixelGrid
 {
 public:
-    CScale();
+    CPixelGrid();
 
-    void SetScale(qreal scale);
+    void DrawPixelGrid(class QPainter&);
+
+private:
+    // returns true if all requirements for the pixelgrid are met
+    bool CheckRequirements() const;
+
     qreal GetScale() const;
-    qreal GetOldScale() const;
-    qreal GetScaleDivByOldScale() const;
-
-    void AutoScale(QRect imageRect, QRect widgetRect);
-    void ResetScale();
-    bool SwitchToNextScale();
-    bool SwitchToPrevScale();
+    qreal GetMaxScale() const;
+    QPen GetDefaultPen() const;
 
 private:
-    qreal FindNextPrevScale(qreal oldScale, bool bNext) const;
-
-private:
-    // scaling / zoom factor [0.1 - 10.0]
-    qreal m_scale;
-    qreal m_oldScale;
+    QPixmap m_tile;
 };
 
-#endif // CSCALE_H
+#endif // CPIXELGRID_H

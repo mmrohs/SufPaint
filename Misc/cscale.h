@@ -22,6 +22,9 @@ public:
     bool SwitchToNextScale();
     bool SwitchToPrevScale();
 
+    static qreal GetMinScale();
+    static qreal GetMaxScale();
+
 private:
     qreal FindNextPrevScale(qreal oldScale, bool bNext) const;
 

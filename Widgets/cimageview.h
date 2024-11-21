@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "../Misc/cimageviewtransform.h"
+#include "../Misc/cpixelgrid.h"
 
 
 /* Widget for displaying a QImage items
@@ -49,6 +50,7 @@ private:
 
 private:
     CImageViewTransform m_trafo;
+    CPixelGrid m_pixelgrid;
 };
 
 #endif // CIMAGEVIEW_H

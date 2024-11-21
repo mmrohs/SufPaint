@@ -1,112 +1,58 @@
+#include "cpixelgrid.h"
+#include <QPainter>
 #include "cscale.h"
+#include "../Management/CImageManager.h"
+#include "../Management/CImageViewManager.h"
 
-// small gap between image and widget border
-#define GAP 10
 
-
-CScale::CScale()
-    : m_scale(1.0), m_oldScale(1.0)
+CPixelGrid::CPixelGrid()
+    : m_tile(QPixmap(GetMaxScale(), GetMaxScale()))
 {
+    m_tile.fill(Qt::transparent);
+    QPainter pt(&m_tile);
+    pt.setPen(GetDefaultPen());
+    pt.drawLine(0, 0, GetMaxScale(), 0);
+    pt.drawLine(0, 0, 0, GetMaxScale());
+    pt.end();
 }
 
-void CScale::SetScale(qreal scale)
+void CPixelGrid::DrawPixelGrid(class QPainter& painter)
 {
-    m_oldScale = m_scale;
-    m_scale = scale;
-}
-
-qreal CScale::GetScale() const
-{
-    return m_scale;
-}
-
-qreal CScale::GetOldScale() const
-{
-    return m_oldScale;
-}
-
-qreal CScale::GetScaleDivByOldScale() const
-{
-    return m_scale / m_oldScale;
-}
-
-bool CScale::SwitchToNextScale()
-{
-    qreal oldScale = GetScale();
-    qreal newScale = FindNextPrevScale(oldScale, true);
-    if (newScale != oldScale)
+    if (CheckRequirements())
     {
-        SetScale(newScale);
-        return true;
+        qreal scale = GetScale();
+        painter.scale(1.0/scale, 1.0/scale);
+
+        QPixmap pixmap = m_tile.copy(QRect(0, 0, scale, scale));
+        painter.drawTiledPixmap(painter.clipBoundingRect(), pixmap);
+
+        painter.scale(scale, scale);
     }
-    return false;
 }
 
-bool CScale::SwitchToPrevScale()
+bool CPixelGrid::CheckRequirements() const
 {
-    qreal oldScale = GetScale();
-    qreal newScale = FindNextPrevScale(oldScale, false);
-    if (newScale != oldScale)
-    {
-        SetScale(newScale);
-        return true;
-    }
-    return false;
+    // minimum scale to show the pixel grid
+    static const qreal MINSCALE = 20.0;
+
+    if (!CImageManager::GetImageManager()->HasImage())
+        return false;
+
+    return GetScale() >= MINSCALE;
 }
 
-/* reset the scaling to 100%
-*/
-void CScale::ResetScale()
+qreal CPixelGrid::GetScale() const
 {
-    SetScale(1.0);
-    m_oldScale = 1.0;
+    return CImageViewManager::GetImageViewManager()->GetScale();
 }
 
-/* scales the image to ideally fit the widget size + a little gap
-*/
-void CScale::AutoScale(QRect imageRect, QRect widgetRect)
+qreal CPixelGrid::GetMaxScale() const
 {
-    qreal factor = 1.0;
-    if (imageRect.height() > widgetRect.height())
-    {
-        factor *= widgetRect.height() / qreal(imageRect.height() + GAP);
-    }
-    if (factor * imageRect.width() > widgetRect.width())
-    {
-        factor *= widgetRect.width() / qreal(factor * imageRect.width() + GAP);
-    }
-    SetScale(factor);
+    return CScale::GetMaxScale();
 }
 
-qreal CScale::FindNextPrevScale(qreal oldScale, bool bNext) const
+QPen CPixelGrid::GetDefaultPen() const
 {
-    // possible scale values (resulting zoom: 10% to 1000%)
-    static const std::vector<qreal> vecScales =
-        { 0.1, 0.17, 0.25, 0.5, 0.66, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0,
-          12.5, 15.0, 17.5, 20.0, 25.0, 30.0, 40.0, 50.0 };
-
-    for (int i = 0; i < vecScales.size(); i++)
-    {
-        qreal scale_i = vecScales[i];
-        qreal scale_p = (i > 0) ? vecScales[i - 1] : scale_i;
-        qreal scale_n = (i + 1 < vecScales.size()) ? vecScales[i + 1] : scale_i;
-
-        if (abs(scale_i - oldScale) < 1E-10) // exact match
-        {
-            return bNext ? scale_n : scale_p;
-        }
-        else if (bNext && scale_i < oldScale && oldScale < scale_n)
-        {
-            return scale_n;
-        }
-        else if (!bNext && scale_p < oldScale && oldScale < scale_i)
-        {
-            return scale_p;
-        }
-        else if (oldScale < scale_p)
-        {
-            return scale_p;
-        }
-    }
-    return oldScale;
+    static QPen PEN = QPen(Qt::darkGray, Qt::DotLine);
+    return PEN;
 }

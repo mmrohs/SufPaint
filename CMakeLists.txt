@@ -78,6 +78,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Tools/cbuckettool.cpp Tools/cbuckettool.h
         Tools/cgradienttool.cpp Tools/cgradienttool.h
         Tools/clinestool.cpp Tools/clinestool.h
+        Tools/cellipseselectiontool.cpp Tools/cellipseselectiontool.h
 
         #icons
         Icons/Brush.png Icons/Pencil.png Icons/Pipette.png
@@ -88,12 +89,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Misc/cselection.cpp Misc/cselection.h
         Misc/cimageviewtransform.h Misc/cimageviewtransform.cpp
         Misc/cscale.h Misc/cscale.cpp
+        Misc/cpixelgrid.cpp Misc/cpixelgrid.h
 
         #everything else
         cimageprocessor.h cimageprocessor.cpp
         cconnector.cpp cconnector.h
-        Tools/cellipseselectiontool.cpp Tools/cellipseselectiontool.h
-
 
     )
 # Define target properties for Android with Qt 6 as:
