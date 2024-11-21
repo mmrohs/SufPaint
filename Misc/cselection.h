@@ -46,6 +46,9 @@ public:
     virtual QRect GetBoundingRect() const override;
     virtual void Paint(class QPainter&) const override;
 
+protected:
+    QPen GetPen() const;
+
 private:
     QRect  m_rect;
     QPoint m_startingPoint;
@@ -63,6 +66,9 @@ public:
     virtual void AddCoordinate(QPoint) override;
     virtual QRect GetBoundingRect() const override;
     virtual void Paint(class QPainter&) const override;
+
+protected:
+    QPen GetPen() const;
 
 private:
     QRect m_rect;

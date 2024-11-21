@@ -69,13 +69,21 @@ CRectangleSelection::CRectangleSelection()
     return m_rect;
 }
 
+QPen CRectangleSelection::GetPen() const
+{
+    qreal scale = CImageViewManager::GetImageViewManager()->GetScale();
+    QPen pen = GetDefaultPen();
+    pen.setWidthF(pen.widthF() / scale);
+    return pen;
+}
+
 /*virtual*/ void CRectangleSelection::Paint(class QPainter& paint) const
 {
     QPoint posTopLeft = GetWidgetPos(m_rect.topLeft());
     QPoint posBottomRight = GetWidgetPos(m_rect.bottomRight());
     QRect rect(posTopLeft, posBottomRight);
     paint.fillRect(rect, GetDefaultBrush());
-    paint.setPen(GetDefaultPen());
+    paint.setPen(GetPen());
     paint.drawRect(rect);
 }
 
@@ -103,6 +111,14 @@ CEllipticSelection::CEllipticSelection()
     return m_rect;
 }
 
+QPen CEllipticSelection::GetPen() const
+{
+    qreal scale = CImageViewManager::GetImageViewManager()->GetScale();
+    QPen pen = GetDefaultPen();
+    pen.setWidthF(pen.widthF() / scale);
+    return pen;
+}
+
 /*virtual*/ void CEllipticSelection::Paint(class QPainter& paint) const
 {
     QPoint posTopLeft = GetWidgetPos(m_rect.topLeft());
@@ -111,6 +127,6 @@ CEllipticSelection::CEllipticSelection()
     QPainterPath path;
     path.addEllipse(rect);
     paint.fillPath(path, GetDefaultBrush());
-    paint.setPen(GetDefaultPen());
+    paint.setPen(GetPen());
     paint.drawEllipse(rect);
 }
