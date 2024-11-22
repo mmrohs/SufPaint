@@ -10,6 +10,10 @@ CStatusBarToolLabel::CStatusBarToolLabel(QWidget* pParent)
 
 void CStatusBarToolLabel::Update()
 {
-    QString toolName = CToolManager::GetToolManager()->GetActiveToolName();
-    setText(QString("  Current tool: %1").arg(toolName));
+    CTool* pTool = CToolManager::GetToolManager()->GetActiveTool();
+    if (pTool != NULL)
+    {
+        QString toolName = pTool->GetStatusText();
+        setText(QString("  Current tool: %1").arg(toolName));
+    }
 }

@@ -7,21 +7,21 @@ CColorPickerTool::CColorPickerTool()
 {
 }
 
-/*virtual*/ QString CColorPickerTool::GetToolName()
-{
-    return "Color Picker";
-}
-
-/*virtual*/ QString CColorPickerTool::GetTooltip()
-{
-    return "Pick a color from image";
-}
-
-/*virtual*/ QIcon CColorPickerTool::GetToolIcon()
+/*virtual*/ QIcon CColorPickerTool::GetToolIcon() const
 {
     QIcon icon("Icons/Pipette.png");
     icon.addFile("Icons/Pipette_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
+}
+
+/*virtual*/ QString CColorPickerTool::GetToolName() const
+{
+    return "Color Picker";
+}
+
+/*virtual*/ QString CColorPickerTool::GetTooltip() const
+{
+    return "Pick a color from image";
 }
 
 /*virtual*/ void CColorPickerTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)

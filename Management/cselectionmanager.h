@@ -23,7 +23,7 @@ public:
     void ClearSelection();
 
 Q_SIGNALS:
-    void SelectionChanged();
+    void SelectionUpdate();
 
 public slots:
     void ImagePropertiesChanged();

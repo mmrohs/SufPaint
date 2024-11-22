@@ -11,6 +11,7 @@ public:
 
 public slots:
     void ImagePropertiesUpdate();
+    void SelectionUpdate();
     void ToolUpdate();
     void ZoomUpdate();
 

@@ -7,21 +7,35 @@ CRectangleSelectionTool::CRectangleSelectionTool()
 {
 }
 
-/*virtual*/ QString CRectangleSelectionTool::GetToolName()
-{
-    return "Rectangle Select";
-}
-
-/*virtual*/ QString CRectangleSelectionTool::GetTooltip()
-{
-    return "Select a rectangular area";
-}
-
-/*virtual*/ QIcon CRectangleSelectionTool::GetToolIcon()
+/*virtual*/ QIcon CRectangleSelectionTool::GetToolIcon() const
 {
     QIcon icon("Icons/RectSelection.png");
     icon.addFile("Icons/RectSelection_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
+}
+
+/*virtual*/ QString CRectangleSelectionTool::GetToolName() const
+{
+    return "Rectangle Select";
+}
+
+/*virtual*/ QString CRectangleSelectionTool::GetTooltip() const
+{
+    return "Select a rectangular area";
+}
+
+/*virtual*/ QString CRectangleSelectionTool::GetStatusText() const
+{
+    QString statustext = GetToolName();
+    CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
+    if (pSelection != NULL)
+    {
+        QRect rect = pSelection->GetBoundingRect();
+        int width = abs(rect.width());
+        int height = abs(rect.height());
+        statustext += QString(" (Selection: %1 x %2 pixels)").arg(width).arg(height);
+    }
+    return statustext;
 }
 
 void CRectangleSelectionTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)

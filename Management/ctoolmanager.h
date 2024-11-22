@@ -18,7 +18,6 @@ public:
     static CToolManager* GetToolManager();
 
     CTool* GetActiveTool();
-    QString GetActiveToolName();
     EnumTools GetActiveToolEnum() const;
 
     void SetActiveTool(EnumTools tool);

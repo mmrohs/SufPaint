@@ -55,8 +55,9 @@ void CConnector::ConnectAll()
     connect(m_pToolManager, &CToolManager::ToolChanged, m_pToolWidget, &CToolWidget::ToolChanged);
 
     // CSelectionManager signals
-    connect(m_pSelectionManager, &CSelectionManager::SelectionChanged, m_pImageView, &CImageView::ImagePixelsChanged);
-    connect(m_pSelectionManager, &CSelectionManager::SelectionChanged, m_pActionManager, &CActionManager::CheckAllActions);
+    connect(m_pSelectionManager, &CSelectionManager::SelectionUpdate, m_pImageView, &CImageView::ImagePixelsChanged);
+    connect(m_pSelectionManager, &CSelectionManager::SelectionUpdate, m_pActionManager, &CActionManager::CheckAllActions);
+    connect(m_pSelectionManager, &CSelectionManager::SelectionUpdate, m_pStatusBar, &CStatusBar::SelectionUpdate);
 
     // clipboard signals
     QClipboard* pClipboard = QGuiApplication::clipboard();

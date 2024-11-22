@@ -31,6 +31,11 @@ void CStatusBar::ImagePropertiesUpdate()
     pImageLabel->Update();
 }
 
+void CStatusBar::SelectionUpdate()
+{
+    ToolUpdate();
+}
+
 void CStatusBar::ToolUpdate()
 {
     CStatusBarToolLabel* pToolLabel = (CStatusBarToolLabel*)m_pSBToolLabel;

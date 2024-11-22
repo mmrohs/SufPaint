@@ -32,16 +32,6 @@ CTool* CToolManager::GetActiveTool()
     return m_pTool;
 }
 
-QString CToolManager::GetActiveToolName()
-{
-    CTool* pTool = GetActiveTool();
-    if (pTool != NULL)
-    {
-        return pTool->GetToolName();
-    }
-    return "";
-}
-
 EnumTools CToolManager::GetActiveToolEnum() const
 {
     return m_activeTool;

@@ -25,9 +25,10 @@ public:
 
     // tool properties
     // (reimplement these in derived classes!)
-    virtual QString GetToolName() = 0;
-    virtual QString GetTooltip() = 0;
-    virtual QIcon   GetToolIcon() = 0;
+    virtual QIcon   GetToolIcon() const = 0;
+    virtual QString GetToolName() const = 0;
+    virtual QString GetTooltip() const = 0;
+    virtual QString GetStatusText() const { return GetToolName(); };
 
 protected:
     // events for left mouse button

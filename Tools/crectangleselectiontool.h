@@ -11,9 +11,10 @@ class CRectangleSelectionTool : public CTool
 public:
     explicit CRectangleSelectionTool();
 
-    virtual QString GetToolName() override;
-    virtual QString GetTooltip() override;
-    virtual QIcon   GetToolIcon() override;
+    virtual QIcon   GetToolIcon() const override;
+    virtual QString GetToolName() const override;
+    virtual QString GetTooltip() const override;
+    virtual QString GetStatusText() const override;
 
 protected:
     // events for the left mouse button

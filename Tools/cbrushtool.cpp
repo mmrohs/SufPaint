@@ -6,21 +6,21 @@ CBrushTool::CBrushTool()
 {
 }
 
-/*virtual*/ QString CBrushTool::GetToolName()
-{
-    return "Brush";
-}
-
-/*virtual*/ QString CBrushTool::GetTooltip()
-{
-    return "Draw with a brush";
-}
-
-/*virtual*/ QIcon CBrushTool::GetToolIcon()
+/*virtual*/ QIcon CBrushTool::GetToolIcon() const
 {
     QIcon icon("Icons/Brush.png");
     icon.addFile("Icons/Brush_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
+}
+
+/*virtual*/ QString CBrushTool::GetToolName() const
+{
+    return "Brush";
+}
+
+/*virtual*/ QString CBrushTool::GetTooltip() const
+{
+    return "Draw with a brush";
 }
 
 /*virtual*/ void CBrushTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)

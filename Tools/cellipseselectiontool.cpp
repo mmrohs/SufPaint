@@ -7,21 +7,35 @@ CEllipseSelectionTool::CEllipseSelectionTool()
 {
 }
 
-/*virtual*/ QString CEllipseSelectionTool::GetToolName()
-{
-    return "Ellipse Select";
-}
-
-/*virtual*/ QString CEllipseSelectionTool::GetTooltip()
-{
-    return "Select an elliptic area";
-}
-
-/*virtual*/ QIcon CEllipseSelectionTool::GetToolIcon()
+/*virtual*/ QIcon CEllipseSelectionTool::GetToolIcon() const
 {
     QIcon icon("Icons/EllipseSelection.png");
     icon.addFile("Icons/EllipseSelection_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
+}
+
+/*virtual*/ QString CEllipseSelectionTool::GetToolName() const
+{
+    return "Ellipse Select";
+}
+
+/*virtual*/ QString CEllipseSelectionTool::GetTooltip() const
+{
+    return "Select an elliptic area";
+}
+
+/*virtual*/ QString CEllipseSelectionTool::GetStatusText() const
+{
+    QString statustext = GetToolName();
+    CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
+    if (pSelection != NULL)
+    {
+        QRect rect = pSelection->GetBoundingRect();
+        int width = abs(rect.width());
+        int height = abs(rect.height());
+        statustext += QString(" (Area: %1 x %2 pixels)").arg(width).arg(height);
+    }
+    return statustext;
 }
 
 /*virtual*/ void CEllipseSelectionTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)

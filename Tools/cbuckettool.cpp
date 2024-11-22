@@ -6,21 +6,21 @@ CBucketTool::CBucketTool()
 {
 }
 
-/*virtual*/ QString CBucketTool::GetToolName()
-{
-    return "Paint Bucket";
-}
-
-/*virtual*/ QString CBucketTool::GetTooltip()
-{
-    return "Fill areas with a color";
-}
-
-/*virtual*/ QIcon CBucketTool::GetToolIcon()
+/*virtual*/ QIcon CBucketTool::GetToolIcon() const
 {
     QIcon icon("Icons/Bucket.png");
     icon.addFile("Icons/Bucket_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
+}
+
+/*virtual*/ QString CBucketTool::GetToolName() const
+{
+    return "Paint Bucket";
+}
+
+/*virtual*/ QString CBucketTool::GetTooltip() const
+{
+    return "Fill areas with a color";
 }
 
 /*virtual*/ void CBucketTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)

@@ -38,7 +38,7 @@ void CSelectionManager::SetSelection(CSelection* pSelection)
         delete m_pSelection;
     }
     m_pSelection = pSelection;
-    emit SelectionChanged();
+    emit SelectionUpdate();
 }
 
 void CSelectionManager::ClearSelection()
@@ -48,7 +48,7 @@ void CSelectionManager::ClearSelection()
         delete m_pSelection;
         m_pSelection = NULL;
     }
-    emit SelectionChanged();
+    emit SelectionUpdate();
 }
 
 void CSelectionManager::ImagePropertiesChanged()
