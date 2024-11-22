@@ -1,29 +1,24 @@
-#ifndef CPIXELGRID_H
-#define CPIXELGRID_H
+#ifndef CBACKGROUNDPATTERN_H
+#define CBACKGROUNDPATTERN_H
 
 #include <QObject>
 #include <QPixmap>
 
 
-/* class for drawing the pixel grid
+/* class for drawing the background pattern begind the image
 */
-class CPixelGrid
+class CBackgroundPattern
 {
 public:
-    CPixelGrid();
+    CBackgroundPattern();
 
-    void DrawPixelGrid(class QPainter&);
+    void Draw(class QPainter&) const;
 
 private:
-    // returns true if all requirements for the pixelgrid are met
-    bool CheckRequirements() const;
-
-    qreal GetScale() const;
-    qreal GetMaxScale() const;
-    QPen GetDefaultPen() const;
+    void InitPixmap();
 
 private:
     QPixmap m_tile;
 };
 
-#endif // CPIXELGRID_H
+#endif // CBACKGROUNDPATTERN_H

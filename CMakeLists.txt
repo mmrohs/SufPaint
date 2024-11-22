@@ -84,17 +84,17 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Icons/Brush.png Icons/Pencil.png Icons/Pipette.png
 
         #misc
+        Misc/cbackgroundpattern.cpp Misc/cbackgroundpattern.h
         Misc/ccolorpatternimage.h Misc/ccolorpatternimage.cpp
         Misc/debugtools.h Misc/debugtools.cpp
-        Misc/cselection.cpp Misc/cselection.h
         Misc/cimageviewtransform.h Misc/cimageviewtransform.cpp
-        Misc/cscale.h Misc/cscale.cpp
         Misc/cpixelgrid.cpp Misc/cpixelgrid.h
+        Misc/cscale.h Misc/cscale.cpp
+        Misc/cselection.cpp Misc/cselection.h
 
         #everything else
         cimageprocessor.h cimageprocessor.cpp
         cconnector.cpp cconnector.h
-
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SufPaint APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

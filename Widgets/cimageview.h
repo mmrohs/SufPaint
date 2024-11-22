@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "../Misc/cimageviewtransform.h"
 #include "../Misc/cpixelgrid.h"
+#include "../Misc/cbackgroundpattern.h"
 
 
 /* Widget for displaying a QImage items
@@ -51,6 +52,7 @@ private:
 private:
     CImageViewTransform m_trafo;
     CPixelGrid m_pixelgrid;
+    CBackgroundPattern m_background;
 };
 
 #endif // CIMAGEVIEW_H

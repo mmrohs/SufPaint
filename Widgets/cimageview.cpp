@@ -93,7 +93,7 @@ CTool* CImageView::GetActiveTool()
 
 QBrush CImageView::GetBackgroundBrush() const
 {
-    static const QBrush backgroundBrush = QBrush(QColor(120, 120, 120));
+    static const QBrush backgroundBrush = QBrush(QColor(125, 125, 125));
     return backgroundBrush;
 }
 
@@ -112,24 +112,36 @@ QBrush CImageView::GetBackgroundBrush() const
     paint.fillRect(pEvent->rect(), GetBackgroundBrush());
 
     // draw image if available
-    CImageManager* pImageManager = CImageManager::GetImageManager();
-    if (pImageManager->HasImage())
+    QImage* pImage = CImageManager::GetImageManager()->GetImage();
+    if (pImage != NULL)
     {
         QPointF pos = m_trafo.GetImageOriginScaled();
         qreal scale = m_trafo.GetScale();
+        QRect rect = pImage->rect();
+        rect.translate(QPoint(pos.x(), pos.y()));
+
+        // set scale and clipping rect
         paint.scale(scale, scale);
-        paint.drawImage(pos, *pImageManager->GetImage());
-    }
+        paint.setClipRect(rect);
 
-    // draw pixelgrid if necessary
-    m_pixelgrid.DrawPixelGrid(paint);
+        // draw background pattern
+        m_background.Draw(paint);
 
-    // draw selection if available
-    CSelectionManager* pSelectionManager = CSelectionManager::GetSelectionManager();
-    if (pSelectionManager->HasSelection())
-    {
-        CSelection* pSelection = pSelectionManager->GetSelection();
-        pSelection->Paint(paint);
+        // draw image
+        paint.drawImage(pos, *pImage);
+
+        // draw pixelgrid
+        paint.scale(1.0/scale, 1.0/scale);
+        m_pixelgrid.Draw(paint);
+        paint.scale(scale, scale);
+
+        // draw selection
+        CSelectionManager* pSelectionManager = CSelectionManager::GetSelectionManager();
+        if (pSelectionManager->HasSelection())
+        {
+            CSelection* pSelection = pSelectionManager->GetSelection();
+            pSelection->Paint(paint);
+        }
     }
 
     paint.end();

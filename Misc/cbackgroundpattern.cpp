@@ -1,58 +1,31 @@
-#include "cpixelgrid.h"
+#include "cbackgroundpattern.h"
 #include <QPainter>
-#include "cscale.h"
-#include "../Management/CImageManager.h"
-#include "../Management/CImageViewManager.h"
+
+// size constants for the pattern
+#define TILESIZE 8
+#define PATTERNSIZE 2 * TILESIZE
 
 
-CPixelGrid::CPixelGrid()
-    : m_tile(QPixmap(GetMaxScale(), GetMaxScale()))
+CBackgroundPattern::CBackgroundPattern()
 {
-    m_tile.fill(Qt::transparent);
+    InitPixmap();
+}
+
+void CBackgroundPattern::InitPixmap()
+{
+    m_tile = QPixmap(PATTERNSIZE, PATTERNSIZE);
+    m_tile.fill(Qt::white);
+
     QPainter pt(&m_tile);
-    pt.setPen(GetDefaultPen());
-    pt.drawLine(0, 0, GetMaxScale(), 0);
-    pt.drawLine(0, 0, 0, GetMaxScale());
+    pt.fillRect(0, 0, TILESIZE, TILESIZE, Qt::gray);
+    pt.fillRect(TILESIZE, TILESIZE, PATTERNSIZE, PATTERNSIZE, Qt::gray);
     pt.end();
 }
 
-void CPixelGrid::DrawPixelGrid(class QPainter& painter)
+void CBackgroundPattern::Draw(class QPainter& painter) const
 {
-    if (CheckRequirements())
-    {
-        qreal scale = GetScale();
-        painter.scale(1.0/scale, 1.0/scale);
+    if (m_tile.isNull())
+        return;
 
-        QPixmap pixmap = m_tile.copy(QRect(0, 0, scale, scale));
-        painter.drawTiledPixmap(painter.clipBoundingRect(), pixmap);
-
-        painter.scale(scale, scale);
-    }
-}
-
-bool CPixelGrid::CheckRequirements() const
-{
-    // minimum scale to show the pixel grid
-    static const qreal MINSCALE = 20.0;
-
-    if (!CImageManager::GetImageManager()->HasImage())
-        return false;
-
-    return GetScale() >= MINSCALE;
-}
-
-qreal CPixelGrid::GetScale() const
-{
-    return CImageViewManager::GetImageViewManager()->GetScale();
-}
-
-qreal CPixelGrid::GetMaxScale() const
-{
-    return CScale::GetMaxScale();
-}
-
-QPen CPixelGrid::GetDefaultPen() const
-{
-    static QPen PEN = QPen(Qt::darkGray, Qt::DotLine);
-    return PEN;
+    painter.drawTiledPixmap(painter.clipBoundingRect(), m_tile);
 }

@@ -12,9 +12,11 @@ class CPixelGrid
 public:
     CPixelGrid();
 
-    void DrawPixelGrid(class QPainter&);
+    void Draw(class QPainter&) const;
 
 private:
+    void InitPixmap();
+
     // returns true if all requirements for the pixelgrid are met
     bool CheckRequirements() const;
 
