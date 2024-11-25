@@ -64,6 +64,11 @@ CRectangleSelection::CRectangleSelection()
     m_rect = QRect(m_startingPoint, pos);
 }
 
+/*virtual*/ bool CRectangleSelection::Contains(QPoint pos) const
+{
+    return m_rect.contains(pos);
+}
+
 /*virtual*/ QRect CRectangleSelection::GetBoundingRect() const
 {
     return m_rect;
@@ -104,6 +109,13 @@ CEllipticSelection::CEllipticSelection()
         m_bSetStartingPoint = false;
     }
     m_rect = QRect(m_startingPoint, pos);
+}
+
+/*virtual*/ bool CEllipticSelection::Contains(QPoint pos) const
+{
+    // to do
+
+    return true;
 }
 
 /*virtual*/ QRect CEllipticSelection::GetBoundingRect() const

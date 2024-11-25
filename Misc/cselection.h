@@ -19,6 +19,7 @@ public:
     bool IsValid() const;
 
     virtual void AddCoordinate(QPoint) = 0;
+    virtual bool Contains(QPoint) const = 0;
     virtual QRect GetBoundingRect() const = 0;
     virtual void Paint(class QPainter&) const = 0;
 
@@ -43,6 +44,7 @@ public:
     explicit CRectangleSelection();
 
     virtual void AddCoordinate(QPoint) override;
+    virtual bool Contains(QPoint) const override;
     virtual QRect GetBoundingRect() const override;
     virtual void Paint(class QPainter&) const override;
 
@@ -64,6 +66,7 @@ public:
     explicit CEllipticSelection();
 
     virtual void AddCoordinate(QPoint) override;
+    virtual bool Contains(QPoint) const override;
     virtual QRect GetBoundingRect() const override;
     virtual void Paint(class QPainter&) const override;
 

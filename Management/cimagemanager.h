@@ -58,6 +58,11 @@ Q_SIGNALS:
     // signal for property changes (e.g. resize)
     void ImagePropertiesUpdate();
 
+public slots:
+    // force send the signals above
+    void SendImagePixelsUpdate();
+    void SendImagePropertiesUpdate();
+
 private:
     class CSelection* GetSelection() const;
     void TrySaveImage(QString strFilePath);

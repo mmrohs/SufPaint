@@ -213,7 +213,7 @@ void CImageProcessor::CutImage(QImage* pImage, QRect rect)
 
 void CImageProcessor::RemoveArea(QImage* pImage, QRect rect)
 {
-    static const QRgb transpColor = qRgba(0,0,0,0);
+    static const QRgb transpColor = qRgba(255,255,255,0);
     for (int y = 0; y < pImage->height(); ++y)
     {
         QRgb* line = reinterpret_cast<QRgb*>(pImage->scanLine(y));

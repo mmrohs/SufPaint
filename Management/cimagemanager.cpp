@@ -287,6 +287,16 @@ void CImageManager::Sepia()
     }
 }
 
+void CImageManager::SendImagePixelsUpdate()
+{
+    emit ImagePixelsUpdate();
+}
+
+void CImageManager::SendImagePropertiesUpdate()
+{
+    emit ImagePropertiesUpdate();
+}
+
 CSelection* CImageManager::GetSelection() const
 {
     return CSelectionManager::GetSelectionManager()->GetSelection();

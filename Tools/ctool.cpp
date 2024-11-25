@@ -60,7 +60,8 @@ QPoint CTool::GetImagePos(QPoint widgetPos) const
 QPoint CTool::GetImagePos(QMouseEvent* pEvent, bool bCheck) const
 {
     QPoint wdgPos = pEvent->pos();
-    wdgPos = CheckPositionInImageRect(wdgPos);
+    if (bCheck)
+        wdgPos = CheckPositionInImageRect(wdgPos);
     return GetImagePos(wdgPos);
 }
 
