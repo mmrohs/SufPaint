@@ -77,7 +77,8 @@ void CImageView::ImagePixelsChanged()
 
 void CImageView::ImagePropertiesChanged()
 {
-    m_trafo.Reset();
+
+    m_trafo.Autoscale();
     update();
 }
 
@@ -100,7 +101,7 @@ QBrush CImageView::GetBackgroundBrush() const
 /*virtual*/ void CImageView::resizeEvent(QResizeEvent* pEvent)
 {
     QWidget::resizeEvent(pEvent);
-    m_trafo.Update();
+    m_trafo.Autoscale();
     update();
 }
 

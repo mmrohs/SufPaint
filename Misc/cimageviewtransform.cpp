@@ -81,6 +81,11 @@ QPoint CImageViewTransform::GetImageOriginScaled() const
     return m_imageOrigin / GetScale();
 }
 
+QRect CImageViewTransform::GetImageRect() const
+{
+    return CImageManager::GetImageManager()->GetImageRect();
+}
+
 QSize CImageViewTransform::GetImageSize() const
 {
     return CImageManager::GetImageManager()->GetImageSize();
@@ -133,17 +138,21 @@ QPoint CImageViewTransform::TransformImageToWidget(QPoint imagePos) const
     return QPoint(pointF.x(), pointF.y());
 }
 
+void CImageViewTransform::Autoscale()
+{
+    m_scale.AutoScale(GetImageRect(), m_pImageView->rect());
+    Update();
+}
+
 void CImageViewTransform::Reset()
 {
     m_scale.ResetScale();
-    m_imageOrigin = QPoint();
-    SetFixedPoint(GetWidgetCenter());
-    CalcImageOrigin();
+    Update();
 }
 
 void CImageViewTransform::Update()
 {
-    m_scale.ResetScale();
+    m_imageOrigin = QPoint();
     SetFixedPoint(GetWidgetCenter());
     CalcImageOrigin();
 }

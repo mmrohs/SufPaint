@@ -155,7 +155,7 @@ void CImageManager::CutImage()
         {
             QRect rect = pSelection->GetBoundingRect();
             m_pImageProcessor->CutImage(m_pImage, rect);
-            emit ImagePropertiesUpdate();
+            emit ImagePixelsUpdate();
         }
     }
 }

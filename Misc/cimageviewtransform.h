@@ -31,6 +31,9 @@ public:
     // reset to original view
     void Reset();
 
+    // Automatically set the scale
+    void Autoscale();
+
     // update the coordinate system
     void Update();
 
@@ -49,7 +52,8 @@ private:
     // set the fixed point for zooming
     void SetFixedPoint(QPoint fixedPoint);
 
-    // return the image size
+    // return the image rect / size
+    QRect GetImageRect() const;
     QSize GetImageSize() const;
     QSize GetImageSizeScaled() const;
 
@@ -69,7 +73,7 @@ private:
     // (= widget center for zoom via menu, otherwise mouse position)
     QPoint m_fixedPoint;
 
-    // scaling / zoom factor [0.1 - 10.0]
+    // scaling / zoom factor
     CScale m_scale;
 };
 

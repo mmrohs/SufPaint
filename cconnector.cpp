@@ -43,9 +43,9 @@ void CConnector::ConnectAll()
     connect(m_pImageView, &CImageView::ViewChanged, m_pStatusBar, &CStatusBar::ZoomUpdate);
 
     // CImageManager signals
+    connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pImageView, &CImageView::ImagePropertiesChanged);
     connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pStatusBar, &CStatusBar::ImagePropertiesUpdate);
     connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pToolWidget, &CToolWidget::ImagePropertiesChanged);
-    connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pImageView, &CImageView::ImagePropertiesChanged);
     connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pActionManager, &CActionManager::CheckAllActions);
     connect(m_pImageManager, &CImageManager::ImagePropertiesUpdate, m_pSelectionManager, &CSelectionManager::ImagePropertiesChanged);
     connect(m_pImageManager, &CImageManager::ImagePixelsUpdate, m_pImageView, &CImageView::ImagePixelsChanged);
