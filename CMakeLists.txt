@@ -79,6 +79,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Tools/cgradienttool.cpp Tools/cgradienttool.h
         Tools/clinestool.cpp Tools/clinestool.h
         Tools/cellipseselectiontool.cpp Tools/cellipseselectiontool.h
+        Tools/cpantool.cpp Tools/cpantool.h
 
         #icons
         Icons/Brush.png Icons/Pencil.png Icons/Pipette.png
@@ -95,6 +96,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         #everything else
         cimageprocessor.h cimageprocessor.cpp
         cconnector.cpp cconnector.h
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SufPaint APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

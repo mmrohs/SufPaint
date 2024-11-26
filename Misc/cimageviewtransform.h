@@ -31,6 +31,9 @@ public:
     // reset to original view
     void Reset();
 
+    // move the view
+    void MoveView(QPoint distance);
+
     // Automatically set the scale
     void Autoscale();
 

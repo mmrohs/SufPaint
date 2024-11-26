@@ -1,29 +1,31 @@
-#ifndef CRECTANGLESELECTIONTOOL_H
-#define CRECTANGLESELECTIONTOOL_H
+#ifndef CPANTOOL_H
+#define CPANTOOL_H
 
 #include "ctool.h"
 
 
-/* Tool for selecting rectangular areas inside the image
+/* Tool for moving the image view
 */
-class CRectangleSelectionTool : public CTool
+class CPanTool : public CTool
 {
 public:
-    explicit CRectangleSelectionTool();
+    explicit CPanTool();
 
     virtual QIcon   GetToolIcon() const override;
     virtual QString GetToolName() const override;
     virtual QString GetTooltip() const override;
-    virtual QString GetStatusText() const override;
 
 protected:
     // events for the left mouse button
     virtual void ProcessMouseLPressEvent(QMouseEvent* pEvent) override;
-    virtual void ProcessMouseLReleaseEvent(QMouseEvent* pEvent) override;
     virtual void ProcessMouseLMoveEvent(QMouseEvent* pEvent) override;
 
-    // events for the right mouse button
-    virtual void ProcessMouseRPressEvent(QMouseEvent* pEvent) override;
+private:
+    void MoveImageView();
+
+private:
+    QPoint m_startPos;
+    QPoint m_endPos;
 };
 
-#endif // CRECTANGLESELECTIONTOOL_H
+#endif // CPANTOOL_H

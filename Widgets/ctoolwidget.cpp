@@ -56,9 +56,9 @@ void CToolWidget::AddLayout()
 
 void CToolWidget::AddToolButtons()
 {
-    EnumTools tools[] = { RectSelect, EllipseSelect, ColorPicker,
-                          Brush, Pencil, Bucket,
-                          Gradient, Line
+    EnumTools tools[] = { Pan, RectSelect, EllipseSelect,
+                          ColorPicker, Brush, Pencil,
+                          Bucket, Gradient, Line
                          /*, ... to do ... */ };
 
     for (int i = 0; i < sizeof(tools)/sizeof(tools[0]); ++i)

@@ -58,6 +58,12 @@ void CImageView::ResetZoom()
     update();
 }
 
+void CImageView::MoveView(QPoint distance)
+{
+    m_trafo.MoveView(distance);
+    update();
+}
+
 QPoint CImageView::GetCenter() const
 {
     qreal x = 0.5 * size().width();

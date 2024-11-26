@@ -57,6 +57,7 @@ enum EnumActions : int
 enum EnumTools : int
 {
     None = 0,               // no tool selected (default)
+    Pan,                    // move the image view
     RectSelect,             // select a rectangular area
     EllipseSelect,          // select an elliptic area
     ColorPicker,            // color picker / color pipette

@@ -157,3 +157,9 @@ void CImageViewTransform::Update()
     CalcImageOrigin();
 }
 
+void CImageViewTransform::MoveView(QPoint distance)
+{
+    QPoint dist = TransformImageToWidget(distance);
+    m_fixedPoint += dist;
+    m_imageOrigin += dist;
+}

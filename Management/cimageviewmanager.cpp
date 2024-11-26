@@ -42,6 +42,22 @@ qreal CImageViewManager::GetZoom() const
     return 100.0;
 }
 
+void CImageViewManager::MoveView(QPoint distance)
+{
+    if (m_pImageView != NULL)
+    {
+        m_pImageView->MoveView(distance);
+    }
+}
+
+void CImageViewManager::ResetZoom()
+{
+    if (m_pImageView != NULL)
+    {
+        m_pImageView->ResetZoom();
+    }
+}
+
 void CImageViewManager::ZoomIn()
 {
     if (m_pImageView != NULL)
@@ -55,14 +71,6 @@ void CImageViewManager::ZoomOut()
     if (m_pImageView != NULL)
     {
         m_pImageView->ZoomOut();
-    }
-}
-
-void CImageViewManager::ResetZoom()
-{
-    if (m_pImageView != NULL)
-    {
-        m_pImageView->ResetZoom();
     }
 }
 

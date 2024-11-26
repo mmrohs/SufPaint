@@ -24,6 +24,8 @@ public:
     // zoom in/out using a fixed image point
     void ZoomIn(QPoint fixedPos);
     void ZoomOut(QPoint fixedPos);
+    // move the view
+    void MoveView(QPoint distance);
 
     QPoint GetCenter() const;
 

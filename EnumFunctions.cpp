@@ -8,6 +8,7 @@
 #include "Tools/cbuckettool.h"
 #include "Tools/cgradienttool.h"
 #include "Tools/clinestool.h"
+#include "Tools/cpantool.h"
 
 
 QString GetActionName(EnumActions action)
@@ -135,6 +136,7 @@ CTool* GetNewTool(EnumTools tool)
 {
     switch (tool)
     {
+    case Pan:           return new CPanTool();
     case RectSelect:    return new CRectangleSelectionTool();
     case EllipseSelect: return new CEllipseSelectionTool();
     case ColorPicker:   return new CColorPickerTool();

@@ -22,10 +22,13 @@ public:
     qreal GetScale() const;
     qreal GetZoom() const;
 
-    // view actions
+    // orientation actions
+    void MoveView(QPoint distance);
+
+    // zoom actions
+    void ResetZoom();
     void ZoomIn();
     void ZoomOut();
-    void ResetZoom();
 
     // coordinate transformations between image and widget systems
     QPoint GetImagePos(QPoint widgetPos) const;

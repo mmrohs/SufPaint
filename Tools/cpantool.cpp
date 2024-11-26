@@ -1,72 +1,58 @@
-#include "crectangleselectiontool.h"
-#include "../Management/cselectionmanager.h"
+#include "cpantool.h"
+#include "../Management/CImageViewManager.h"
 
 
-CRectangleSelectionTool::CRectangleSelectionTool()
-    : CTool(EnumTools::ToolRectSelect)
+CPanTool::CPanTool()
+    : CTool(EnumTools::Pan)
 {
 }
 
-/*virtual*/ QIcon CRectangleSelectionTool::GetToolIcon() const
+/*virtual*/ QIcon CPanTool::GetToolIcon() const
 {
-    QIcon icon("Icons/RectSelection.png");
-    icon.addFile("Icons/RectSelection_Disabled.png", QSize(), QIcon::Mode::Disabled);
+    QIcon icon("Icons/Pan.png");
+    icon.addFile("Icons/Pan_Disabled.png", QSize(), QIcon::Mode::Disabled);
     return icon;
 }
 
-/*virtual*/ QString CRectangleSelectionTool::GetToolName() const
+/*virtual*/ QString CPanTool::GetToolName() const
 {
-    return "Rectangle Select";
+    return "Pan";
 }
 
-/*virtual*/ QString CRectangleSelectionTool::GetTooltip() const
+/*virtual*/ QString CPanTool::GetTooltip() const
 {
-    return "Select a rectangular area";
+    return "Move the image view";
 }
 
-/*virtual*/ QString CRectangleSelectionTool::GetStatusText() const
+void CPanTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)
 {
-    QString statustext = GetToolName();
-    CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
-    if (pSelection != NULL)
+    QPoint imgPos = GetMouseCoordinateFromEvent(pEvent);
+    if (imgPos != QPoint(-1,-1))
     {
-        QRect rect = pSelection->GetBoundingRect();
-        int width = abs(rect.width());
-        int height = abs(rect.height());
-        statustext += QString(" (Selection: %1 x %2 pixels)").arg(width).arg(height);
+        m_startPos = imgPos;
     }
-    return statustext;
 }
 
-void CRectangleSelectionTool::ProcessMouseLPressEvent(QMouseEvent* pEvent)
+void CPanTool::ProcessMouseLMoveEvent(QMouseEvent* pEvent)
 {
     QPoint imgPos = GetMouseCoordinateFromEvent(pEvent);
-    if (imgPos == QPoint(-1,-1))
-        return;
-
-    CRectangleSelection* pSelection = new CRectangleSelection();
-    pSelection->AddCoordinate(imgPos);
-    CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
+    if (imgPos != QPoint(-1,-1))
+    {
+        m_endPos = imgPos;
+        if (m_startPos != m_endPos)
+        {
+            MoveImageView();
+            m_startPos = m_endPos;
+        }
+    }
 }
 
-void CRectangleSelectionTool::ProcessMouseLReleaseEvent(QMouseEvent* pEvent)
+void CPanTool::MoveImageView()
 {
-    ProcessMouseLMoveEvent(pEvent);
-}
-
-void CRectangleSelectionTool::ProcessMouseLMoveEvent(QMouseEvent* pEvent)
-{
-    QPoint imgPos = GetMouseCoordinateFromEvent(pEvent);
-    if (imgPos == QPoint(-1,-1))
-        return;
-
-    CSelection* pSelection = CSelectionManager::GetSelectionManager()->GetSelection();
-    if (pSelection != NULL)
-        pSelection->AddCoordinate(imgPos);
-    CSelectionManager::GetSelectionManager()->SetSelection(pSelection);
-}
-
-void CRectangleSelectionTool::ProcessMouseRPressEvent(QMouseEvent* pEvent)
-{
-    CSelectionManager::GetSelectionManager()->ClearSelection();
+    CImageViewManager* pIVM = CImageViewManager::GetImageViewManager();
+    if (pIVM != NULL)
+    {
+        QPoint distance = m_endPos - m_startPos;
+        pIVM->MoveView(distance);
+    }
 }
