@@ -3,7 +3,7 @@
 
 
 CColorPickerTool::CColorPickerTool()
-    : CTool(EnumTools::ToolColorPicker)
+    : CTool(EnumTools::ColorPicker)
 {
 }
 

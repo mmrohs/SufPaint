@@ -2,7 +2,7 @@
 
 
 CBrushTool::CBrushTool()
-    : CTool(EnumTools::ToolBrush)
+    : CTool(EnumTools::Brush)
 {
 }
 

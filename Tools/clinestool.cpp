@@ -2,7 +2,7 @@
 
 
 CLinesTool::CLinesTool()
-    : CTool(EnumTools::ToolLine)
+    : CTool(EnumTools::Line)
 {
 }
 

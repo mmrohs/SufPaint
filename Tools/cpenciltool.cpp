@@ -2,7 +2,7 @@
 
 
 CPencilTool::CPencilTool()
-    : CTool(EnumTools::ToolPencil)
+    : CTool(EnumTools::Pencil)
 {
 }
 

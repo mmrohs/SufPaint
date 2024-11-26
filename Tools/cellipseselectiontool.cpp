@@ -3,7 +3,7 @@
 
 
 CEllipseSelectionTool::CEllipseSelectionTool()
-    : CTool(EnumTools::ToolEllipseSelect)
+    : CTool(EnumTools::EllipseSelect)
 {
 }
 

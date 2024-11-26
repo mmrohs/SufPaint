@@ -2,7 +2,7 @@
 
 
 CBucketTool::CBucketTool()
-    : CTool(EnumTools::ToolBucket)
+    : CTool(EnumTools::Bucket)
 {
 }
 

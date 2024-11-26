@@ -46,7 +46,7 @@ QString GetActionName(EnumActions action)
     //---------------------
     case HelpInfo:            return QObject::tr("&Info");
     //---------------------
-    default:                        return QObject::tr("error: missing name");
+    default:                  return QObject::tr("error: missing name");
     }
     return "";
 }
@@ -87,7 +87,7 @@ QKeySequence GetActionShortcut(EnumActions action)
     //---------------------
     case HelpInfo:            return QKeySequence::WhatsThis;
     //---------------------
-    default:                        return QKeySequence::UnknownKey;
+    default:                  return QKeySequence::UnknownKey;
     }
 }
 
@@ -127,7 +127,7 @@ QIcon GetActionIcon(EnumActions action)
     //---------------------
     case HelpInfo:            return QIcon::fromTheme(QIcon::ThemeIcon::DialogInformation);
     //---------------------
-    default:                        return QIcon();
+    default:                  return QIcon();
     }
 }
 
@@ -135,15 +135,15 @@ CTool* GetNewTool(EnumTools tool)
 {
     switch (tool)
     {
-    case ToolRectSelect:    return new CRectangleSelectionTool();
-    case ToolEllipseSelect: return new CEllipseSelectionTool();
-    case ToolColorPicker:   return new CColorPickerTool();
-    case ToolBrush:         return new CBrushTool();
-    case ToolPencil:        return new CPencilTool();
-    case ToolBucket:        return new CBucketTool();
-    case ToolGradient:      return new CGradientTool();
-    case ToolLine:          return new CLinesTool();
-    default:                return NULL;
+    case RectSelect:    return new CRectangleSelectionTool();
+    case EllipseSelect: return new CEllipseSelectionTool();
+    case ColorPicker:   return new CColorPickerTool();
+    case Brush:         return new CBrushTool();
+    case Pencil:        return new CPencilTool();
+    case Bucket:        return new CBucketTool();
+    case Gradient:      return new CGradientTool();
+    case Line:          return new CLinesTool();
+    default:            return NULL;
     }
 }
 

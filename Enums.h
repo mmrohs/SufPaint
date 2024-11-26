@@ -56,17 +56,15 @@ enum EnumActions : int
 // Available tools
 enum EnumTools : int
 {
-    ToolInvalid = -1,
-    ToolNone = 0,               // no tool selected (default)
-
-    ToolRectSelect,             // select a rectangular area
-    ToolEllipseSelect,          // select an elliptic area
-    ToolColorPicker,            // color picker / color pipette
-    ToolBrush,                  // drawing with a brush
-    ToolPencil,                 // drawing with a pencil
-    ToolLine,                   // drawing lines
-    ToolBucket,                 // fill areas with a color
-    ToolGradient                // color gradient
+    None = 0,               // no tool selected (default)
+    RectSelect,             // select a rectangular area
+    EllipseSelect,          // select an elliptic area
+    ColorPicker,            // color picker / color pipette
+    Brush,                  // drawing with a brush
+    Pencil,                 // drawing with a pencil
+    Line,                   // drawing lines
+    Bucket,                 // fill areas with a color
+    Gradient                // color gradient
 };
 
 

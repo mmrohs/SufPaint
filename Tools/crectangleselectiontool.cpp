@@ -3,7 +3,7 @@
 
 
 CRectangleSelectionTool::CRectangleSelectionTool()
-    : CTool(EnumTools::ToolRectSelect)
+    : CTool(EnumTools::RectSelect)
 {
 }
 

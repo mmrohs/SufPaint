@@ -8,7 +8,7 @@
 CToolManager::CToolManager()
     : m_pTool(NULL)
 {
-    SetActiveTool(EnumTools::ToolNone);
+    SetActiveTool(EnumTools::None);
 }
 
 /*static*/ CToolManager* CToolManager::GetToolManager()

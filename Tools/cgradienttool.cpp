@@ -5,7 +5,7 @@
 
 
 CGradientTool::CGradientTool()
-    : CTool(EnumTools::ToolGradient)
+    : CTool(EnumTools::Gradient)
 {
 }
 
