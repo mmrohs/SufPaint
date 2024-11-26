@@ -35,7 +35,7 @@ void CPixelGrid::Draw(class QPainter& painter) const
 bool CPixelGrid::CheckRequirements() const
 {
     // minimum scale to show the pixel grid
-    static const qreal MINSCALE = 20.0;
+    static const qreal MINSCALE = 10.0;
 
     if (m_tile.isNull())
         return false;
