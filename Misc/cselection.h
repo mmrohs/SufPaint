@@ -24,7 +24,7 @@ public:
     virtual void Paint(class QPainter&) const = 0;
 
 protected:
-    QPen GetDefaultPen() const;
+    QPen GetDefaultPen(bool bScale) const;
     QBrush GetDefaultBrush() const;
 
     // coordinate transformations
@@ -48,13 +48,9 @@ public:
     virtual QRect GetBoundingRect() const override;
     virtual void Paint(class QPainter&) const override;
 
-protected:
-    QPen GetPen() const;
-
 private:
-    QRect  m_rect;
-    QPoint m_startingPoint;
-    bool   m_bSetStartingPoint;
+    QPoint m_startPoint;
+    QPoint m_endPoint;
 };
 
 
@@ -70,13 +66,9 @@ public:
     virtual QRect GetBoundingRect() const override;
     virtual void Paint(class QPainter&) const override;
 
-protected:
-    QPen GetPen() const;
-
 private:
-    QRect m_rect;
-    QPoint m_startingPoint;
-    bool   m_bSetStartingPoint;
+    QPoint m_startPoint;
+    QPoint m_endPoint;
 };
 
 #endif // CSELECTION_H

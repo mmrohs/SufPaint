@@ -31,9 +31,7 @@ CEllipseSelectionTool::CEllipseSelectionTool()
     if (pSelection != NULL)
     {
         QRect rect = pSelection->GetBoundingRect();
-        int width = abs(rect.width());
-        int height = abs(rect.height());
-        statustext += QString(" (Selection: %1 x %2 pixels)").arg(width).arg(height);
+        statustext += QString(" (Bounding rect: %1 x %2 pixels)").arg(abs(rect.width())).arg(abs(rect.height()));
     }
     return statustext;
 }
