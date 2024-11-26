@@ -41,7 +41,7 @@ QSize CCanvasResizeDialog::GetNewSize() const
 
 EnumAnchors CCanvasResizeDialog::GetAnchor() const
 {
-    EnumAnchors anchor = EnumAnchors::Invalid;
+    EnumAnchors anchor = EnumAnchors::Center;
     if (m_pComboAnchor != NULL)
     {
         anchor = (EnumAnchors)m_pComboAnchor->currentIndex();

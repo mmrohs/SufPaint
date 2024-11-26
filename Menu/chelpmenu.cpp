@@ -9,10 +9,10 @@ CHelpMenu::CHelpMenu(const QString& title, QWidget* parent)
 
 void CHelpMenu::AddActions()
 {
-    AddActionToMenu(ActionHelpInfo);
+    AddActionToMenu(HelpInfo);
 }
 
 void CHelpMenu::AddConnections()
 {
-    ConnectAction(ActionHelpInfo);
+    ConnectAction(HelpInfo);
 }

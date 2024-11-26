@@ -13,28 +13,28 @@ CImageMenu::CImageMenu(const QString& title, QWidget* parent)
 
 void CImageMenu::AddActions()
 {
-    AddActionToMenu(ActionImageResize);
-    AddActionToMenu(ActionImageResizeCanvas);
-    AddActionToMenu(ActionImageCropSelection);
+    AddActionToMenu(ImageResize);
+    AddActionToMenu(ImageResizeCanvas);
+    AddActionToMenu(ImageCropSelection);
     addSeparator();
-    AddActionToMenu(ActionImageRotate90C);
-    AddActionToMenu(ActionImageRotate90CC);
-    AddActionToMenu(ActionImageRotate180);
+    AddActionToMenu(ImageRotate90C);
+    AddActionToMenu(ImageRotate90CC);
+    AddActionToMenu(ImageRotate180);
     addSeparator();
-    AddActionToMenu(ActionImageMirrorHor);
-    AddActionToMenu(ActionImageMirrorVer);
+    AddActionToMenu(ImageMirrorHor);
+    AddActionToMenu(ImageMirrorVer);
 }
 
 void CImageMenu::AddConnections()
 {
-    ConnectAction(ActionImageResize, &CImageMenu::Resize);
-    ConnectAction(ActionImageResizeCanvas, &CImageMenu::ResizeCanvas);
-    ConnectAction(ActionImageCropSelection, &CImageMenu::CropImage);
-    ConnectAction(ActionImageRotate90C, &CImageMenu::Rotate90C);
-    ConnectAction(ActionImageRotate90CC, &CImageMenu::Rotate90CC);
-    ConnectAction(ActionImageRotate180, &CImageMenu::Rotate180);
-    ConnectAction(ActionImageMirrorHor, &CImageMenu::MirrorHor);
-    ConnectAction(ActionImageMirrorVer, &CImageMenu::MirrorVer);
+    ConnectAction(ImageResize, &CImageMenu::Resize);
+    ConnectAction(ImageResizeCanvas, &CImageMenu::ResizeCanvas);
+    ConnectAction(ImageCropSelection, &CImageMenu::CropImage);
+    ConnectAction(ImageRotate90C, &CImageMenu::Rotate90C);
+    ConnectAction(ImageRotate90CC, &CImageMenu::Rotate90CC);
+    ConnectAction(ImageRotate180, &CImageMenu::Rotate180);
+    ConnectAction(ImageMirrorHor, &CImageMenu::MirrorHor);
+    ConnectAction(ImageMirrorVer, &CImageMenu::MirrorVer);
 }
 
 template<typename func>

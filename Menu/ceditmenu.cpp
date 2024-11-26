@@ -14,21 +14,21 @@ CEditMenu::CEditMenu(const QString& title, QWidget* parent)
 
 void CEditMenu::AddActions()
 {
-    AddActionToMenu(ActionEditUndo);
-    AddActionToMenu(ActionEditRedo);
+    AddActionToMenu(EditUndo);
+    AddActionToMenu(EditRedo);
     addSeparator();
-    AddActionToMenu(ActionEditCopy);
-    AddActionToMenu(ActionEditPaste);
-    AddActionToMenu(ActionEditCut);
+    AddActionToMenu(EditCopy);
+    AddActionToMenu(EditPaste);
+    AddActionToMenu(EditCut);
 }
 
 void CEditMenu::AddConnections()
 {
-    CMenuBase::ConnectAction(ActionEditUndo);
-    CMenuBase::ConnectAction(ActionEditRedo);
-    ConnectAction(ActionEditCopy, &CEditMenu::CopyImage);
-    ConnectAction(ActionEditPaste, &CEditMenu::PasteImage);
-    ConnectAction(ActionEditCut, &CEditMenu::CutImage);
+    CMenuBase::ConnectAction(EditUndo);
+    CMenuBase::ConnectAction(EditRedo);
+    ConnectAction(EditCopy, &CEditMenu::CopyImage);
+    ConnectAction(EditPaste, &CEditMenu::PasteImage);
+    ConnectAction(EditCut, &CEditMenu::CutImage);
 }
 
 template<typename func>

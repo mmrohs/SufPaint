@@ -14,16 +14,16 @@ CAdjustmentMenu::CAdjustmentMenu(const QString& title, QWidget* parent)
 
 void CAdjustmentMenu::AddActions()
 {
-    AddActionToMenu(ActionAdjustInvert);
-    AddActionToMenu(ActionAdjustGrayscale);
-    AddActionToMenu(ActionAdjustSepia);
+    AddActionToMenu(AdjustInvert);
+    AddActionToMenu(AdjustGrayscale);
+    AddActionToMenu(AdjustSepia);
 }
 
 void CAdjustmentMenu::AddConnections()
 {
-    ConnectAction(ActionAdjustInvert, &CAdjustmentMenu::InvertColors);
-    ConnectAction(ActionAdjustGrayscale, &CAdjustmentMenu::Grayscale);
-    ConnectAction(ActionAdjustSepia, &CAdjustmentMenu::Sepia);
+    ConnectAction(AdjustInvert, &CAdjustmentMenu::InvertColors);
+    ConnectAction(AdjustGrayscale, &CAdjustmentMenu::Grayscale);
+    ConnectAction(AdjustSepia, &CAdjustmentMenu::Sepia);
 }
 
 template<typename func>

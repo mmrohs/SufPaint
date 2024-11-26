@@ -14,37 +14,37 @@ QString GetActionName(EnumActions action)
 {
     switch (action)
     {
-    case ActionFileNew:             return QObject::tr("&New");
-    case ActionFileOpen:            return QObject::tr("&Open");
-    case ActionFileClose:           return QObject::tr("&Close");
-    case ActionFileSave:            return QObject::tr("&Save");
-    case ActionFileSaveAs:          return QObject::tr("Save &As");
-    case ActionFileQuit:            return QObject::tr("&Quit");
+    case FileNew:             return QObject::tr("&New");
+    case FileOpen:            return QObject::tr("&Open");
+    case FileClose:           return QObject::tr("&Close");
+    case FileSave:            return QObject::tr("&Save");
+    case FileSaveAs:          return QObject::tr("Save &As");
+    case FileQuit:            return QObject::tr("&Quit");
     //---------------------
-    case ActionEditUndo:            return QObject::tr("&Undo");
-    case ActionEditRedo:            return QObject::tr("&Redo");
-    case ActionEditCopy:            return QObject::tr("&Copy");
-    case ActionEditPaste:           return QObject::tr("&Paste");
-    case ActionEditCut:             return QObject::tr("Cu&t");
+    case EditUndo:            return QObject::tr("&Undo");
+    case EditRedo:            return QObject::tr("&Redo");
+    case EditCopy:            return QObject::tr("&Copy");
+    case EditPaste:           return QObject::tr("&Paste");
+    case EditCut:             return QObject::tr("Cu&t");
     //---------------------
-    case ActionViewZoomIn:          return QObject::tr("Zoom &in");
-    case ActionViewZoomOut:         return QObject::tr("Zoom &out");
-    case ActionViewOrigSize:        return QObject::tr("O&riginal size");
+    case ViewZoomIn:          return QObject::tr("Zoom &in");
+    case ViewZoomOut:         return QObject::tr("Zoom &out");
+    case ViewOrigSize:        return QObject::tr("O&riginal size");
     //---------------------
-    case ActionImageResize:         return QObject::tr("Res&ize");
-    case ActionImageResizeCanvas:   return QObject::tr("Resize &canvas");
-    case ActionImageCropSelection:  return QObject::tr("Crop to Selection");
-    case ActionImageRotate90C:      return QObject::tr("&Rotate by 90° clockwise");
-    case ActionImageRotate90CC:     return QObject::tr("R&otate by 90° counter-clockwise");
-    case ActionImageRotate180:      return QObject::tr("Ro&tate by 180°");
-    case ActionImageMirrorHor:      return QObject::tr("Mirror &horizontally");
-    case ActionImageMirrorVer:      return QObject::tr("Mirror &vertically");
+    case ImageResize:         return QObject::tr("Res&ize");
+    case ImageResizeCanvas:   return QObject::tr("Resize &canvas");
+    case ImageCropSelection:  return QObject::tr("Crop to Selection");
+    case ImageRotate90CC:     return QObject::tr("R&otate by 90° counter-clockwise");
+    case ImageRotate90C:      return QObject::tr("&Rotate by 90° clockwise");
+    case ImageRotate180:      return QObject::tr("Ro&tate by 180°");
+    case ImageMirrorHor:      return QObject::tr("Mirror &horizontally");
+    case ImageMirrorVer:      return QObject::tr("Mirror &vertically");
     //---------------------
-    case ActionAdjustInvert:        return QObject::tr("&Invert Colors");
-    case ActionAdjustGrayscale:     return QObject::tr("&Grayscale");
-    case ActionAdjustSepia:         return QObject::tr("&Sepia");
+    case AdjustInvert:        return QObject::tr("&Invert Colors");
+    case AdjustGrayscale:     return QObject::tr("&Grayscale");
+    case AdjustSepia:         return QObject::tr("&Sepia");
     //---------------------
-    case ActionHelpInfo:            return QObject::tr("&Info");
+    case HelpInfo:            return QObject::tr("&Info");
     //---------------------
     default:                        return QObject::tr("error: missing name");
     }
@@ -55,37 +55,37 @@ QKeySequence GetActionShortcut(EnumActions action)
 {
     switch (action)
     {
-    case ActionFileNew:             return QKeySequence::New;
-    case ActionFileOpen:            return QKeySequence::Open;
-    case ActionFileClose:           return QKeySequence::Close;
-    case ActionFileSave:            return QKeySequence::Save;
-    case ActionFileSaveAs:          return QKeySequence::SaveAs;
-    case ActionFileQuit:            return QKeySequence::Quit;
+    case FileNew:             return QKeySequence::New;
+    case FileOpen:            return QKeySequence::Open;
+    case FileClose:           return QKeySequence::Close;
+    case FileSave:            return QKeySequence::Save;
+    case FileSaveAs:          return QKeySequence::SaveAs;
+    case FileQuit:            return QKeySequence::Quit;
     //---------------------
-    case ActionEditUndo:            return QKeySequence::Undo;
-    case ActionEditRedo:            return QKeySequence::Redo;
-    case ActionEditCopy:            return QKeySequence::Copy;
-    case ActionEditPaste:           return QKeySequence::Paste;
-    case ActionEditCut:             return QKeySequence::Cut;
+    case EditUndo:            return QKeySequence::Undo;
+    case EditRedo:            return QKeySequence::Redo;
+    case EditCopy:            return QKeySequence::Copy;
+    case EditPaste:           return QKeySequence::Paste;
+    case EditCut:             return QKeySequence::Cut;
     //---------------------
-    case ActionViewZoomIn:          return QKeySequence::ZoomIn;
-    case ActionViewZoomOut:         return QKeySequence::ZoomOut;
-    case ActionViewOrigSize:        return QKeySequence::FullScreen;
+    case ViewZoomIn:          return QKeySequence::ZoomIn;
+    case ViewZoomOut:         return QKeySequence::ZoomOut;
+    case ViewOrigSize:        return QKeySequence::FullScreen;
     //---------------------
-    case ActionImageResize:         return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_I);
-    case ActionImageResizeCanvas:   return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C);
-    case ActionImageCropSelection:  return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_X);
-    case ActionImageRotate90C:      return QKeySequence(Qt::CTRL | Qt::Key_H);
-    case ActionImageRotate90CC:     return QKeySequence(Qt::CTRL | Qt::Key_G);
-    case ActionImageRotate180:      return QKeySequence(Qt::CTRL | Qt::Key_J);
-    case ActionImageMirrorHor:      return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_H);
-    case ActionImageMirrorVer:      return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_V);
+    case ImageResize:         return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_I);
+    case ImageResizeCanvas:   return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C);
+    case ImageCropSelection:  return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_X);
+    case ImageRotate90C:      return QKeySequence(Qt::CTRL | Qt::Key_H);
+    case ImageRotate90CC:     return QKeySequence(Qt::CTRL | Qt::Key_G);
+    case ImageRotate180:      return QKeySequence(Qt::CTRL | Qt::Key_J);
+    case ImageMirrorHor:      return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_H);
+    case ImageMirrorVer:      return QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_V);
     //---------------------
-    case ActionAdjustInvert:        return QKeySequence::UnknownKey;
-    case ActionAdjustGrayscale:     return QKeySequence::UnknownKey;
-    case ActionAdjustSepia:         return QKeySequence::UnknownKey;
+    case AdjustInvert:        return QKeySequence::UnknownKey;
+    case AdjustGrayscale:     return QKeySequence::UnknownKey;
+    case AdjustSepia:         return QKeySequence::UnknownKey;
     //---------------------
-    case ActionHelpInfo:            return QKeySequence::WhatsThis;
+    case HelpInfo:            return QKeySequence::WhatsThis;
     //---------------------
     default:                        return QKeySequence::UnknownKey;
     }
@@ -95,37 +95,37 @@ QIcon GetActionIcon(EnumActions action)
 {
     switch (action)
     {
-    case ActionFileNew:             return QIcon::fromTheme(QIcon::ThemeIcon::DocumentNew);
-    case ActionFileOpen:            return QIcon::fromTheme(QIcon::ThemeIcon::DocumentOpen);
-    case ActionFileClose:           return QIcon::fromTheme(QIcon::ThemeIcon::MediaEject);
-    case ActionFileSave:            return QIcon::fromTheme(QIcon::ThemeIcon::DocumentSave);
-    case ActionFileSaveAs:          return QIcon::fromTheme(QIcon::ThemeIcon::DocumentSaveAs);
-    case ActionFileQuit:            return QIcon::fromTheme(QIcon::ThemeIcon::WindowClose);
+    case FileNew:             return QIcon::fromTheme(QIcon::ThemeIcon::DocumentNew);
+    case FileOpen:            return QIcon::fromTheme(QIcon::ThemeIcon::DocumentOpen);
+    case FileClose:           return QIcon::fromTheme(QIcon::ThemeIcon::MediaEject);
+    case FileSave:            return QIcon::fromTheme(QIcon::ThemeIcon::DocumentSave);
+    case FileSaveAs:          return QIcon::fromTheme(QIcon::ThemeIcon::DocumentSaveAs);
+    case FileQuit:            return QIcon::fromTheme(QIcon::ThemeIcon::WindowClose);
     //---------------------
-    case ActionEditUndo:            return QIcon::fromTheme(QIcon::ThemeIcon::EditUndo);
-    case ActionEditRedo:            return QIcon::fromTheme(QIcon::ThemeIcon::EditRedo);
-    case ActionEditCopy:            return QIcon::fromTheme(QIcon::ThemeIcon::EditCopy);
-    case ActionEditPaste:           return QIcon::fromTheme(QIcon::ThemeIcon::EditPaste);
-    case ActionEditCut:             return QIcon::fromTheme(QIcon::ThemeIcon::EditCut);
+    case EditUndo:            return QIcon::fromTheme(QIcon::ThemeIcon::EditUndo);
+    case EditRedo:            return QIcon::fromTheme(QIcon::ThemeIcon::EditRedo);
+    case EditCopy:            return QIcon::fromTheme(QIcon::ThemeIcon::EditCopy);
+    case EditPaste:           return QIcon::fromTheme(QIcon::ThemeIcon::EditPaste);
+    case EditCut:             return QIcon::fromTheme(QIcon::ThemeIcon::EditCut);
     //---------------------
-    case ActionViewZoomIn:          return QIcon::fromTheme(QIcon::ThemeIcon::ZoomIn);
-    case ActionViewZoomOut:         return QIcon::fromTheme(QIcon::ThemeIcon::ZoomOut);
-    case ActionViewOrigSize:        return QIcon::fromTheme(QIcon::ThemeIcon::ZoomFitBest);
+    case ViewZoomIn:          return QIcon::fromTheme(QIcon::ThemeIcon::ZoomIn);
+    case ViewZoomOut:         return QIcon::fromTheme(QIcon::ThemeIcon::ZoomOut);
+    case ViewOrigSize:        return QIcon::fromTheme(QIcon::ThemeIcon::ZoomFitBest);
     //---------------------
-    case ActionImageResize:         return QIcon::fromTheme(QIcon::ThemeIcon::WindowNew);
-    case ActionImageResizeCanvas:   return QIcon::fromTheme(QIcon::ThemeIcon::WindowNew);
-    case ActionImageCropSelection:  return QIcon();
-    case ActionImageRotate90C:      return QIcon::fromTheme(QIcon::ThemeIcon::ObjectRotateRight);
-    case ActionImageRotate90CC:     return QIcon::fromTheme(QIcon::ThemeIcon::ObjectRotateLeft);
-    case ActionImageRotate180:      return QIcon();
-    case ActionImageMirrorHor:      return QIcon();
-    case ActionImageMirrorVer:      return QIcon();
+    case ImageResize:         return QIcon::fromTheme(QIcon::ThemeIcon::WindowNew);
+    case ImageResizeCanvas:   return QIcon::fromTheme(QIcon::ThemeIcon::WindowNew);
+    case ImageCropSelection:  return QIcon();
+    case ImageRotate90C:      return QIcon::fromTheme(QIcon::ThemeIcon::ObjectRotateRight);
+    case ImageRotate90CC:     return QIcon::fromTheme(QIcon::ThemeIcon::ObjectRotateLeft);
+    case ImageRotate180:      return QIcon();
+    case ImageMirrorHor:      return QIcon();
+    case ImageMirrorVer:      return QIcon();
     //---------------------
-    case ActionAdjustInvert:        return QIcon();
-    case ActionAdjustGrayscale:     return QIcon();
-    case ActionAdjustSepia:         return QIcon();
+    case AdjustInvert:        return QIcon();
+    case AdjustGrayscale:     return QIcon();
+    case AdjustSepia:         return QIcon();
     //---------------------
-    case ActionHelpInfo:            return QIcon::fromTheme(QIcon::ThemeIcon::DialogInformation);
+    case HelpInfo:            return QIcon::fromTheme(QIcon::ThemeIcon::DialogInformation);
     //---------------------
     default:                        return QIcon();
     }

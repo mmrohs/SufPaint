@@ -13,24 +13,24 @@ CFileMenu::CFileMenu(const QString& title, QWidget* pParent)
 
 void CFileMenu::AddActions()
 {
-    AddActionToMenu(ActionFileNew);
-    AddActionToMenu(ActionFileOpen);
-    AddActionToMenu(ActionFileClose);
+    AddActionToMenu(FileNew);
+    AddActionToMenu(FileOpen);
+    AddActionToMenu(FileClose);
     addSeparator();
-    AddActionToMenu(ActionFileSave);
-    AddActionToMenu(ActionFileSaveAs);
+    AddActionToMenu(FileSave);
+    AddActionToMenu(FileSaveAs);
     addSeparator();
-    AddActionToMenu(ActionFileQuit);
+    AddActionToMenu(FileQuit);
 }
 
 void CFileMenu::AddConnections()
 {
-    ConnectAction(ActionFileNew, &CFileMenu::NewImage);
-    ConnectAction(ActionFileOpen, &CFileMenu::OpenImage);
-    ConnectAction(ActionFileClose, &CFileMenu::CloseImage);
-    ConnectAction(ActionFileSave, &CFileMenu::SaveImage);
-    ConnectAction(ActionFileSaveAs, &CFileMenu::SaveAsImage);
-    ConnectAction(ActionFileQuit, &CFileMenu::Quit);
+    ConnectAction(FileNew, &CFileMenu::NewImage);
+    ConnectAction(FileOpen, &CFileMenu::OpenImage);
+    ConnectAction(FileClose, &CFileMenu::CloseImage);
+    ConnectAction(FileSave, &CFileMenu::SaveImage);
+    ConnectAction(FileSaveAs, &CFileMenu::SaveAsImage);
+    ConnectAction(FileQuit, &CFileMenu::Quit);
 }
 
 template<typename func>

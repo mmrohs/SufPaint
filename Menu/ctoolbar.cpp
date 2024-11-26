@@ -11,21 +11,21 @@ CToolBar::CToolBar(QWidget* pParent)
 void CToolBar::AddActions()
 {
     EnumActions actions[] =
-        { ActionFileNew, ActionFileOpen, ActionFileClose,
-          ActionSeparator,
-          ActionFileSave, ActionFileSaveAs,
-          ActionSeparator,
-          ActionEditCopy, ActionEditPaste, ActionEditCut,
-          ActionSeparator,
-          ActionEditUndo, ActionEditRedo,
-          ActionSeparator,
-          ActionViewZoomIn, ActionViewZoomOut,
-          ActionSeparator,
+        { FileNew, FileOpen, FileClose,
+          Separator,
+          FileSave, FileSaveAs,
+          Separator,
+          EditCopy, EditPaste, EditCut,
+          Separator,
+          EditUndo, EditRedo,
+          Separator,
+          ViewZoomIn, ViewZoomOut,
+          Separator,
         };
 
     for (int i = 0; i < sizeof(actions)/sizeof(actions[0]); ++i)
     {
-        if (actions[i] == ActionSeparator)
+        if (actions[i] == Separator)
             addSeparator();
         else
             AddAction(actions[i]);

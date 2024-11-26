@@ -5,51 +5,51 @@
 // Available menu actions
 enum EnumActions : int
 {
-    ActionInvalid = -1,
-    ActionDefault = 0,
-    ActionSeparator = 1,
+    Invalid = -1,
+    Default = 0,
+    Separator = 1,
 
     // CFileMenu
-    ActionFileNew = 10,        // Open a new file
-    ActionFileOpen,            // Open an existing file
-    ActionFileClose,           // Close file
-    ActionFileSave,            // Save file
-    ActionFileSaveAs,          // Save file in different format
-    ActionFileQuit,            // Quit the application
+    FileNew = 10,        // Open a new file
+    FileOpen,            // Open an existing file
+    FileClose,           // Close file
+    FileSave,            // Save file
+    FileSaveAs,          // Save file in different format
+    FileQuit,            // Quit the application
 
     // CEditMenu
-    ActionEditUndo,            // Undo the last action
-    ActionEditRedo,            // Redo the last undone action
-    ActionEditCopy,            // Copy the current selection
-    ActionEditPaste,           // Paste the copied selection
-    ActionEditCut,             // Cut the current selection
+    EditUndo,            // Undo the last action
+    EditRedo,            // Redo the last undone action
+    EditCopy,            // Copy the current selection
+    EditPaste,           // Paste the copied selection
+    EditCut,             // Cut the current selection
 
     // CViewMenu
-    ActionViewZoomIn,          // Zoom into the image
-    ActionViewZoomOut,         // Zoom out of the image
-    ActionViewOrigSize,        // Reset zoom to original size (100%)
+    ViewZoomIn,          // Zoom into the image
+    ViewZoomOut,         // Zoom out of the image
+    ViewOrigSize,        // Reset zoom to original size (100%)
 
     // CImageMenu
-    ActionImageResize,         // Resize the image
-    ActionImageResizeCanvas,   // Resize the canvas
-    ActionImageCropSelection,  // Crop the image to the selection
-    ActionImageRotate90C,      // Rotate 90° clockwise
-    ActionImageRotate90CC,     // Rotate 90° counter-clockwise
-    ActionImageRotate180,      // Rotate 180°
-    ActionImageMirrorHor,      // Mirror horizontally
-    ActionImageMirrorVer,      // Mirror vertically
+    ImageResize,         // Resize the image
+    ImageResizeCanvas,   // Resize the canvas
+    ImageCropSelection,  // Crop the image to the selection
+    ImageRotate90C,      // Rotate 90° clockwise
+    ImageRotate90CC,     // Rotate 90° counter-clockwise
+    ImageRotate180,      // Rotate 180°
+    ImageMirrorHor,      // Mirror horizontally
+    ImageMirrorVer,      // Mirror vertically
 
     // CAdjustmentMenu
-    ActionAdjustInvert,         // Invert colors of the image
-    ActionAdjustGrayscale,      // Transform image colors to grayscale
-    ActionAdjustSepia,          // Transform image colors to sepia color scale
+    AdjustInvert,         // Invert colors of the image
+    AdjustGrayscale,      // Transform image colors to grayscale
+    AdjustSepia,          // Transform image colors to sepia color scale
 
     // CHelpMenu
-    ActionHelpInfo,            // show info dialog
+    HelpInfo,            // show info dialog
 
     // to do
 
-    ActionEnd                  // max value
+    End                  // max value
 };
 
 
@@ -73,9 +73,8 @@ enum EnumTools : int
 // anchor positions
 enum EnumAnchors : int
 {
-    Invalid = -1,
     Center = 0,
-    TopLeft = 1,
+    TopLeft,
     Top,
     TopRight,
     Right,

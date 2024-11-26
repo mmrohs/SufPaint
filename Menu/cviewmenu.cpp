@@ -12,16 +12,16 @@ CViewMenu::CViewMenu(const QString& title, QWidget* parent)
 
 void CViewMenu::AddActions()
 {
-    AddActionToMenu(ActionViewZoomIn);
-    AddActionToMenu(ActionViewZoomOut);
-    AddActionToMenu(ActionViewOrigSize);
+    AddActionToMenu(ViewZoomIn);
+    AddActionToMenu(ViewZoomOut);
+    AddActionToMenu(ViewOrigSize);
 }
 
 void CViewMenu::AddConnections()
 {
-    ConnectAction(ActionViewZoomIn, &CViewMenu::ZoomIn);
-    ConnectAction(ActionViewZoomOut, &CViewMenu::ZoomOut);
-    ConnectAction(ActionViewOrigSize, &CViewMenu::ResetZoom);
+    ConnectAction(ViewZoomIn, &CViewMenu::ZoomIn);
+    ConnectAction(ViewZoomOut, &CViewMenu::ZoomOut);
+    ConnectAction(ViewOrigSize, &CViewMenu::ResetZoom);
 }
 
 template<typename func>

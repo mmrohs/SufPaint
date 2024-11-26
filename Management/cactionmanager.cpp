@@ -22,7 +22,7 @@ CActionManager::CActionManager()
 
 void CActionManager::AddAction(EnumActions e, QAction* pAction)
 {
-    if (e <= ActionDefault || e >= ActionEnd)
+    if (e <= EnumActions::Default || e >= EnumActions::End)
     {
         qDebug() << "CActionManager::AddAction(): invalid action added";
     }
@@ -85,41 +85,41 @@ void CActionManager::CheckAction(QAction* pAction, EnumActions e)
 
     switch (e) {
     // always enabled actions:
-    case ActionFileNew:
-    case ActionFileOpen:
-    case ActionFileQuit:
-    case ActionViewZoomIn:
-    case ActionViewZoomOut:
-    case ActionViewOrigSize:
-    case ActionHelpInfo:
+    case FileNew:
+    case FileOpen:
+    case FileQuit:
+    case ViewZoomIn:
+    case ViewZoomOut:
+    case ViewOrigSize:
+    case HelpInfo:
         bEnabled = true;
         break;
     // always disabled actions
-    case ActionEditUndo:
-    case ActionEditRedo:
+    case EditUndo:
+    case EditRedo:
         bEnabled = false;
         break;
     // actions that require an opened image:
-    case ActionFileClose:
-    case ActionFileSave:
-    case ActionFileSaveAs:
-    case ActionEditCopy:
-    case ActionImageResize:
-    case ActionImageResizeCanvas:
-    case ActionImageRotate90C:
-    case ActionImageRotate90CC:
-    case ActionImageRotate180:
-    case ActionImageMirrorHor:
-    case ActionImageMirrorVer:
-    case ActionAdjustInvert:
-    case ActionAdjustGrayscale:
-    case ActionAdjustSepia:
+    case FileClose:
+    case FileSave:
+    case FileSaveAs:
+    case EditCopy:
+    case ImageResize:
+    case ImageResizeCanvas:
+    case ImageRotate90C:
+    case ImageRotate90CC:
+    case ImageRotate180:
+    case ImageMirrorHor:
+    case ImageMirrorVer:
+    case AdjustInvert:
+    case AdjustGrayscale:
+    case AdjustSepia:
     {
         bEnabled = CImageManager::GetImageManager()->HasImage();
         break;
     }
     // actions that require an image in the clipboard:
-    case ActionEditPaste:
+    case EditPaste:
     {
         QClipboard* pClipboard = QGuiApplication::clipboard();
         if (pClipboard != NULL)
@@ -130,8 +130,8 @@ void CActionManager::CheckAction(QAction* pAction, EnumActions e)
         break;
     }
     // actions that require an image and a selection:
-    case ActionEditCut:
-    case ActionImageCropSelection:
+    case EditCut:
+    case ImageCropSelection:
     {
         bEnabled = CImageManager::GetImageManager()->HasImage();
         bEnabled = bEnabled && CSelectionManager::GetSelectionManager()->HasSelection();
