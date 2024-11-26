@@ -19,9 +19,11 @@ public:
 
 private:
     void ApplyGradient();
-    QRgb CalculateColor(QPointF pos);
     void InitColors();
     void InitVectors();
+
+    QRgb CalculateGradientColor(QPointF pos);
+    QRgb MixColors(QRgb topColor, QRgb bottomColor);
 
 private:
     // Positions / vectors

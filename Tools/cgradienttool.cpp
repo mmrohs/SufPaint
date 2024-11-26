@@ -63,12 +63,13 @@ void CGradientTool::ApplyGradient()
             if (pSelection != NULL && !pSelection->Contains(pos))
                 continue;
 
-            line[x] = CalculateColor(pos);
+            QRgb gColor = CalculateGradientColor(pos);
+            line[x] = MixColors(gColor, line[x]);
         }
     }
 }
 
-QRgb CGradientTool::CalculateColor(QPointF pos)
+QRgb CGradientTool::CalculateGradientColor(QPointF pos)
 {
     // Position between Pixel and starting position
     QPointF p = pos - m_startPos;
@@ -92,7 +93,7 @@ QRgb CGradientTool::CalculateColor(QPointF pos)
         r = m_startColor.red() + m_diffColor.red() * div;
         g = m_startColor.green() + m_diffColor.green() * div;
         b = m_startColor.blue() + m_diffColor.blue() * div;
-        a = 255;
+        a = m_startColor.alpha();
         color = qRgba(r,g,b,a);
     }
     return color;
@@ -117,4 +118,25 @@ void CGradientTool::InitVectors()
     m_diffPos = m_endPos - m_startPos;
     m_diffLength = sqrt(m_diffPos.x() * m_diffPos.x() + m_diffPos.y() * m_diffPos.y());
     m_invDiffLength = 1.0 / m_diffLength;
+}
+
+QRgb CGradientTool::MixColors(QRgb topColor, QRgb bottomColor)
+{
+    int tR = qRed(topColor);
+    int tG = qGreen(topColor);
+    int tB = qBlue(topColor);
+    int tA = qAlpha(topColor);
+
+    int bR = qRed(bottomColor);
+    int bG = qGreen(bottomColor);
+    int bB = qBlue(bottomColor);
+
+    qreal T = tA / 255.0;
+    qreal invT = 1.0 - T;
+
+    int r = __min(T * tR + invT * bR, 255);
+    int g = __min(T * tG + invT * bG, 255);
+    int b = __min(T * tB + invT * bB, 255);
+
+    return qRgb(r, g, b);
 }
